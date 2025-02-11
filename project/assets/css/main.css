@@ -1,0 +1,8 @@
+:root {
+    --theme-color: #C1D8C8;
+    --font-family: "Josefin Sans", sans-serif;
+}
+
+body {
+    background-color: var(--theme-color);
+}

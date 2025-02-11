@@ -1,0 +1,11 @@
+.btn-custom-green {
+    background-color: #92B5A0;
+}
+.btn-custom-green:hover {
+ background-color: none;
+ border: solid 2px #92B5A0;
+ border-radius: 10px;
+}
+.text-custom-green {
+    color: #92B5A0;
+}

@@ -1,0 +1,29 @@
+#loginForm {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #C1D8C8; */
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.bg-custom-white {
+  background-color: #F9F4EF;
+}
+
+.btn-custom-primary {
+  background-color: #92B5A0;
+  color: #F9F4EF;
+}
+
+.btn-custom-primary:hover {
+  background-color: none;
+  border: 2px solid #92B5A0;
+  color: #92B5A0;
+}
+
+.fas.fa-arrow-right {
+  transform: translateY(2px);
+}
