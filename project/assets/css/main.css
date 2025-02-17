@@ -36,3 +36,9 @@ body {
 .bg-dark-green {
     background-color: var(--theme-color-dark-green);
 }
+footer {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-charcoal-gray);
+    text-align: center;
+    padding: 1rem 0;
+}

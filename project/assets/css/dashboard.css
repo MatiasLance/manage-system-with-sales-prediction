@@ -123,12 +123,6 @@ body {
 #menuToggle {
     cursor: pointer;
 }
-footer {
-    background-color: var(--theme-color-milk-white);
-    color: var(--theme-color-charcoal-gray);
-    text-align: center;
-    padding: 1rem 0;
-}
 .dropdown-menu {
     width: 100%;
     background-color: inherit;

@@ -44,46 +44,35 @@
 </nav>
 
 <div class="container product-content">
-    <button type="button" class="btn btn-milk-white btn-sm mb-4">Create Product</button>
+    <button type="button" class="btn btn-milk-white btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#addProductModal" data-bs-auto-close="false">Create Product</button>
     <!-- Search Input -->
-    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
+    <input type="text" id="search-input" class="form-control mb-3" placeholder="Search by name...">
 
-    <!-- Table -->
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- Sample Data -->
-                <tr><td>1</td><td>Goat Milk</td><td>Dairy</td><td>$5</td></tr>
-                <tr><td>2</td><td>Cheese</td><td>Dairy</td><td>$12</td></tr>
-                <tr><td>3</td><td>Horse Feed</td><td>Animal Feed</td><td>$20</td></tr>
-                <tr><td>4</td><td>Fish Food</td><td>Animal Feed</td><td>$15</td></tr>
-                <tr><td>5</td><td>Organic Yogurt</td><td>Dairy</td><td>$8</td></tr>
-                <tr><td>6</td><td>Farm Fresh Eggs</td><td>Poultry</td><td>$4</td></tr>
-                <tr><td>7</td><td>Cow Feed</td><td>Animal Feed</td><td>$18</td></tr>
-                <tr><td>8</td><td>Butter</td><td>Dairy</td><td>$10</td></tr>
-                <tr><td>9</td><td>Fresh Milk</td><td>Dairy</td><td>$6</td></tr>
-                <tr><td>10</td><td>Honey</td><td>Organic</td><td>$14</td></tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Data Table -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-milk-white">
+            <tr>
+                <th scope="col">Quantity</th>
+                <th scope="col">Name</th>
+                <th scope="col">Barcode</th>
+                <th scope="col">Date Produce</th>
+                <th scope="col">Date Expiration</th>
+                <th scope="col">Price</th>
+                <th scope="col">Unit of Price</th>
+            </tr>
+        </thead>
+        <tbody id="data-container"></tbody>
+    </table>
 
     <!-- Pagination Controls -->
     <nav>
-        <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#" id="prevPage">Previous</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#" id="currentPage">1</a></li>
-            <li class="page-item"><a class="page-link" href="#" id="nextPage">Next</a></li>
-        </ul>
+        <ul class="pagination justify-content-center" id="pagination-links"></ul>
     </nav>
 </div>
 
 <!-- Footer -->
 <?php include __DIR__ . '/../footer.php' ?>
+
+<!-- Modal -->
+<?php include __DIR__ . '/../modal/AddProductModal.php' ?>
+

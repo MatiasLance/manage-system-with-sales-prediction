@@ -1,51 +1,58 @@
-$(document).ready(function () {
-    let rowsPerPage = 5; // Number of rows per page
-    let currentPage = 1;
-    let rows = $("#tableBody tr");
-    let totalPages = Math.ceil(rows.length / rowsPerPage);
+$(document).ready(function() {
+    let debounceTimer; // Timer for debouncing
+    let currentSearch = ''; // Store last search value
 
-    function showPage(page) {
-        let start = (page - 1) * rowsPerPage;
-        let end = start + rowsPerPage;
-        rows.hide().slice(start, end).show();
+    function fetchData(page, searchQuery) {
+        $.ajax({
+            url: 'fetch_data.php', // PHP file to fetch data
+            type: 'GET',
+            data: { page: page, search: searchQuery },
+            dataType: 'json',
+            success: function(response) {
+                // Populate table with fetched data
+                $('#data-container').empty();
+                response.data.forEach(function(item) {
+                    $('#data-container').append(`<tr>
+                        <td>${item.id}</td>
+                        <td>${item.name}</td>
+                        <td>${item.email}</td>
+                    </tr>`);
+                });
 
-        // Update pagination controls
-        $("#currentPage").text(page);
-        $("#prevPage").parent().toggleClass("disabled", page === 1);
-        $("#nextPage").parent().toggleClass("disabled", page === totalPages);
+                // Generate pagination links
+                $('#pagination-links').empty();
+                for (let i = 1; i <= response.total_pages; i++) {
+                    $('#pagination-links').append(`
+                        <li class="page-item ${i === page ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `);
+                }
+            },
+            error: function() {
+                alert('Error loading data');
+            }
+        });
     }
 
-    // Initial table load
-    showPage(currentPage);
+    // Initial fetch
+    fetchData(1, '');
 
-    // Pagination button clicks
-    $("#prevPage").click(function (e) {
+    // Pagination click event
+    $(document).on('click', '.page-link', function(e) {
         e.preventDefault();
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-        }
+        let page = $(this).data('page');
+        fetchData(page, currentSearch);
     });
 
-    $("#nextPage").click(function (e) {
-        e.preventDefault();
-        if (currentPage < totalPages) {
-            currentPage++;
-            showPage(currentPage);
-        }
-    });
+    // Debounced search input event
+    $('#search-input').on('keyup', function() {
+        clearTimeout(debounceTimer); // Clear previous timer
+        let searchQuery = $(this).val();
 
-    // Search filter
-    $("#searchInput").on("keyup", function () {
-        let value = $(this).val().toLowerCase();
-        rows.each(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-
-        // Recalculate pagination after search
-        let filteredRows = rows.filter(":visible");
-        totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-        currentPage = 1;
-        showPage(currentPage);
+        debounceTimer = setTimeout(() => {
+            currentSearch = searchQuery; // Update current search
+            fetchData(1, searchQuery); // Fetch data after 5 seconds
+        }, 5000); // 5-second debounce
     });
 });

@@ -159,8 +159,8 @@
     </div>
 </div>
 
-<!-- Modal -->
-<?php include __DIR__ . '/../modal/ManageSystemLogoModal.php' ?>
-
 <!-- Footer -->
 <?php include __DIR__ . '/../footer.php' ?>
+
+<!-- Modal -->
+<?php include __DIR__ . '/../modal/ManageSystemLogoModal.php' ?>

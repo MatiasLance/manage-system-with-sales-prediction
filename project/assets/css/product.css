@@ -10,4 +10,9 @@
     background-color: none;
     border: 1px solid var(--theme-color-milk-white);
     color: var(--theme-color-milk-white);
-}  
+}
+
+.table-milk-white {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-charcoal-gray);
+}
