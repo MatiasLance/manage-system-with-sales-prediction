@@ -1,12 +1,12 @@
 .modal-dialog {
-    background-color: #C1D8C8;
+    background-color: #2F4F4F;
 }
 .modal-title {
     color: #000;
     transition: all 0.5s ease-in-out;
 }
 .modal-title:hover {
-    color: #D9A76D;
+    color: var(--theme-color-earthy-brown);
 }
 .btn-custom-success {
     background-color: #92B5A0;

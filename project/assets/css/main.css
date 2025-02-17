@@ -1,8 +1,38 @@
 :root {
-    --theme-color: #C1D8C8;
+    --theme-color-dark-brown: #5C4033;
+    --theme-color-charcoal-gray: #333333;
+    --theme-color-earthy-brown: #8B5E3B;
+    --theme-color-forest-green: #4A7C59;
+    --theme-color-sky-blue: #6BAED6;
+    --theme-color-golden-wheat: #E3B04B;
+    --theme-color-milk-white: #FAF3E0;
+    --theme-color-dark-green: #2F4F4F;
     --font-family: "Josefin Sans", sans-serif;
 }
-
 body {
-    background-color: var(--theme-color);
+    background-color: var(--theme-color-dark-green);
+}
+.bg-dark-brown {
+    background-color: var(--theme-color-dark-brown);
+}
+.bg-charcoal-gray {
+    background-color: var(--theme-color-charcoal-gray);
+}
+.bg-earthy-brown {
+    background-color: var(--theme-color-earthy-brown);
+}
+.bg-forest-green {
+    background-color: var(--theme-color-forest-green);
+}
+.bg-sky-blue {
+    background-color: var(--theme-color-sky-blue);
+}
+.bg-golden-wheat {
+    background-color: var(--theme-color-golden-wheat);
+}
+.bg-milk-white {
+    background-color: var(--theme-color-milk-white);
+}
+.bg-dark-green {
+    background-color: var(--theme-color-dark-green);
 }

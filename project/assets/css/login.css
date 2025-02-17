@@ -10,18 +10,18 @@
 }
 
 .bg-custom-white {
-  background-color: #F9F4EF;
+  background-color: #F5F5DC;
 }
 
 .btn-custom-primary {
-  background-color: #92B5A0;
+  background-color: #E3B04B;
   color: #F9F4EF;
 }
 
 .btn-custom-primary:hover {
   background-color: none;
-  border: 2px solid #92B5A0;
-  color: #92B5A0;
+  border: 2px solid #D9A23A;
+  color: #E3B04B;
 }
 
 .fas.fa-arrow-right {

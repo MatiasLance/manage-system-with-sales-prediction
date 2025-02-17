@@ -40,19 +40,11 @@
               </div>
               <div class="col-12">
                 <div class="d-flex flex-row-reverse">
-                  <button class="btn btn-custom-primary" id="login" type="button">Login <i class="fas fa-arrow-right"></i></button>
+                  <button class="btn btn-custom-primary btn-sm" id="login" type="button">Login <i class="fas fa-arrow-right"></i></button>
                 </div>
               </div>
             </div>
           </form>
-          <div class="row">
-            <div class="col-12">
-              <hr class="mt-5 mb-4 border-secondary-subtle">
-              <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                <a href="#!" class="link-dark text-decoration-none">Forgot password</a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

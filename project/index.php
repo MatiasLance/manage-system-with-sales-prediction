@@ -12,6 +12,21 @@ switch($request) {
   case '/dashboard':
     require __DIR__ . $viewDir . 'dashboard.php';
     break;
+  case '/bookings':
+    require __DIR__ . $viewDir . 'bookings.php';
+    break;
+  case '/employees':
+    require __DIR__ . $viewDir . 'employee.php';
+    break;
+  case '/products':
+    require __DIR__ . $viewDir . 'products.php';
+    break;
+  case '/sales':
+    require __DIR__ . $viewDir . 'sales.php';
+    break;
+  case '/inventory':
+    require __DIR__ . $viewDir . 'inventory.php';
+    break;
   default:
     http_response_code(404);
     require __DIR__ . $viewDir . '404.php';

@@ -17,11 +17,11 @@ function readURL(input) {
 function showFileName(event) {
     var input = event.target;
     var fileName = input.files[0].name;
-    jQuery("#upload-label").text("File name: " + fileName);
+    $("#upload-label").text("File name: " + fileName);
 }
 
 function attachSideBarMenuLogo(file) {
-    jQuery('#sideBarMenuLogo, #adminLoginFormLogo').attr('src' , file).fadeIn();
+    $('#sideBarMenuLogo, #adminLoginFormLogo').attr('src' , file).fadeIn();
 }
 
 jQuery(document).ready(function ($) {
@@ -47,7 +47,6 @@ jQuery(document).ready(function ($) {
                     attachSideBarMenuLogo(response.file)
                     $("#preview").html(`<img id="imageResult" src="${response.file}" width="200">`);
                     $("#upload-label").text("File name: " + response.file.split('/').pop());
-                    $('#manageSystemLogoModal').close();
                 } else {
                     Swal.fire({
                         title: 'Success',
