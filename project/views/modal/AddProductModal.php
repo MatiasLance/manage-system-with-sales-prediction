@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="addProduct" enctype="multipart/form-data">
+        <form enctype="multipart/form-data">
           <input type="hidden" name="action" value="create">
 
           <div class="mb-3">
@@ -17,11 +17,6 @@
           <div class="mb-3">
             <label for="productNameInput" class="form-label text-capitalize">Product Name</label>
             <input type="text" class="form-control" id="productNameInput" name="product_name" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="productBarCodeInput" class="form-label text-capitalize">Product Bar Code</label>
-            <input type="text" class="form-control" id="productBarCodeInput" name="product_barcode" required>
           </div>
 
           <div class="mb-3">
@@ -52,7 +47,7 @@
           </div>
       </div>
       <div class="modal-footer">
-            <button type="submit" class="btn btn-golden-wheat btn-sm">Save Changes</button>
+            <button type="button" id="addProduct" class="btn btn-golden-wheat btn-sm">Save</button>
        </div>
        </form>
     </div>

@@ -15,7 +15,7 @@ $pageCss = [
 $pageJS = [
     "https://code.jquery.com/jquery-3.6.4.min.js",
     "./assets/js/toggleSideBar.js",
-    "./assets/js/product.js"
+    "./assets/js/product.js",
 ];
 
 $pageContent = __DIR__ . "/content/product-content.php";

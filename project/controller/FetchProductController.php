@@ -12,7 +12,7 @@ $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : 
 $offset = ($page - 1) * $items_per_page;
 
 // Query for fetching data with search filter
-$sql = "SELECT * FROM products WHERE name LIKE '%$search%' LIMIT $items_per_page OFFSET $offset";
+$sql = "SELECT * FROM products WHERE product_name LIKE '%$search%' LIMIT $items_per_page OFFSET $offset";
 $result = $conn->query($sql);
 
 $data = [];
@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
 }
 
 // Get total number of records for pagination
-$sql_total = "SELECT COUNT(*) AS total FROM products WHERE name LIKE '%$search%'";
+$sql_total = "SELECT COUNT(*) AS total FROM products WHERE product_name LIKE '%$search%'";
 $total_result = $conn->query($sql_total);
 $total_row = $total_result->fetch_assoc();
 $total_items = $total_row['total'];

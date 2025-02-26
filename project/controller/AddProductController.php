@@ -2,7 +2,7 @@
 session_start();
 
 require_once __DIR__ . '/../config/db_connection.php';
-require 'vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 header('Content-Type: application/json');
@@ -10,11 +10,11 @@ header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate input data
     $name = trim($_POST['product_name'] ?? '');
-    $quantity = $_POST['quantity'] ?? 0;
-    $date_produce = $_POST['date_produce'] ?? '';
-    $date_expiration = $_POST['date_expiration'] ?? '';
-    $price = $_POST['price'] ?? 0;
-    $unit = trim($_POST['unit'] ?? '');
+    $quantity = $_POST['product_quantity'] ?? 0;
+    $date_produce = $_POST['product_date_produce'] ?? '';
+    $date_expiration = $_POST['product_date_expiration'] ?? '';
+    $price = $_POST['product_price'] ?? 0;
+    $unit = trim($_POST['product_unit_of_price'] ?? '');
 
     $errors = [];
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $barcodeImage = $generator->getBarcode($barcodeData, $generator::TYPE_CODE_128);
 
     // Ensure barcode directory exists
-    $barcodeDir = __DIR__ . '/../public/storage/barcode/';
+    $barcodeDir = '../public/storage/barcode/';
     if (!is_dir($barcodeDir)) {
         mkdir($barcodeDir, 0777, true);
     }
@@ -60,19 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Save Product & Barcode to Database
-    $stmt = $conn->prepare("INSERT INTO products (name, quantity, date_produce, date_expiration, price, unit, barcode, barcode_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO products (quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!$stmt) {
         echo json_encode(["status" => "error", "message" => "Database error: " . $conn->error]);
         exit;
     }
 
-    $stmt->bind_param("sissdsss", $name, $quantity, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath);
+    $stmt->bind_param("isssdsss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath);
 
     if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Product saved successfully!", "barcode" => str_replace(__DIR__, '', $barcodePath)]);
+        echo json_encode(["success" => true, "message" => "Product saved successfully!", "barcode" => str_replace(__DIR__, '', $barcodePath)]);
     } else {
-        echo json_encode(["status" => "error", "message" => "Error saving product: " . $stmt->error]);
+        echo json_encode(["success" => false, "message" => "Error saving product: " . $stmt->error]);
     }
 
     $stmt->close();
