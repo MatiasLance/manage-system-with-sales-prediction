@@ -71,7 +71,7 @@
                     </svg>
                     <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark">Products</h3>
                     <p class="text-uppercase text-muted small mb-1 text-charcoal-dark">Total</p>
-                    <span class="fs-4 fw-semibold text-charcoal-dark">10,000,000</span>
+                    <span class="fs-4 fw-semibold text-charcoal-dark" id="totalProduct"></span>
                 </div>
                 <div class="card-footer bg-light text-center border-0">
                     <a href="/products" class="btn btn-dark-brown btn-sm px-4">View All</a>

@@ -18,7 +18,8 @@ $pageJS = [
     // "./assets/js/salesGraph.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/logout.js",
-    "./assets/js/imageUpload.js"
+    "./assets/js/imageUpload.js",
+    "./assets/js/product.js",
 ];
 
 $pageContent = __DIR__ . "/content/dashboard-content.php";

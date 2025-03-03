@@ -16,3 +16,7 @@
     background-color: var(--theme-color-milk-white);
     color: var(--theme-color-charcoal-gray);
 }
+
+#editProduct, #deleteProduct {
+    cursor: pointer;
+}
