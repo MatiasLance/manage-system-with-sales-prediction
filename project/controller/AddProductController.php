@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate input data
-    $name = trim($_POST['product_name'] ?? '');
+    $name = trim($_POST['selected_product_name'] ?? '');
     $quantity = $_POST['product_quantity'] ?? 0;
     $date_produce = $_POST['product_date_produce'] ?? '';
     $date_expiration = $_POST['product_date_expiration'] ?? '';

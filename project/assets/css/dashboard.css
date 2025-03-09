@@ -218,3 +218,15 @@ body {
     border: 1px solid var(--theme-color-charcoal-gray);
     color: var(--theme-color-charcoal-gray);
 }
+
+.nav-link {
+    color: var(--theme-color-milk-white);
+}
+
+.nav-link:active {
+    color: var(--theme-color-charcoal-gray);
+}
+
+.nav-link:hover {
+    color: var(--theme-color-milk-white);
+}
