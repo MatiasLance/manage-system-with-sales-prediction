@@ -6,9 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form enctype="multipart/form-data">
-          <input type="hidden" name="action" value="create">
-
+        <form id="saveEmployeeData" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="firstNameInput" class="form-label text-capitalize">First Name</label>
             <input type="text" class="form-control" id="firstNameInput" name="first_name" required>
@@ -16,7 +14,7 @@
 
           <div class="mb-3">
             <label for="middleNameInput" class="form-label text-capitalize">Middle Initial</label>
-            <input type="text" class="form-control" id="middleNameInput" name="middle_name" required>
+            <input type="text" class="form-control" id="middleNameInput" name="middle_initial" required>
           </div>
 
           <div class="mb-3">
@@ -36,7 +34,7 @@
 
           <div class="mb-3">
             <label for="dateOfHireInput" class="form-label text-capitalize">date of hire</label>
-            <input type="date" class="form-control" id="dateOfHireInput" name="phone_number" required>
+            <input type="date" class="form-control" id="dateOfHireInput" name="date_of_hire" required>
           </div>
 
           <div class="mb-3">
@@ -71,7 +69,7 @@
 
       </div>
       <div class="modal-footer">
-            <button type="button" id="addProduct" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
+            <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
        </div>
        </form>
     </div>

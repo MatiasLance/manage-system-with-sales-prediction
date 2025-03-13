@@ -53,9 +53,7 @@
     <table class="table table-bordered table-striped">
         <thead class="table-milk-white">
             <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Middle Initial</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">Full Name</th>
                 <th scope="col">Working Department</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Date of Hire</th>
@@ -69,13 +67,13 @@
                 </th>
             </tr>
         </thead>
-        <tbody id="data-container"></tbody>
+        <tbody id="employee-data-container"></tbody>
     </table>
     </div>
 
     <!-- Pagination Controls -->
     <nav>
-        <ul class="pagination justify-content-center" id="pagination-links"></ul>
+        <ul class="pagination justify-content-center" id="employee-pagination-links"></ul>
     </nav>
 </div>
 
