@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/db_connection.php';
+require_once __DIR__ . '/../../config/db_connection.php';
 
 header('Content-Type: application/json');
 
@@ -21,20 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Check if the product exists before deleting
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM products WHERE id = ?");
+    // Check if the product exists and retrieve the barcode image path
+    $stmt = $conn->prepare("SELECT barcode_image FROM products WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
-    $stmt->bind_result($count);
+    $stmt->bind_result($barcode_image);
     $stmt->fetch();
     $stmt->close();
 
-    if ($count === 0) {
+    if (empty($barcode_image)) {
         echo json_encode(["success" => false, "message" => "Product not found."]);
         exit;
     }
 
-    // Prepare and execute the delete statement
+    // Delete the product from the database
     $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
     if (!$stmt) {
         echo json_encode(["status" => "error", "message" => "Database error: " . $conn->error]);
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
-        echo json_encode(["success" => true, "message" => "Product deleted successfully!"]);
+        echo json_encode(["success" => true, "message" => "Product and barcode image deleted successfully!"]);
     } else {
         echo json_encode(["success" => false, "message" => "Error deleting product: " . $stmt->error]);
     }
@@ -55,3 +55,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode(["status" => "error", "message" => "Invalid request method."]);
     exit;
 }
+?>

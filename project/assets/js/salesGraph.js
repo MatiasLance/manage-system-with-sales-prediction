@@ -1,18 +1,7 @@
 
 // Sample data
 const products = ["Choco", "Milk", "Cow", "Goat", "Fish"];
-const employees = ["Alice", "Bob", "Charlie", "Diana", "Edward"];
 const salesData = [120, 90, 150, 80, 200];
-
-// Populate product list
-products.forEach(product => {
-    $('#product-list').append(`<li class="list-group-item">${product}</li>`);
-});
-
-// Populate employee list
-employees.forEach(employee => {
-    $('#employee-list').append(`<li class="list-group-item">${employee}</li>`);
-});
 
 // Chart.js for Sales Graph
 const ctx = $('#salesChart')[0].getContext('2d');
@@ -52,8 +41,9 @@ new Chart(ctx, {
                 enabled: true,
             }
         },
+        indexAxis: 'y',
         scales: {
-            y: {
+            x: {
                 beginAtZero: true
             }
         }

@@ -28,7 +28,7 @@
 
           <div class="mb-3">
             <label for="productDateExpirationInput" class="form-label text-capitalize">Product Date Expiration</label>
-            <input type="date" class="form-control" id="productDateExpirationInput" name="product_date_expiration" required>
+            <input type="text" class="form-control" id="productDateExpirationInput" placeholder="Auto Generate Expiry Date" disabled>
           </div>
 
           <div class="mb-3">

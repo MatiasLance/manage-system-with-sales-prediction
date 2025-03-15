@@ -2,7 +2,7 @@
 session_start();
 header("Content-Type: application/json");
 
-require_once __DIR__ . '/../config/db_connection.php';
+require_once __DIR__ . '/../../config/db_connection.php';
 
 // Validate input
 if (!isset($_POST['id']) || !is_numeric($_POST['id']) || empty(trim($_POST['product_name']))) {

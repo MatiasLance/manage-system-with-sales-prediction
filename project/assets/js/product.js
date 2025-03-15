@@ -17,6 +17,23 @@ jQuery(function($){
     let debounceTimer; // Timer for debouncing
     let currentSearch = ''; // Store last search value
 
+    // The product's expiry date will be automatically displayed once the production date is selected.
+    $(document).on('change', '#productDateProduceInput', function(){
+        const productionDate = new Date($(this).val());
+        if (!isNaN(productionDate.getTime())) {
+            const expiryDate = new Date(productionDate);
+            expiryDate.setMonth(expiryDate.getMonth() + 3);
+
+            const formattedDate = [
+                String(expiryDate.getMonth() + 1).padStart(2, '0'), // Month (2 digits)
+                String(expiryDate.getDate()).padStart(2, '0'), // Day (2 digits)
+                expiryDate.getFullYear()  // Year (4 digits)
+            ].join('/');
+            
+            $('#productDateExpirationInput').val(formattedDate);
+
+        }
+    })
 
     // Add Product
     $(document).on('click', '#addProduct', function(){
@@ -24,7 +41,6 @@ jQuery(function($){
         const productQuantity = $('#quantityInput').val();
         const productName = $('#selectedProductNameInput').val();
         const productDateProduce = $('#productDateProduceInput').val();
-        const productDateExpiration = $('#productDateExpirationInput').val();
         const productPrice = $('#productPriceInput').val();
         const productUnitOfPrice = $('#unitOfPriceInput').val();
 
@@ -32,13 +48,12 @@ jQuery(function($){
             product_quantity: productQuantity,
             selected_product_name: productName,
             product_date_produce: productDateProduce,
-            product_date_expiration: productDateExpiration,
             product_price: productPrice,
             product_unit_of_price: productUnitOfPrice
         }
 
         $.ajax({
-            url: './controller/AddProductController.php',
+            url: './controller/product/AddProductController.php',
             type: 'POST',
             dataType: 'json',
             data: payload,
@@ -75,7 +90,7 @@ jQuery(function($){
     $(document).on('click', '#addProductName', function(){
         let productName = $('#productNameInput').val();
         $.ajax({
-            url: './controller/AddProductNameController.php',
+            url: './controller/product/AddProductNameController.php',
             type: 'POST',
             dataType: 'json',
             data: { product_name: productName },
@@ -238,7 +253,7 @@ function deleteProduct(productPassword, deleteProductId){
 
     $.ajax({
         type: 'POST',
-        url: './controller/AskPasswordToDeleteProductController.php',
+        url: './controller/product/AskPasswordToDeleteProductController.php',
         data: payload,
         dataType: 'json',
         success: function(response){
@@ -280,7 +295,7 @@ function deleteProductName(productNamePasswordInput, productNameToBeDeletedId){
 
     $.ajax({
         type: 'POST',
-        url: './controller/AskPasswordToDeleteProductNameController.php',
+        url: './controller/product/AskPasswordToDeleteProductNameController.php',
         data: payload,
         dataType: 'json',
         success: function(response){
@@ -334,7 +349,7 @@ function updateProduct(
 
     $.ajax({
         type: 'POST',
-        url: './controller/UpdateProductController.php',
+        url: './controller/product/UpdateProductController.php',
         data: payload,
         dataType: 'json',
         success: function(response){
@@ -373,7 +388,7 @@ function updateProductName(productNameId, newProductName){
 
     $.ajax({
         type: "POST",
-        url: "./controller/UpdateProductNameController.php",
+        url: "./controller/product/UpdateProductNameController.php",
         data: payload,
         dataType: "json",
         success: function (response) {
@@ -407,7 +422,7 @@ function fetchProductByID(
     id){
     $.ajax({
         type: 'GET',
-        url: './controller/FetchProductByIDController.php',
+        url: './controller/product/FetchProductByIDController.php',
         data: { id: id },
         dataType: 'json',
         success: function(response){
@@ -446,7 +461,7 @@ function fetchProductNameByID(
     ){
     $.ajax({
         type: 'GET',
-        url: './controller/FetchProductNameByIDController.php',
+        url: './controller/product/FetchProductNameByIDController.php',
         data: { id: id },
         dataType: 'json',
         success: function(response){
@@ -473,7 +488,7 @@ function fetchProductNameByID(
 
 function fetchData(page, searchQuery) {
     $.ajax({
-        url: './controller/FetchProductController.php',
+        url: './controller/product/FetchProductController.php',
         type: 'GET',
         data: { page: page, search: searchQuery },
         dataType: 'json',
@@ -540,7 +555,7 @@ function fetchData(page, searchQuery) {
 function fetchProductName(page, searchQuery){
     $.ajax({
         type: 'GET',
-        url: './controller/FetchProductNameController.php',
+        url: './controller/product/FetchProductNameController.php',
         data: { page: page, search: searchQuery },
         dataType: 'json',
         success: function(response){

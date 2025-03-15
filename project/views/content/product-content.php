@@ -47,13 +47,13 @@
     <ul class="nav nav-tabs mb-5" id="myTab" role="tablist">
         <!-- Products Tab -->
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="product-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane" type="button" role="tab" aria-controls="product-tab-pane" aria-selected="true">
+            <button class="nav-link product-link active" id="product-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane" type="button" role="tab" aria-controls="product-tab-pane" aria-selected="true">
                 Create Product
             </button>
         </li>
         <!-- Products Name Tab -->
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="product-name-tab" data-bs-toggle="tab" data-bs-target="#product-name-tab-pane" type="button" role="tab" aria-controls="product-name-tab-pane" aria-selected="false">
+            <button class="nav-link product-link" id="product-name-tab" data-bs-toggle="tab" data-bs-target="#product-name-tab-pane" type="button" role="tab" aria-controls="product-name-tab-pane" aria-selected="false">
                 Add Product Names
             </button>
         </li>

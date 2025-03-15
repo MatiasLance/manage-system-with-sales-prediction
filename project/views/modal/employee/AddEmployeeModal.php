@@ -14,7 +14,7 @@
 
           <div class="mb-3">
             <label for="middleNameInput" class="form-label text-capitalize">Middle Initial</label>
-            <input type="text" class="form-control" id="middleNameInput" name="middle_initial" required>
+            <input type="text" class="form-control" id="middleNameInput" name="middle_initial" placeholder="Optional">
           </div>
 
           <div class="mb-3">
@@ -23,8 +23,20 @@
           </div>
 
           <div class="mb-3">
-            <label for="workingDepartmentInput" class="form-label text-capitalize">Working Deparment</label>
-            <input type="text" class="form-control" id="workingDepartmentInput" name="working_department" required>
+            <label for="workingDepartmentInput" class="form-label text-capitalize">working department</label>
+            <select class="form-select" id="workingDepartmentInput" name="working_department" required>
+                <option value="" disabled selected>Select Working Department</option>
+                <option value="Crop Production Department">Crop Production Department</option>
+                <option value="Livestock Management Department">Livestock Management Department</option>
+                <option value="Equipment & Maintenance Department">Equipment & Maintenance Department</option>
+                <option value="Warehouse & Inventory Management">Warehouse & Inventory Management</option>
+                <option value="Sales & Marketing Department">Sales & Marketing Department</option>
+                <option value="Finance & Accounting">Finance & Accounting</option>
+                <option value="Research & Development">Research & Development</option>
+                <option value="Human Resources & Administration">Human Resources (HR) & Administration</option>
+                <option value="Quality Control & Compliance">Quality Control & Compliance</option>
+                <option value="Logistics & Distribution">Logistics & Distribution</option>
+            </select>
           </div>
 
           <div class="mb-3">
@@ -38,13 +50,52 @@
           </div>
 
           <div class="mb-3">
-            <label for="jobInput" class="form-label text-capitalize">Job</label>
-            <input type="text" class="form-control" id="jobInput" name="job" required>
+            <label for="jobInput" class="form-label text-capitalize">job</label>
+            <select class="form-select" id="jobInput" name="job" required>
+                <option value="" disabled selected>Select Job</option>
+                <option value="Agronomist">Agronomist</option>
+                <option value="Field Supervisor">Field Supervisor</option>
+                <option value="Farm Laborer/Field Worker">Farm Laborer/Field Worker</option>
+                <option value="Livestock Manager">Livestock Manager</option>
+                <option value="Veterinarian">Veterinarian</option>
+                <option value="Animal Technician">Animal Technician</option>
+                <option value="Equipment Operator">Equipment Operator</option>
+                <option value="Mechanic/Technician">Mechanic/Technician</option>
+                <option value="Welders/Fabricators">Welders/Fabricators</option>
+                <option value="Storekeeper/Warehouse Supervisor">Storekeeper/Warehouse Supervisor</option>
+                <option value="Logistics Coordinator">Logistics Coordinator</option>
+                <option value="Farm Sales Representative">Farm Sales Representative</option>
+                <option value="Marketing Coordinator">Marketing Coordinator</option>
+                <option value="Product Grader/Sorter">Product Grader/Sorter</option>
+                <option value="Agricultural Scientist ">Agricultural Scientist </option>
+                <option value="Soil Scientist">Soil Scientist</option>
+                <option value="Farm Administrator">Farm Administrator</option>
+                <option value="Human Resources Office">Human Resources Office</option>
+                <option value="Aquaculture Technician">Aquaculture Technician</option>
+                <option value="Greenhouse Operator">Greenhouse Operator</option>
+                <option value="Financial Analyst">Financial Analyst</option>
+                <option value="Investment Banker ">Investment Banker </option>
+                <option value="Financial Planner">Financial Planner</option>
+                <option value="Risk Manager">Risk Manager</option>
+                <option value="Treasury Analyst">Treasury Analyst</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Auditor">Auditor</option>
+                <option value="Bookkeeper">Bookkeeper</option>
+                <option value="Tax Consultant">Tax Consultant</option>
+                <option value="Payroll Specialist">Payroll Specialist</option>
+            </select>
           </div>
 
           <div class="mb-3">
-            <label for="educationalLevelInput" class="form-label text-capitalize">educational level</label>
-            <input type="text" class="form-control" id="educationalLevelInput" name="educational_level" required>
+            <label for="educationalLevelInput" class="form-label text-capitalize">education level</label>
+            <select class="form-select" id="educationalLevelInput" name="educational_level" required>
+                <option value="" disabled selected>Select Educational Level</option>
+                <option value="College">College</option>
+                <option value="Senior High School">Senior High School</option>
+                <option value="Basic Education (K-12)">Basic Education (K-12)</option>
+                <option value="Technical-Vocational Education and Training (TVET)">Technical-Vocational Education and Training (TVET)</option>
+                <option value="Alternative Learning System (ALS)">Alternative Learning System (ALS)</option>
+            </select>
           </div>
 
           <div class="mb-3">

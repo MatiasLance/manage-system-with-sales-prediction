@@ -20,6 +20,7 @@ $pageJS = [
     "./assets/js/logout.js",
     "./assets/js/imageUpload.js",
     "./assets/js/product.js",
+    "./assets/js/employee.js",
 ];
 
 $pageContent = __DIR__ . "/content/dashboard-content.php";

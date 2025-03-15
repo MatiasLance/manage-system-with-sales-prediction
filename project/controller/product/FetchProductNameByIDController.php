@@ -2,7 +2,7 @@
 session_start();
 header("Content-Type: application/json");
 
-require_once __DIR__ . '/../config/db_connection.php';
+require_once __DIR__ . '/../../config/db_connection.php';
 
 // Check if product ID is provided
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

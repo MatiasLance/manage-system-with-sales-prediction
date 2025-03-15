@@ -88,7 +88,7 @@
                     </svg>
                     <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark">Employees</h3>
                     <p class="text-uppercase text-muted small mb-1">Total</p>
-                    <span class="fs-4 fw-semibold text-charcoal-dark">1500</span>
+                    <span class="fs-4 fw-semibold text-charcoal-dark" id="totalEmployees"></span>
                 </div>
                 <div class="card-footer bg-light text-center border-0">
                     <a href="/employees" class="btn btn-golden-wheat btn-sm px-4">View All</a>

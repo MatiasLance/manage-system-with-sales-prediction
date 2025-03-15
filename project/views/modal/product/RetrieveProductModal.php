@@ -26,7 +26,7 @@
 
           <div class="mb-3">
             <label for="productDateExpirationInput" class="form-label text-capitalize">Product Date Expiration</label>
-            <input type="date" class="form-control" id="retrieveProductDateExpirationInput" name="product_date_expiration">
+            <input type="date" class="form-control" id="retrieveProductDateExpirationInput" name="product_date_expiration" disabled>
           </div>
 
           <div class="mb-3">

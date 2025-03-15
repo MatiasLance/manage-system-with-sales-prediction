@@ -219,14 +219,14 @@ body {
     color: var(--theme-color-charcoal-gray);
 }
 
-.nav-link {
+.product-link {
     color: var(--theme-color-milk-white);
 }
 
-.nav-link:active {
+.product-link:active {
     color: var(--theme-color-charcoal-gray);
 }
 
-.nav-link:hover {
+.product-link:hover {
     color: var(--theme-color-milk-white);
 }

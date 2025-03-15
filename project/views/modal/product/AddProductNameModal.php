@@ -6,16 +6,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
           <div class="mb-3">
             <label for="productNameInput" class="form-label text-capitalize">Product Name</label>
             <input type="text" class="form-control" id="productNameInput" name="product_name" required>
           </div>
       </div>
       <div class="modal-footer">
-            <button type="button" id="addProductName" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
+          <button type="button" id="addProductName" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
        </div>
-       </form>
     </div>
   </div>
 </div>

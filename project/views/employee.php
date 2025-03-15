@@ -8,7 +8,7 @@ $pageCss = [
     "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css",
     "./assets/css/dashboard.css",
-    "./assets/css/product.css",
+    "./assets/css/employee.css",
     "./assets/css/modal.css"
 ];
 

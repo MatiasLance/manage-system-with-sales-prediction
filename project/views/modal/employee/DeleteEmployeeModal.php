@@ -6,12 +6,11 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body bg-light text-center">
-        <input type="hidden" id="deleteProductId">
         <p class="fs-6 text-muted">Are you sure you want to delete <strong id="employeeName"></strong>? This action cannot be undone.</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
         <button type="button" class="btn btn-secondary btn-sm px-4" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" id="deleteProduct" class="btn btn-golden-wheat btn-sm px-4" data-bs-dismiss="modal">Delete</button>
+        <button type="button" class="btn btn-golden-wheat btn-sm px-4" data-bs-toggle="modal" data-bs-target="#askPasswordOnEmployeeDeletionModal">Delete</button>
       </div>
     </div>
   </div>

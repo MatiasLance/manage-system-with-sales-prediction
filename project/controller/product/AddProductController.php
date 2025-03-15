@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/../config/db_connection.php';
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../config/db_connection.php';
+require __DIR__ . '/../../vendor/autoload.php';
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 header('Content-Type: application/json');
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['selected_product_name'] ?? '');
     $quantity = $_POST['product_quantity'] ?? 0;
     $date_produce = $_POST['product_date_produce'] ?? '';
-    $date_expiration = $_POST['product_date_expiration'] ?? '';
+    $date_expiration = date('Y-m-d', strtotime($date_produce . ' + 3 months'));
     $price = $_POST['product_price'] ?? 0;
     $unit = trim($_POST['product_unit_of_price'] ?? '');
 
@@ -22,16 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($name)) $errors[] = "Product name is required.";
     if (!is_numeric($quantity) || $quantity <= 0) $errors[] = "Quantity must be a positive number.";
     if (empty($date_produce)) $errors[] = "Production date is required.";
-    if (empty($date_expiration)) $errors[] = "Expiration date is required.";
     if (!is_numeric($price) || $price <= 0) $errors[] = "Price must be a valid positive number.";
     if (empty($unit)) $errors[] = "Unit is required.";
 
-    // Validate date format
-    if (!empty($date_produce) && !empty($date_expiration)) {
-        if (strtotime($date_produce) > strtotime($date_expiration)) {
-            $errors[] = "Production date cannot be after expiration date.";
-        }
-    }
 
     // If validation fails, return errors
     if (!empty($errors)) {
@@ -47,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $barcodeImage = $generator->getBarcode($barcodeData, $generator::TYPE_CODE_128);
 
     // Ensure barcode directory exists
-    $barcodeDir = '../public/storage/barcode/';
+    $barcodeDir = '../../public/storage/barcode/';
+ 
     if (!is_dir($barcodeDir)) {
         mkdir($barcodeDir, 0777, true);
     }

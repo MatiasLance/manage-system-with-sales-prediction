@@ -2,7 +2,7 @@
 session_start();
 header("Content-Type: application/json");
 
-require_once __DIR__ . '/../config/db_connection.php';
+require_once __DIR__ . '/../../config/db_connection.php';
 
 // Get the page number and search query
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;

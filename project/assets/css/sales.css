@@ -1,0 +1,24 @@
+.sales-content {
+    height: 100vh;
+    margin-top: 7rem;
+    /* margin-bottom: 8em; */
+}
+.btn-milk-white {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-charcoal-gray);
+    transition: all 0.3s ease-in-out;
+}
+.btn-milk-white:hover{
+    background-color: none;
+    border: 1px solid var(--theme-color-milk-white);
+    color: var(--theme-color-milk-white);
+}
+
+.table-milk-white {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-charcoal-gray);
+}
+
+#retrieveEmployee, #confirmDeleteEmployee {
+    cursor: pointer;
+}
