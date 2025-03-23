@@ -15,12 +15,12 @@ $pageCss = [
 $pageJS = [
     "https://code.jquery.com/jquery-3.6.4.min.js",
     "https://cdn.jsdelivr.net/npm/chart.js",
-    // "./assets/js/salesGraph.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/logout.js",
     "./assets/js/imageUpload.js",
     "./assets/js/product.js",
     "./assets/js/employee.js",
+    "./assets/js/booking.js",
 ];
 
 $pageContent = __DIR__ . "/content/dashboard-content.php";

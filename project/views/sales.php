@@ -17,7 +17,8 @@ $pageJS = [
     "https://cdn.jsdelivr.net/npm/chart.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/salesGraph.js",
-    "./assets/js/sales.js"
+    "./assets/js/sales.js",
+    "./assets/js/logout.js",
 ];
 
 $pageContent = __DIR__ . "/content/sales-content.php";

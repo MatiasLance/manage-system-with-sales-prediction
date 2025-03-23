@@ -16,6 +16,7 @@ $pageJS = [
     "https://code.jquery.com/jquery-3.6.4.min.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/employee.js",
+    "./assets/js/logout.js"
 ];
 
 $pageContent = __DIR__ . "/content/employee-content.php";

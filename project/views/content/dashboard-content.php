@@ -120,7 +120,7 @@
                     </svg>
                     <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark">Bookings</h3>
                     <p class="text-uppercase text-muted small mb-1">Total</p>
-                    <span class="fs-4 fw-semibold text-charcoal-dark">10</span>
+                    <span class="fs-4 fw-semibold text-charcoal-dark" id="totalBookings"></span>
                 </div>
                 <div class="card-footer bg-light text-center border-0">
                     <a href="/bookings" class="btn btn-sky-blue btn-sm px-4">View All</a>

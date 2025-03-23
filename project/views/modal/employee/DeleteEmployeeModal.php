@@ -1,5 +1,5 @@
 <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog">
     <div class="modal-content shadow-lg border-0">
       <div class="modal-header bg-danger text-white">
         <h5 class="modal-title fw-bold" id="deleteEmployeeModalLabel">Confirm Deletion</h5>
