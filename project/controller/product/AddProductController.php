@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date_expiration = date('Y-m-d', strtotime($date_produce . ' + 3 months'));
     $price = $_POST['product_price'] ?? 0;
     $unit = trim($_POST['product_unit_of_price'] ?? '');
+    $status = trim($_POST['product_status'] ?? '');
 
     $errors = [];
 
@@ -54,14 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Save Product & Barcode to Database
-    $stmt = $conn->prepare("INSERT INTO products (quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO products (quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, product_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!$stmt) {
         echo json_encode(["status" => "error", "message" => "Database error: " . $conn->error]);
         exit;
     }
 
-    $stmt->bind_param("isssdsss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath);
+    $stmt->bind_param("isssdssss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath, $status);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Product saved successfully!", "barcode" => str_replace(__DIR__, '', $barcodePath)]);

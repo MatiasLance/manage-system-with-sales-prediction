@@ -27,31 +27,52 @@ if ($stmt) {
 
         // Verify password
         if (password_verify($password, $password_db)) {
-            // Password is correct, proceed with product deletion
-            $deleteSql = "DELETE FROM products WHERE id = ?";
-            $deleteStmt = $conn->prepare($deleteSql);
+            // Start transaction
+            $conn->begin_transaction();
 
-            if ($deleteStmt) {
-                $deleteStmt->bind_param("i", $product_id);
-                if ($deleteStmt->execute()) {
-                    echo json_encode(['success' => true, 'message' => 'Product deleted successfully.']);
+            try {
+                // Archive product before deleting
+                $sql_archive = "INSERT INTO archive_product_data 
+                                (id, quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, product_status, archived_at)
+                                SELECT id, quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, product_status, NOW() 
+                                FROM products WHERE id = ?";
+                $stmt_archive = $conn->prepare($sql_archive);
+                $stmt_archive->bind_param("i", $product_id);
+                $stmt_archive->execute();
+
+                if ($stmt_archive->affected_rows > 0) {
+                    // Delete product from main table
+                    $sql_delete = "DELETE FROM products WHERE id = ?";
+                    $stmt_delete = $conn->prepare($sql_delete);
+                    $stmt_delete->bind_param("i", $product_id);
+                    $stmt_delete->execute();
+
+                    if ($stmt_delete->affected_rows > 0) {
+                        $conn->commit();
+                        echo json_encode(['success' => true, 'message' => 'Product archived and deleted successfully.']);
+                    } else {
+                        throw new Exception("Failed to delete product.");
+                    }
                 } else {
-                    echo json_encode(['error' => true, 'message' => 'Failed to delete product.']);
+                    throw new Exception("Failed to archive product.");
                 }
-                $deleteStmt->close();
-            } else {
-                echo json_encode(['error' => true, 'message' => 'Error preparing delete query.']);
+            } catch (Exception $e) {
+                $conn->rollback();
+                echo json_encode(['success' => false, 'message' => $e->getMessage()]);
             }
+
+            $stmt_archive->close();
+            $stmt_delete->close();
         } else {
-            echo json_encode(['error' => true, 'message' => 'Invalid password.']);
+            echo json_encode(['success' => false, 'message' => 'Invalid password.']);
         }
     } else {
-        echo json_encode(['error' => true, 'message' => 'Admin user not found.']);
+        echo json_encode(['success' => false, 'message' => 'Admin user not found.']);
     }
 
     $stmt->close();
 } else {
-    echo json_encode(['error' => true, 'message' => 'Error preparing query.']);
+    echo json_encode(['success' => false, 'message' => 'Error preparing query.']);
 }
 
 $conn->close();
