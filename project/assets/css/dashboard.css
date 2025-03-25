@@ -140,6 +140,9 @@ body {
 .bg-milk-white {
     background-color: var(--theme-color-milk-white);
 }
+.text-milk-white {
+    color: var(--theme-color-milk-white);
+}
 .text-dark-brown {
     color: var(--theme-color-dark-brown);
 }
@@ -229,4 +232,9 @@ body {
 
 .product-link:hover {
     color: var(--theme-color-milk-white);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-charcoal-gray);
 }

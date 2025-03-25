@@ -16,8 +16,19 @@
 
           <div class="mb-3">
               <label for="selectedProductNameInput" class="form-label">Select Product</label>
-              <input class="form-control" list="productNameList" id="selectedProductNameInput" name="selected_product_name" placeholder="Type to search...">
-              <datalist id="productNameList"></datalist>
+              <select class="form-select" id="selectedProductNameInput" name="selected_product_name" required>
+                <option value="" disabled selected>Select product</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="productCategoryInput" class="form-label text-capitalize">Select Product Category</label>
+            <select class="form-select" id="productCategoryInput" name="category" required>
+                <option value="" disabled selected>Select Product Category</option>
+                <option value="dairy">Dairy Product</option>
+                <option value="grains and cereals">Grains & Cereals</option>
+                <option value="meat and poultry">Meat & Poultry</option>
+            </select>
           </div>
 
           <div class="mb-3">
@@ -53,6 +64,7 @@
              
             </select>
           </div>
+
       </div>
       <div class="modal-footer">
             <button type="button" id="addProduct" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>

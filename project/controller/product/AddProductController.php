@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date_expiration = date('Y-m-d', strtotime($date_produce . ' + 3 months'));
     $price = $_POST['product_price'] ?? 0;
     $unit = trim($_POST['product_unit_of_price'] ?? '');
-    $status = trim($_POST['product_status'] ?? '');
+    $category = trim($_POST['product_category'] ?? '');
+    $status = 'new';
 
     $errors = [];
 
@@ -33,36 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Generate a unique barcode using product name + random number
-    $barcodeData = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $name)) . rand(100, 999);
-    
-    // Generate Barcode Image
-    $generator = new BarcodeGeneratorPNG();
-    $barcodeImage = $generator->getBarcode($barcodeData, $generator::TYPE_CODE_128);
-
-    // Ensure barcode directory exists
-    $barcodeDir = '../../public/storage/barcode/';
- 
-    if (!is_dir($barcodeDir)) {
-        mkdir($barcodeDir, 0777, true);
-    }
-
-    // Save Barcode Image
-    $barcodePath = $barcodeDir . $barcodeData . ".png";
-    if (!file_put_contents($barcodePath, $barcodeImage)) {
-        echo json_encode(["status" => "error", "message" => "Failed to save barcode image."]);
-        exit;
-    }
-
     // Save Product & Barcode to Database
-    $stmt = $conn->prepare("INSERT INTO products (quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, product_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO products (quantity, product_name, date_produce, date_expiration, price, unit_of_price, category, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     if (!$stmt) {
         echo json_encode(["status" => "error", "message" => "Database error: " . $conn->error]);
         exit;
     }
 
-    $stmt->bind_param("isssdssss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath, $status);
+    $stmt->bind_param("isssdsss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Product saved successfully!", "barcode" => str_replace(__DIR__, '', $barcodePath)]);

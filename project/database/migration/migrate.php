@@ -60,7 +60,8 @@ class DatabaseMigrator
                 date_produce DATE NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 unit_of_price VARCHAR(50) NOT NULL,
-                product_status ENUM('new', 'old') NOT NULL DEFAULT 'new',
+                category VARCHAR(50) NOT NULL,
+                status ENUM('new', 'old') NOT NULL DEFAULT 'new',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )",

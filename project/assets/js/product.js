@@ -48,15 +48,15 @@ jQuery(function($){
         const productDateProduce = $('#productDateProduceInput').val();
         const productPrice = $('#productPriceInput').val();
         const productUnitOfPrice = $('#unitOfPriceInput').val();
-        const productstatus = $('#statusInput').val();
+        const productCategory = $('#productCategory').val();
 
         const payload = {
             product_quantity: productQuantity,
             selected_product_name: productName,
             product_date_produce: productDateProduce,
             product_price: productPrice,
-            product_status: productstatus,
-            product_unit_of_price: productUnitOfPrice
+            product_unit_of_price: productUnitOfPrice,
+            product_category: productCategory
         }
 
         $.ajax({
@@ -509,7 +509,7 @@ function fetchData(page, searchQuery) {
                 $('#data-container').append(`<tr>
                     <td>${response.data[i].quantity}</td>
                     <td class="text-capitalize">${response.data[i].product_name}</td>
-                    <td><img src="${response.data[i].barcode_image}" alt="${response.data[i].product_name}"/></td>
+                    <td><img src="${response.data[i].category}"/></td>
                     <td>${dateProduce.toDateString()}</td>
                     <td>${dateExpiration.toDateString()}</td>
                     <td>${formatCurrency(response.data[i].price)}</td>
@@ -572,7 +572,7 @@ function fetchProductName(page, searchQuery){
                 let options = "";
                 for(let i = 0; i < response.product_names.length; i++){
                     const productNameId = response.product_names[i].id
-                    options += `<option value="${response.product_names[i].product_name}">${response.product_names[i].product_name}</option>`;
+                    options += `<option value="${response.product_names[i].product_name}" data-temp="true">${response.product_names[i].product_name}</option>`;
                     $('#product-name-data-container').append(`<tr>
                         <td>${response.product_names[i].product_name}</td>
                         <td class="flex flex-row justify-content-between text-center">
@@ -581,7 +581,11 @@ function fetchProductName(page, searchQuery){
                         </td>
                     </tr>`);
                 }
-                $("#productNameList").html(options);
+
+                // Remove the previously appended selected option
+                $("#selectedProductNameInput").find('option[data-temp="true"]').remove();
+                // Append the new selected status option
+                $("#selectedProductNameInput").append(options);
                 $("#retrieveSelectedProductNameInput").html(options);
 
                 // Generate pagination links
