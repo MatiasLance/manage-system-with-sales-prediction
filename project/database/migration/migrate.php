@@ -82,6 +82,19 @@ class DatabaseMigrator
                 filename VARCHAR(255) NOT NULL,
                 file_path VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )",
+
+            "archived products" => "CREATE TABLE IF NOT EXISTS archived_products (
+                id INT PRIMARY KEY,
+                quantity INT NOT NULL,
+                product_name VARCHAR(255) NOT NULL,
+                date_expiration DATE NOT NULL,
+                date_produce DATE NOT NULL,
+                price DECIMAL(10,2) NOT NULL,
+                unit_of_price VARCHAR(50) NOT NULL,
+                category VARCHAR(50) NOT NULL,
+                status ENUM('new', 'old') NOT NULL DEFAULT 'new',
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )"
         ];
 

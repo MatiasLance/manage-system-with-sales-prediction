@@ -10,49 +10,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $errors = [];
 
-    // Validate required fields
     if ($id <= 0) {
         $errors[] = "Invalid product ID.";
     }
 
-    // If validation fails, return errors
     if (!empty($errors)) {
         echo json_encode(["status" => "error", "message" => $errors]);
         exit;
     }
 
-    // Check if the product exists and retrieve the barcode image path
-    $stmt = $conn->prepare("SELECT barcode_image FROM products WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->bind_result($barcode_image);
-    $stmt->fetch();
-    $stmt->close();
+    // Start transaction
+    $conn->begin_transaction();
 
-    if (empty($barcode_image)) {
-        echo json_encode(["success" => false, "message" => "Product not found."]);
-        exit;
+    try {
+        // Retrieve product details
+        $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $product = $result->fetch_assoc();
+        $stmt->close();
+
+        if (!$product) {
+            echo json_encode(["success" => false, "message" => "Product not found."]);
+            exit;
+        }
+
+        // Move product to archived_products
+        $stmt = $conn->prepare("INSERT INTO archived_products 
+            (id, quantity, product_name, date_expiration, date_produce, price, unit_of_price, category, status, deleted_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param(
+            "iissdssss",
+            $product['id'],
+            $product['quantity'],
+            $product['product_name'],
+            $product['date_expiration'],
+            $product['date_produce'],
+            $product['price'],
+            $product['unit_of_price'],
+            $product['category'],
+            $product['status']
+        );
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete the product from the products table
+        $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Commit transaction
+        $conn->commit();
+
+        echo json_encode(["success" => true, "message" => "Product archived successfully!"]);
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
     }
 
-    // Delete the product from the database
-    $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
-    if (!$stmt) {
-        echo json_encode(["status" => "error", "message" => "Database error: " . $conn->error]);
-        exit;
-    }
-
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        echo json_encode(["success" => true, "message" => "Product and barcode image deleted successfully!"]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Error deleting product: " . $stmt->error]);
-    }
-
-    $stmt->close();
     $conn->close();
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid request method."]);
-    exit;
 }
 ?>

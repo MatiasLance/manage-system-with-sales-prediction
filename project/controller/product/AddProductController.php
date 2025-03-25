@@ -2,21 +2,21 @@
 session_start();
 
 require_once __DIR__ . '/../../config/db_connection.php';
-require __DIR__ . '/../../vendor/autoload.php';
-use Picqer\Barcode\BarcodeGeneratorPNG;
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and validate input data
-    $name = trim($_POST['selected_product_name'] ?? '');
     $quantity = $_POST['product_quantity'] ?? 0;
+    $name = trim($_POST['selected_product_name'] ?? '');
+    $category = trim($_POST['product_category'] ?? '');
     $date_produce = $_POST['product_date_produce'] ?? '';
-    $date_expiration = date('Y-m-d', strtotime($date_produce . ' + 3 months'));
     $price = $_POST['product_price'] ?? 0;
     $unit = trim($_POST['product_unit_of_price'] ?? '');
-    $category = trim($_POST['product_category'] ?? '');
     $status = 'new';
+
+    // Calculate expiration date (3 months after production date)
+    $date_expiration = date('Y-m-d', strtotime($date_produce . ' + 3 months'));
 
     $errors = [];
 
@@ -42,10 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt->bind_param("isssdsss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $barcodeData, $barcodePath);
+    $stmt->bind_param("isssdsss", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $category, $status);
 
     if ($stmt->execute()) {
-        echo json_encode(["success" => true, "message" => "Product saved successfully!", "barcode" => str_replace(__DIR__, '', $barcodePath)]);
+        echo json_encode(["success" => true, "message" => "Product saved successfully!"]);
     } else {
         echo json_encode(["success" => false, "message" => "Error saving product: " . $stmt->error]);
     }

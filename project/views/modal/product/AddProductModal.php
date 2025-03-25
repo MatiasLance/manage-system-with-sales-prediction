@@ -47,20 +47,14 @@
           </div>
 
           <div class="mb-3">
-            <label for="statusInput" class="form-label text-capitalize">Status</label>
-            <select class="form-select" id="statusInput" name="product_status" required>
-                <option value="" disabled selected>Select status</option>
-                <option value="new">New</option>
-                <option value="old">Old</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
             <label for="unitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
             <select class="form-select" id="unitOfPriceInput" name="unit_of_price" required>
                 <option value="" disabled selected>Select unit</option>
-                <option value="kg">1(Liter)</option>
-                <option value="lb">350(ml)</option>
+                <option value="kg">Kilogram (kg)</option>
+                <option value="lb">Pound (lb)</option>
+                <option value="liter">Liter (L)</option>
+                <option value="piece">Piece</option>
+                <option value="box">Box</option>
              
             </select>
           </div>

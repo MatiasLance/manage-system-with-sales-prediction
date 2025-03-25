@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date_expiration = $_POST['product_date_expiration'] ?? '';
     $price = isset($_POST['product_price']) && is_numeric($_POST['product_price']) ? (float)$_POST['product_price'] : 0;
     $unit = trim($_POST['product_unit_of_price'] ?? '');
+    $category = trim($_POST['product_category'] ?? '');
 
     $errors = [];
 
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($date_expiration)) $errors[] = "Expiration date is required.";
     if ($price <= 0) $errors[] = "Price must be a valid positive number.";
     if (empty($unit)) $errors[] = "Unit is required.";
+    if(empty($category)) $errors[] = "Category is required";
 
     // Validate date format
     if (!empty($date_produce) && !empty($date_expiration)) {
@@ -39,14 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare and execute the update statement
-    $stmt = $conn->prepare("UPDATE products SET quantity = ?, product_name = ?, date_produce = ?, date_expiration = ?, price = ?, unit_of_price = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE products SET quantity = ?, product_name = ?, date_produce = ?, date_expiration = ?, price = ?, unit_of_price = ?, category = ? WHERE id = ?");
     
     if (!$stmt) {
         echo json_encode(["status" => "error", "message" => "Database error: " . $conn->error]);
         exit;
     }
 
-    $stmt->bind_param("isssdsi", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $id);
+    $stmt->bind_param("isssdssi", $quantity, $name, $date_produce, $date_expiration, $price, $unit, $category, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Product updated successfully!"]);

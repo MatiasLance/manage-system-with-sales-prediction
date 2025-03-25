@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($first_name)) $errors[] = "First name is required.";
     if (empty($last_name)) $errors[] = "Last name is required.";
     if (!$email) $errors[] = "A valid email is required.";
-    if (!empty($phone_number) && !preg_match('/^\+639\d{9}$/', $phone_number)) {
-        $errors[] = "Phone number must start with +63, followed by 9, and contain a total of 13 characters.";
-    }
+    if (!empty($phone_number) && !preg_match('/^09\d{9}$/', $phone_number)) {
+        $errors[] = "Phone number must start with 09 and contain a total of 11 digits.";
+    }    
     if (!in_array($status, ["pending", "confirmed", "cancelled"])) {
         $errors[] = "Invalid status.";
     }

@@ -16,7 +16,7 @@ $offset = ($page - 1) * $items_per_page;
 $search_param = "%$search%";
 
 // Prepare the SQL query to fetch archived data
-$sql = "SELECT * FROM archive_product_data WHERE product_name LIKE ? LIMIT ? OFFSET ?";
+$sql = "SELECT * FROM archived_products WHERE product_name LIKE ? LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sii", $search_param, $items_per_page, $offset);
 $stmt->execute();
@@ -27,7 +27,7 @@ $data = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 // Prepare the SQL query to count total records in archive
-$sql_total = "SELECT COUNT(*) AS total FROM archive_product_data WHERE product_name LIKE ?";
+$sql_total = "SELECT COUNT(*) AS total FROM archived_products WHERE product_name LIKE ?";
 $stmt_total = $conn->prepare($sql_total);
 $stmt_total->bind_param("s", $search_param);
 $stmt_total->execute();

@@ -33,16 +33,16 @@ if ($stmt) {
             try {
                 // Restore product to main table
                 $sql_restore = "INSERT INTO products 
-                                (id, quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, product_status)
-                                SELECT id, quantity, product_name, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, product_status
-                                FROM archive_product_data WHERE id = ?";
+                                (id, quantity, product_name, date_expiration, date_produce, price, unit_of_price, category, status)
+                                SELECT id, quantity, product_name, date_expiration, date_produce, price, unit_of_price, category, status
+                                FROM archived_products WHERE id = ?";
                 $stmt_restore = $conn->prepare($sql_restore);
                 $stmt_restore->bind_param("i", $product_id);
                 $stmt_restore->execute();
 
                 if ($stmt_restore->affected_rows > 0) {
                     // Delete from archive table
-                    $sql_delete = "DELETE FROM archive_product_data WHERE id = ?";
+                    $sql_delete = "DELETE FROM archived_products WHERE id = ?";
                     $stmt_delete = $conn->prepare($sql_delete);
                     $stmt_delete->bind_param("i", $product_id);
                     $stmt_delete->execute();

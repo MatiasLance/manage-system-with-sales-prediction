@@ -234,7 +234,7 @@ body {
     color: var(--theme-color-milk-white);
 }
 
-.nav-pills .nav-link.active {
-    background-color: var(--theme-color-milk-white);
-    color: var(--theme-color-charcoal-gray);
+.nav-underline .nav-link.active {
+    /* background-color: var(--theme-color-milk-white); */
+    color: var(--theme-color-milk-white);
 }

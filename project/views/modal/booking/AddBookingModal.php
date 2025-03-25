@@ -31,7 +31,7 @@
             <label for="bookingPhoneNumberInput" class="form-label text-capitalize">phone number</label>
             <input type="text" class="form-control" id="bookingPhoneNumberInput" name="phone_number" required>
             <div class="invalid-feedback">
-                Phone number must start with +639, followed by 9 digits.
+                Phone number must start with 09, followed by 9 digits.
             </div>
           </div>
 
