@@ -37,13 +37,16 @@ class DatabaseMigrator
             "booking" => "CREATE TABLE IF NOT EXISTS booking (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 first_name VARCHAR(50) NOT NULL,
-                middle_name VARCHAR(50) NULL,
+                middle_name VARCHAR(50) DEFAULT NULL,
                 last_name VARCHAR(50) NOT NULL,
-                email VARCHAR(100) NOT NULL UNIQUE,
+                email VARCHAR(100) NOT NULL,
                 phone_number VARCHAR(20) NOT NULL,
                 status ENUM('pending', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending',
                 booking_schedule DATETIME NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                check_in TIME DEFAULT NULL,
+                check_out TIME DEFAULT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )",
 
             "products name" => "CREATE TABLE IF NOT EXISTS products_name (

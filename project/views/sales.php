@@ -16,7 +16,6 @@ $pageJS = [
     "https://code.jquery.com/jquery-3.6.4.min.js",
     "https://cdn.jsdelivr.net/npm/chart.js",
     "./assets/js/toggleSideBar.js",
-    "./assets/js/salesGraph.js",
     "./assets/js/sales.js",
     "./assets/js/logout.js",
 ];

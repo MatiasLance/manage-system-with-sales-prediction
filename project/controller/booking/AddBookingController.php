@@ -14,6 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $phone_number = htmlspecialchars(trim($_POST["phone_number"] ?? ""));
     $status = htmlspecialchars(trim($_POST["status"] ?? "pending"));
     $booking_schedule = htmlspecialchars(trim($_POST["booking_schedule"] ?? ""));
+    $check_in = htmlspecialchars(trim($_POST["check_in"] ?? ""));
+    $check_out = htmlspecialchars(trim($_POST["check_out"] ?? ""));
 
     // Validation rules
     $errors = [];
@@ -52,8 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Insert data using prepared statements
-    $sql = "INSERT INTO booking (first_name, middle_name, last_name, email, phone_number, status, booking_schedule) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO booking (first_name, middle_name, last_name, email, phone_number, status, booking_schedule, check_in, check_out) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
 
@@ -63,14 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $stmt->bind_param(
-        "sssssss", 
+        "sssssssss", 
         $first_name, 
         $middle_name, 
         $last_name, 
         $email, 
         $phone_number, 
         $status,
-        $booking_schedule
+        $booking_schedule,
+        $check_in,
+        $check_out
     );
 
     if ($stmt->execute()) {

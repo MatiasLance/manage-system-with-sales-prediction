@@ -17,7 +17,6 @@ $pageJS = [
     "./assets/js/toggleSideBar.js",
     "./assets/js/product.js",
     "./assets/js/logout.js",
-    "./assets/js/logout.js",
     "./assets/js/archivedData.js"
 ];
 

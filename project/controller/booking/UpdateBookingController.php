@@ -15,6 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $phone_number = htmlspecialchars(trim($_POST["phone_number"] ?? ""));
     $status = htmlspecialchars(trim($_POST["status"] ?? ""));
     $booking_schedule = htmlspecialchars(trim($_POST["booking_schedule"] ?? ""));
+    $check_in = htmlspecialchars(trim($_POST["check_in"] ?? ""));
+    $check_out = htmlspecialchars(trim($_POST["check_out"] ?? ""));
 
     // Array to store errors
     $errors = [];
@@ -64,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Update query with prepared statement
     $sql = "UPDATE booking 
             SET first_name = ?, middle_name = ?, last_name = ?, email = ?, 
-                phone_number = ?, status = ?, booking_schedule = ?
+                phone_number = ?, status = ?, booking_schedule = ?, check_in = ?, check_out = ?
             WHERE id = ?";
 
     $stmt = $conn->prepare($sql);
@@ -83,6 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $phone_number,
         $status,
         $booking_schedule,
+        $check_in,
+        $check_out,
         $id
     );
 

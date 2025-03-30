@@ -20,7 +20,7 @@ $offset = ($page - 1) * $items_per_page;
 $search_param = "%$search%";
 
 // Prepare the SQL query to fetch booking data with pagination and search
-$sql = "SELECT id, first_name, middle_name, last_name, email, phone_number, status, booking_schedule
+$sql = "SELECT id, first_name, middle_name, last_name, email, phone_number, status, booking_schedule, check_in, check_out
         FROM booking
         WHERE CONCAT(first_name, ' ', middle_name, ' ', last_name) LIKE ? 
         LIMIT ? OFFSET ?";

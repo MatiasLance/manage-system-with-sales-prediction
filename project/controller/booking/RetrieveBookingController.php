@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // Prepare the SQL query
     $stmt = $conn->prepare("
-        SELECT first_name, middle_name, last_name, email, phone_number, status, booking_schedule
+        SELECT first_name, middle_name, last_name, email, phone_number, status, booking_schedule, check_in, check_out
         FROM booking 
         WHERE id = ?
     ");
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Execute query
     if ($stmt->execute()) {
         // Bind result variables
-        $stmt->bind_result($first_name, $middle_name, $last_name, $email, $phone_number, $status, $booking_schedule);
+        $stmt->bind_result($first_name, $middle_name, $last_name, $email, $phone_number, $status, $booking_schedule, $check_in, $check_out);
 
         // Fetch the result
         if ($stmt->fetch()) {
@@ -34,7 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 "email"        => $email,
                 "phone_number" => $phone_number,
                 "status"       => $status,
-                "booking_schedule" => $booking_schedule
+                "booking_schedule" => $booking_schedule,
+                "check_in" => $check_in,
+                "check_out" => $check_out
             ]);
         } else {
             echo json_encode(["error" => true, "message" => "No data found"]);

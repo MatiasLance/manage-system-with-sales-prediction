@@ -49,8 +49,18 @@
           </div>
 
           <div class="mb-3">
-            <label for="retrieveBookingScheduleDateInput" class="form-label text-capitalize">Move Booking Schedule</label>
+            <label for="retrieveBookingScheduleDateInput" class="form-label text-capitalize">Reschedule Booking</label>
             <input type="date" class="form-control" id="retrieveBookingScheduleDateInput" name="booking_schedule">
+          </div>
+
+          <div class="mb-3">
+            <label for="retrieveBookingCheckInInput" class="form-label text-capitalize">Check In</label>
+            <input type="time" class="form-control" id="retrieveBookingCheckInInput" name="check_in">
+          </div>
+
+          <div class="mb-3">
+            <label for="retrieveBookingCheckOutInput" class="form-label text-capitalize">Check Out</label>
+            <input type="time" class="form-control" id="retrieveBookingCheckOutInput" name="check_out">
           </div>
 
       </div>

@@ -40,6 +40,16 @@
             <input type="date" class="form-control" id="bookingScheduleDateInput" name="booking_schedule" required>
           </div>
 
+          <div class="mb-3">
+            <label for="bookingCheckInInput" class="form-label text-capitalize">Check In</label>
+            <input type="time" class="form-control" id="bookingCheckInInput" name="check_in">
+          </div>
+
+          <div class="mb-3">
+            <label for="bookingCheckOutInput" class="form-label text-capitalize">Check Out</label>
+            <input type="time" class="form-control" id="bookingCheckOutInput" name="check_out">
+          </div>
+
       </div>
       <div class="modal-footer">
             <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
