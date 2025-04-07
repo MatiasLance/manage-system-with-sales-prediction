@@ -1,6 +1,6 @@
 
 jQuery(function($){
-    $(document).on('click', '.logout', function() {
+    $(document).on('click', '.logout, #logout', function() {
         $.ajax({
             url: './controller/LogoutController.php',
             type: 'POST',
@@ -14,7 +14,7 @@ jQuery(function($){
                         showConfirmButton: false
                     });
                     setTimeout(function(){
-                        window.location.href = '/';
+                        window.location.href = '/admin';
                     }, 1000)
                 }
             },

@@ -27,9 +27,6 @@ body {
 .bg-sky-blue {
     background-color: var(--theme-color-sky-blue);
 }
-.bg-golden-wheat {
-    background-color: var(--theme-color-golden-wheat);
-}
 .bg-milk-white {
     background-color: var(--theme-color-milk-white);
 }
@@ -41,4 +38,19 @@ footer {
     color: var(--theme-color-charcoal-gray);
     text-align: center;
     padding: 1rem 0;
+}
+
+.bg-golden-wheat {
+    background-color: var(--theme-color-golden-wheat);
+    color: var(--theme-color-dark);
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.bg-golden-wheat:hover {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-golden-wheat);
+    border: 2px solid var(--theme-color-golden-wheat);
+    transform: scale(1.03);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }

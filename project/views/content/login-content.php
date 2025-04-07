@@ -10,7 +10,7 @@
               </div>
             </div>
           </div>
-          <form>
+          <form id="login">
             <div class="row gy-3 gy-md-4 overflow-hidden">
               <div class="col-12">
                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
@@ -32,7 +32,7 @@
                       <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
                     </svg>
                   </span>
-                  <input type="password" class="form-control" name="password" id="password" value="" required>
+                  <input type="password" class="form-control" name="password" id="password" required>
                   <span class="input-group-text" id="togglePassword">
                     <i class="fas fa-eye"></i>
                   </span>
@@ -40,7 +40,7 @@
               </div>
               <div class="col-12">
                 <div class="d-flex flex-row-reverse">
-                  <button class="btn btn-custom-primary btn-sm" id="login" type="button">Login <i class="fas fa-arrow-right"></i></button>
+                  <button class="btn btn-custom-primary btn-sm" type="dubmit">Login <i class="fas fa-arrow-right"></i></button>
                 </div>
               </div>
             </div>

@@ -4,43 +4,54 @@ header("Content-Type: application/json");
 
 require_once __DIR__ . '/../../config/db_connection.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
     if (!isset($_GET['id']) || empty($_GET['id'])) {
         echo json_encode(["error" => "Invalid ID"]);
         exit;
     }
 
-    $id = intval($_GET['id']); // Ensure ID is an integer for security
+    $id = intval($_GET['id']); // Ensure ID is an integer
 
-    // Prepare the SQL query
-    $stmt = $conn->prepare("SELECT quantity, product_name, date_expiration, date_produce, price, unit_of_price, category, status FROM products WHERE id = ?");
+    // Prepare the SQL query with JOIN
+    $sql = "SELECT 
+                p.quantity,
+                pn.id as productNameID,
+                pn.product_name, 
+                pn.product_code,
+                p.date_expiration, 
+                p.date_produce, 
+                p.price, 
+                p.unit_of_price, 
+                p.category, 
+                p.status
+            FROM products p
+            INNER JOIN products_name pn ON p.product_name_id = pn.id
+            WHERE p.id = ?";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        echo json_encode(["error" => true, "message" => "Database error: " . $conn->error]);
+        exit;
+    }
+
     $stmt->bind_param("i", $id);
 
-    // Execute query
     if ($stmt->execute()) {
-        // Bind result variables
-        $stmt->bind_result($quantity, $product_name, $date_expiration, $date_produce, $price, $unit_of_price, $category, $status);
+        $result = $stmt->get_result();
+        $product = $result->fetch_assoc();
 
-        // Fetch the result
-        if ($stmt->fetch()) {
+        if ($product) {
             echo json_encode([
-                "quantity"       => $quantity,
-                "product_name"   => $product_name,
-                "date_expiration"=> $date_expiration,
-                "date_produce"   => $date_produce,
-                "price"          => $price,
-                "unit_of_price"  => $unit_of_price,
-                'category' => $category,
-                'status' => $status
-            ]);
+                "success" => true,
+                "product" => $product
+            ], JSON_NUMERIC_CHECK);
         } else {
-            echo json_encode(["error" => true, "message" => "No data found"]);
+            echo json_encode(["error" => true, "message" => "No product found with that ID"]);
         }
     } else {
         echo json_encode(["error" => true, "message" => "Query execution failed"]);
     }
 
-    // Close connections
     $stmt->close();
     $conn->close();
 }

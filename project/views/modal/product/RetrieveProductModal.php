@@ -35,7 +35,7 @@
 
           <div class="mb-3">
             <label for="productDateExpirationInput" class="form-label text-capitalize">Product Date Expiration</label>
-            <input type="text" class="form-control" id="retrieveProductDateExpirationInput" name="product_date_expiration" readonly="true">
+            <input type="text" class="form-control" id="retrieveProductDateExpirationInput" name="product_date_expiration" readonly="true" style="cursor: not-allowed;">
             <small class="mt-3"><strong>Note:</strong>The product expiration date will automatically update based on the selected production date.</small>
           </div>
 
@@ -57,7 +57,7 @@
 
           <div class="mb-3">
             <label for="productStatusInput" class="form-label text-capitalize">Status</label>
-            <input type="text" class="form-control text-capitalize" id="retrieveProductStatusInput" name="product_status" readonly="true">
+            <input type="text" class="form-control text-capitalize" id="retrieveProductStatusInput" name="product_status" readonly="true" style="cursor: not-allowed;">
             <small class="mt-3"><strong>Note:</strong>The product status will automatically change when it reaches the 7-day timeframe, marking it as old stock.</small>
           </div>
       </div>

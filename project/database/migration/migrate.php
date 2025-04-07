@@ -52,13 +52,14 @@ class DatabaseMigrator
             "products name" => "CREATE TABLE IF NOT EXISTS products_name (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 product_name VARCHAR(255) NOT NULL,
+                product_code VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )",
 
             "products" => "CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 quantity INT NOT NULL,
-                product_name VARCHAR(255) NOT NULL,
+                product_name_id INT NOT NULL,
                 date_expiration DATE NOT NULL,
                 date_produce DATE NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
@@ -66,7 +67,8 @@ class DatabaseMigrator
                 category VARCHAR(50) NOT NULL,
                 status ENUM('new', 'old') NOT NULL DEFAULT 'new',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                CONSTRAINT FK_ProductNameID FOREIGN KEY (product_name_id) REFERENCES products_name(id)
             )",
 
             "users" => "CREATE TABLE IF NOT EXISTS users (
@@ -82,22 +84,29 @@ class DatabaseMigrator
 
             "media" => "CREATE TABLE IF NOT EXISTS media (
                 id INT AUTO_INCREMENT PRIMARY KEY,
+                product_id INT DEFAULT NULL,
+                employee_id INT DEFAULT NULL,
                 filename VARCHAR(255) NOT NULL,
                 file_path VARCHAR(255) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (product_id) REFERENCES products(id),
+                FOREIGN KEY (employee_id) REFERENCES employees(id)
             )",
 
             "archived products" => "CREATE TABLE IF NOT EXISTS archived_products (
                 id INT PRIMARY KEY,
                 quantity INT NOT NULL,
-                product_name VARCHAR(255) NOT NULL,
+                product_name_id INT NOT NULL,
                 date_expiration DATE NOT NULL,
                 date_produce DATE NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 unit_of_price VARCHAR(50) NOT NULL,
                 category VARCHAR(50) NOT NULL,
-                status ENUM('new', 'old') NOT NULL DEFAULT 'new',
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                status ENUM('new', 'old') NOT NULL,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (product_name_id) REFERENCES products_name(id)
             )"
         ];
 

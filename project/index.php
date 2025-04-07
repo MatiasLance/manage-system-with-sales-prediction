@@ -4,6 +4,9 @@ $viewDir = '/views/';
 
 switch($request) {
   case '/':
+    require __DIR__ . $viewDir . 'index.php';
+    break;
+  case '/admin':
     require __DIR__ . $viewDir . 'login.php';
     break;
   case '/register':

@@ -32,14 +32,18 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
     <div class="container-fluid padding-custom">
+        <!-- Sidebar toggle -->
         <i class="fas fa-bars me-3" id="menuToggle"></i>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-capitalize" href="#" role="button">
-                        <i class="fas fa-user me-2"></i><?= $_SESSION['firstname']; ?>
-                    </a>
-                </li>
-            </ul>
+
+        <!-- Right-side nav links -->
+        <ul class="navbar-nav ms-auto">
+            <!-- Logout -->
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center" href="#" role="button" id="logout" title="Logout here...">
+                    <i class="fas fa-sign-out-alt me-2"></i>
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
 

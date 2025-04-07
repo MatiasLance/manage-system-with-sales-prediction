@@ -20,7 +20,7 @@ $offset = ($page - 1) * $items_per_page;
 $search_param = "%$search%";
 
 // Prepare the SQL query to fetch data with pagination and search
-$sql = "SELECT id, product_name FROM products_name WHERE product_name LIKE ? LIMIT ? OFFSET ?";
+$sql = "SELECT id, product_name, product_code FROM products_name WHERE product_name LIKE ? OR product_code LIKE ? LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -28,7 +28,7 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("sii", $search_param, $items_per_page, $offset);
+$stmt->bind_param("ssii", $search_param, $search_param,$items_per_page, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -37,9 +37,9 @@ $product_names = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 // Prepare the SQL query to count total records
-$sql_total = "SELECT COUNT(*) AS total FROM products_name WHERE product_name LIKE ?";
+$sql_total = "SELECT COUNT(*) AS total FROM products_name WHERE product_name LIKE ? OR product_code LIKE ?";
 $stmt_total = $conn->prepare($sql_total);
-$stmt_total->bind_param("s", $search_param);
+$stmt_total->bind_param("ss", $search_param, $search_param);
 $stmt_total->execute();
 $total_result = $stmt_total->get_result();
 $total_row = $total_result->fetch_assoc();

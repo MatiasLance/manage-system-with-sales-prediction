@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Validate input
 if (!isset($_POST['password'], $_POST['id'])) {
     echo json_encode(['success' => false, 'message' => 'Password and product ID are required.']);
     exit;
@@ -23,89 +22,85 @@ if ($product_id <= 0) {
     exit;
 }
 
-// Fetch admin's hashed password
+// Authenticate admin
 $sql = "SELECT password FROM users WHERE user_type = 'admin' LIMIT 1";
 $stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode(['success' => false, 'message' => 'Database query error.']);
-    exit;
-}
-
 $stmt->execute();
 $stmt->store_result();
 
-if ($stmt->num_rows > 0) {
-    $stmt->bind_result($password_db);
-    $stmt->fetch();
+if ($stmt->num_rows === 0) {
+    echo json_encode(['success' => false, 'message' => 'Admin user not found.']);
+    exit;
+}
+
+$stmt->bind_result($hashed_password);
+$stmt->fetch();
+$stmt->close();
+
+if (!password_verify($password, $hashed_password)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid password.']);
+    exit;
+}
+
+// Begin archiving process
+$conn->begin_transaction();
+
+try {
+    // Fetch product details
+    $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
     $stmt->close();
 
-    // Verify password
-    if (!password_verify($password, $password_db)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid password.']);
-        exit;
+    if (!$product) {
+        throw new Exception("Product not found.");
     }
 
-    // Start transaction
-    $conn->begin_transaction();
+    // Insert into archived_products
+    $stmt = $conn->prepare("
+        INSERT INTO archived_products (
+            id, quantity, product_name_id, date_expiration, date_produce, price,
+            unit_of_price, category, status, created_at, updated_at, deleted_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    ");
+    $stmt->bind_param(
+        "iiissdsssss",
+        $product['id'],
+        $product['quantity'],
+        $product['product_name_id'],
+        $product['date_expiration'],
+        $product['date_produce'],
+        $product['price'],
+        $product['unit_of_price'],
+        $product['category'],
+        $product['status'],
+        $product['created_at'],
+        $product['updated_at']
+    );
+    $stmt->execute();
 
-    try {
-        // Retrieve product details
-        $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
-        $stmt->bind_param("i", $product_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
-        $stmt->close();
-
-        if (!$product) {
-            throw new Exception("Product not found.");
-        }
-
-        // Move product to archived table
-        $stmt_archive = $conn->prepare("
-            INSERT INTO archived_products 
-            (id, quantity, product_name, date_expiration, date_produce, price, unit_of_price, category, status, deleted_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-        ");
-        $stmt_archive->bind_param(
-            "iisssdsss",
-            $product['id'],
-            $product['quantity'],
-            $product['product_name'],
-            $product['date_expiration'],
-            $product['date_produce'],
-            $product['price'],
-            $product['unit_of_price'],
-            $product['category'],
-            $product['status']
-        );
-        $stmt_archive->execute();
-
-        if ($stmt_archive->affected_rows <= 0) {
-            throw new Exception("Failed to archive product.");
-        }
-        $stmt_archive->close();
-
-        // Delete the product from the products table
-        $stmt_delete = $conn->prepare("DELETE FROM products WHERE id = ?");
-        $stmt_delete->bind_param("i", $product_id);
-        $stmt_delete->execute();
-
-        if ($stmt_delete->affected_rows <= 0) {
-            throw new Exception("Failed to delete product.");
-        }
-        $stmt_delete->close();
-
-        // Commit transaction
-        $conn->commit();
-        echo json_encode(['success' => true, 'message' => 'Product archived and deleted successfully.']);
-    } catch (Exception $e) {
-        $conn->rollback();
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    if ($stmt->affected_rows <= 0) {
+        throw new Exception("Failed to archive product.");
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Admin user not found.']);
+    $stmt->close();
+
+    // Delete from products
+    $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows <= 0) {
+        throw new Exception("Failed to delete product.");
+    }
+    $stmt->close();
+
+    $conn->commit();
+    echo json_encode(['success' => true, 'message' => 'Product archived successfully.']);
+} catch (Exception $e) {
+    $conn->rollback();
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 
 $conn->close();

@@ -5,6 +5,7 @@
         <h1 class="modal-title fs-5" id="askPasswordOnProductConfirmDeletionModalLabel">Enter Password to Confirm Deletion of Product</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form id="deleteProduct">
       <div class="modal-body">
           <div class="mb-3">
             <label for="productPasswordInput" class="form-label text-capitalize">Password</label>
@@ -12,8 +13,9 @@
           </div>
       </div>
       <div class="modal-footer">
-            <button type="button" id="deleteProduct" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Submit</button>
+            <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Submit</button>
        </div>
+       </form>
     </div>
   </div>
 </div>

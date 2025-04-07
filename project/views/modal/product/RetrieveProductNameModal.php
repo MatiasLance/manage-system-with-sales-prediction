@@ -11,6 +11,10 @@
               <label for="retrieveProductNameInput" class="form-label">Product Name</label>
               <input type="text" class="form-control" id="retrieveProductNameInput" name="product_name">
           </div>
+          <div class="mb-3">
+            <label for="retrieveProductCodeInput" class="form-label text-capitalize">Product Code</label>
+            <input type="text" class="form-control" id="retrieveProductCodeInput" name="product_code" required>
+          </div>
       </div>
       <div class="modal-footer">
             <button type="button" id="editProductName" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>

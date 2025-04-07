@@ -13,7 +13,8 @@ jQuery(function($) {
     })
 
     // Login
-    $(document).on('click', '#login', function() {
+    $('#login').on('submit', function(e) {
+        e.preventDefault();
         const payload = {
             email: emailField.val(),
             password: passwordField.val()

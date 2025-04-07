@@ -53,7 +53,7 @@ try {
     }
 
     // Output the formatted JSON
-    echo json_encode($output['articles']['source']);
+    echo json_encode($output['articles']);
 
 } catch (Exception $e) {
     // Clean output buffer before error response

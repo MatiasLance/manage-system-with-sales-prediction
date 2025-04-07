@@ -5,6 +5,7 @@
         <h1 class="modal-title fs-5" id="restoreArchivedProductModalLabel">Enter Password to restore product</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form id="restoreArchivedProduct">
       <div class="modal-body">
         <input type="hidden" id="restoreArchivedProductId">
           <div class="mb-3">
@@ -13,8 +14,9 @@
           </div>
       </div>
       <div class="modal-footer">
-            <button type="button" id="restoreArchivedProduct" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Submit</button>
-       </div>
+            <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Submit</button>
+      </div>
+      </form>
     </div>
   </div>
 </div>

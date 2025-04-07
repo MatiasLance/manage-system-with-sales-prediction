@@ -2,13 +2,11 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addProductModalLabel">Add Product</h1>
+        <h1 class="modal-title fs-5" id="addProductModalLabel">Add Dairy Product</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form enctype="multipart/form-data">
-          <input type="hidden" name="action" value="create">
-
+        <form id="addProduct" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="quantityInput" class="form-label text-capitalize">Quantity</label>
             <input type="number" class="form-control" id="quantityInput" name="quantity" required>
@@ -50,18 +48,17 @@
             <label for="unitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
             <select class="form-select" id="unitOfPriceInput" name="unit_of_price" required>
                 <option value="" disabled selected>Select unit</option>
-                <option value="kg">Kilogram (kg)</option>
-                <option value="lb">Pound (lb)</option>
-                <option value="liter">Liter (L)</option>
+                <option value="liter">Liter</option>
                 <option value="piece">Piece</option>
+                <option value="kg">Kilogram</option>
+                <option value="sack">Sack</option>
                 <option value="box">Box</option>
-             
             </select>
           </div>
 
       </div>
       <div class="modal-footer">
-            <button type="button" id="addProduct" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
+            <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>
        </div>
        </form>
     </div>

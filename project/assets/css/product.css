@@ -17,6 +17,9 @@
     color: var(--theme-color-charcoal-gray);
 }
 
-#editProduct, #deleteProduct {
+#editProduct,
+#deleteProduct,
+#retrieveProduct,
+#confirmDeleteProduct {
     cursor: pointer;
 }

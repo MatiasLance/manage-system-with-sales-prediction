@@ -17,7 +17,7 @@ $pageJS = [
     "./assets/js/toggleSideBar.js",
     "./assets/js/product.js",
     "./assets/js/logout.js",
-    "./assets/js/archivedData.js"
+    "./assets/js/archiveProducts.js"
 ];
 
 $pageContent = __DIR__ . "/content/product-content.php";

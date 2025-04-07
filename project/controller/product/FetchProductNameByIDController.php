@@ -13,7 +13,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $product_id = (int) $_GET['id']; // Convert ID to integer for safety
 
 // Prepare SQL query using prepared statement
-$sql = "SELECT id, product_name FROM products_name WHERE id = ?";
+$sql = "SELECT id, product_name, product_code FROM products_name WHERE id = ?";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
