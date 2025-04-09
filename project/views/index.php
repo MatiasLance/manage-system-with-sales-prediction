@@ -4,7 +4,10 @@ $pageTitle = "RMC - Goat Farm Website";
 
 $pageCss = ["./assets/css/index.css"];
 
-$pageJS = ["./assets/js/index.js"];
+$pageJS = [
+    "./assets/js/product.js",
+    "./assets/js/index.js"
+];
 
 $pageContent = __DIR__ . "/content/index-content.php";
 

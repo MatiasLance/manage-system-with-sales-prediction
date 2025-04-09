@@ -1,9 +1,13 @@
 $.noConflict();
 
-let stock = 100;
+let stock = 1000;
 let cart = [];
 jQuery(function($){
-    $('.add-to-cart-btn').on('click', function() {
+
+    $('#cashAmountParent').hide();
+    $('#changeParent').removeClass('d-flex').addClass('d-none');
+
+    $(document).on('click', '.add-to-cart-btn', function() {
         const $productCard = $(this).closest('.product-card');
         
         const productName = $productCard.find('.product-name').text();
@@ -40,8 +44,26 @@ jQuery(function($){
                 $productCard.find('.quantity-input').val(0);
             }
         }
+
+        // Check if cart is not empty and show the cash input field
+        if(cart.length > 0){
+            $('.cart').addClass('mb-5')
+            $('#cashAmountParent').show();
+
+            if($('#changeParent').hasClass('d-none')){
+                $('#changeParent').removeClass('d-none').addClass('d-flex');
+            }
+        }
+
         $('.cart').append(productDetails);
-        $('#overAllTotal').text(`₱${totalAmount.toFixed(2)}`)
+        $('#overAllTotal').text(`₱${totalAmount.toFixed(2)}`).data('totalAmount', totalAmount)
+    });
+
+    $('#checkoutButton').on('click', function(){
+        const cash = $('#cashAmountInput').val();
+        const amountToPay = $('#overAllTotal').data('totalAmount')
+        const amountChange = cash - amountToPay
+        $('#change').text(amountChange)
     });
 });
 
@@ -55,4 +77,12 @@ function checkIfQuantityIsGreaterToStock(quantity, stock){
 
 function calculateProductTotal(quantity, price){
     return quantity * price;
+}
+
+function pay(cash, amountToPay){
+    if(cash > amountToPay){
+        return cash - amountToPay
+    } else {
+        return alert('Insufficient balance');
+    }
 }

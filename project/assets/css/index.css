@@ -54,7 +54,8 @@
 
 h3,
 h5,
-span {
+span,
+label {
     color: #FAF3E0;
 }
 

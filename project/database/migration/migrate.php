@@ -107,6 +107,18 @@ class DatabaseMigrator
                 updated_at TIMESTAMP,
                 deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (product_name_id) REFERENCES products_name(id)
+            )",
+
+            "orders" => "CREATE TABLE IF NOT EXISTS orders (
+                id INT PRIMARY KEY,
+                order_number VARCHAR(50) NOT NULL,
+                quantity INT NOT NULL,
+                product_name VARCHAR(255) NOT NULL,
+                price DECIMAL(10,2) NOT NULL,
+                unit_of_price VARCHAR(50) NOT NULL,
+                total DECIMAL(10,2) NOT NULL,
+                created_at TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )"
         ];
 

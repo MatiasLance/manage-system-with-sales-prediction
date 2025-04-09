@@ -149,7 +149,7 @@ jQuery(function($){
     });
 
     // Debounced search input event for products
-    $('#searchProducts, #searchGrainsAndCerealsProducts').on('keyup', function() {
+    $('#searchProducts, #searchGrainsAndCerealsProducts, #searchPOSProducts').on('keyup', function() {
         clearTimeout(debounceTimer); // Clear previous timer
         let searchQuery = $(this).val();
 
@@ -271,7 +271,7 @@ function deleteProduct(productPassword, deleteProductId){
         id: deleteProductId.val()
     }
 
-    $.ajax({
+    jQuery.ajax({
         type: 'POST',
         url: './controller/product/AskPasswordToDeleteProductController.php',
         data: payload,
@@ -285,7 +285,7 @@ function deleteProduct(productPassword, deleteProductId){
                 }).then((result) => {
                     if(result.isConfirmed){ 
                         fetchData(1, '');
-                        $('#productPasswordInput').val('');
+                        jQuery('#productPasswordInput').val('');
                     }
                 });
 
@@ -298,7 +298,7 @@ function deleteProduct(productPassword, deleteProductId){
                 }).then((result) => {
                     if(result.isConfirmed){ 
                         fetchData(1, '');
-                        $('#productPasswordInput').val('');
+                        jQuery('#productPasswordInput').val('');
                     }
                 });
             }
@@ -315,7 +315,7 @@ function deleteProductName(productNamePasswordInput, productNameToBeDeletedId){
         id: productNameToBeDeletedId.val()
     }
 
-    $.ajax({
+    jQuery.ajax({
         type: 'POST',
         url: './controller/product/AskPasswordToDeleteProductNameController.php',
         data: payload,
@@ -329,7 +329,7 @@ function deleteProductName(productNamePasswordInput, productNameToBeDeletedId){
                 }).then((result) => {
                     if(result.isConfirmed){ 
                         fetchProductName(1, '');
-                        $('#productNamePasswordInput').val('');
+                        jQuery('#productNamePasswordInput').val('');
                     }
                 });
 
@@ -342,7 +342,7 @@ function deleteProductName(productNamePasswordInput, productNameToBeDeletedId){
                 }).then((result) => {
                     if(result.isConfirmed){ 
                         fetchProductName(1, '');
-                        $('#productNamePasswordInput').val('');
+                        jQuery('#productNamePasswordInput').val('');
                     }
                 });
             }
@@ -373,7 +373,7 @@ function updateProduct(
         product_unit_of_price: retrieveUnitOfPriceInput.val(),
     }
 
-    $.ajax({
+    jQuery.ajax({
         type: 'POST',
         url: './controller/product/UpdateProductController.php',
         data: payload,
@@ -413,7 +413,7 @@ function updateProductName(productNameId, newProductName, newProductCode){
         product_code: newProductCode.val()
     }
 
-    $.ajax({
+    jQuery.ajax({
         type: "POST",
         url: "./controller/product/UpdateProductNameController.php",
         data: payload,
@@ -449,7 +449,7 @@ function fetchProductByID(
     productId,
     deleteProductId,
     id){
-    $.ajax({
+    jQuery.ajax({
         type: 'GET',
         url: './controller/product/FetchProductByIDController.php',
         data: { id: id },
@@ -497,7 +497,7 @@ function fetchProductNameByID(
     productNameToBeDeletedId,
     id
     ){
-    $.ajax({
+    jQuery.ajax({
         type: 'GET',
         url: './controller/product/FetchProductNameByIDController.php',
         data: { id: id },
@@ -526,20 +526,20 @@ function fetchProductNameByID(
 }
 
 function fetchData(page, searchQuery) {
-    $.ajax({
+    jQuery.ajax({
         url: './controller/product/FetchProductController.php',
         type: 'GET',
         data: { page: page, search: searchQuery },
         dataType: 'json',
         success: function(response) {
             // Populate table with fetched data
-            $('#data-container, #grains-and-cereals-container').empty();
+            jQuery('#data-container, #grains-and-cereals-container, .product-thumbnail').empty();
             for (let i = 0; i < response.data.length; i++){
                 let dateProduce = new Date(response.data[i].date_produce);
                 let dateExpiration = new Date(response.data[i].date_expiration);
                 let productId = response.data[i].id;
                 if(response.data[i].category === 'dairy') {
-                    $('#data-container').append(`<tr>
+                    jQuery('#data-container').append(`<tr>
                         <td>${response.data[i].quantity}</td>
                         <td class="text-capitalize">${response.data[i].product_name}</td>
                         <td class="text-capitalize">${response.data[i].product_code}</td>
@@ -554,7 +554,7 @@ function fetchData(page, searchQuery) {
                         </td>
                     </tr>`);
                 } else if(response.data[i].category === 'grains and cereals') {
-                    $('#grains-and-cereals-container').append(`<tr>
+                    jQuery('#grains-and-cereals-container').append(`<tr>
                         <td>${response.data[i].quantity}</td>
                         <td class="text-capitalize">${response.data[i].product_name}</td>
                         <td class="text-capitalize">${response.data[i].product_code}</td>
@@ -568,15 +568,31 @@ function fetchData(page, searchQuery) {
                         </td>
                     </tr>`);
                 }
+                // Render product in POS page
+                const productCard = `
+                <div class="col">
+                    <div class="product-card">
+                    <input type="hidden" value="${response.data[i].id}">
+                        <img src="https://i.imgur.com/3LvoZ6D.png" alt="Product Image">
+                        <h5 class="text-center product-name">${response.data[i].product_name}</h5>
+                        <p class="text-center price" data-value="${response.data[i].price}">${formatCurrency(response.data[i].price)}</p>
+                        <div class="d-flex justify-content-between">
+                            <input type="number" class="quantity-input" value="1" min="1" max="${response.data[i].quantity}" data-stock="${response.data[i].quantity}">
+                            <button class="btn add-to-cart-btn w-50">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>`;
+
+                jQuery('.product-thumbnail').append(productCard);
             }
 
-            $('#totalProduct').text(response.total_products);
+            jQuery('#totalProduct').text(response.total_products);
 
             // Generate pagination links
-            $('#pagination-links, #grains-and-cereals-pagination-links').empty();
+            jQuery('#pagination-links, #grains-and-cereals-pagination-links').empty();
 
             // Previous Button
-            $('#pagination-links, #grains-and-cereals-pagination-links').append(`
+            jQuery('#pagination-links, #grains-and-cereals-pagination-links').append(`
                 <li class="page-item ${page === 1 ? 'disabled' : ''}">
                     <a class="page-link products-page-link" href="#" data-page="${page - 1}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -586,7 +602,7 @@ function fetchData(page, searchQuery) {
             
             // Page Numbers
             for (let i = 1; i <= response.total_pages; i++) {
-                $('#pagination-links, #grains-and-cereals-pagination-links').append(`
+                jQuery('#pagination-links, #grains-and-cereals-pagination-links').append(`
                     <li class="page-item ${i === page ? 'active' : ''}">
                         <a class="page-link products-page-link" href="#" data-page="${i}">${i}</a>
                     </li>
@@ -594,7 +610,7 @@ function fetchData(page, searchQuery) {
             }
 
             // Next Button
-            $('#pagination-links, #grains-and-cereals-pagination-links').append(`
+            jQuery('#pagination-links, #grains-and-cereals-pagination-links').append(`
                 <li class="page-item ${page === response.total_pages ? 'disabled' : ''}">
                     <a class="page-link products-page-link" href="#" data-page="${page + 1}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -609,19 +625,19 @@ function fetchData(page, searchQuery) {
 }
 
 function fetchProductName(page, searchQuery){
-    $.ajax({
+    jQuery.ajax({
         type: 'GET',
         url: './controller/product/FetchProductNameController.php',
         data: { page: page, search: searchQuery },
         dataType: 'json',
         success: function(response){
-            $('#product-name-data-container').empty();
+            jQuery('#product-name-data-container').empty();
             if(response.success){
                 let options = "";
                 for(let i = 0; i < response.product_names.length; i++){
                     const productNameId = response.product_names[i].id
                     options += `<option value="${response.product_names[i].id}" data-temp="true">${response.product_names[i].product_name}</option>`;
-                    $('#product-name-data-container').append(`<tr>
+                    jQuery('#product-name-data-container').append(`<tr>
                         <td>${response.product_names[i].product_name}</td>
                         <td>${response.product_names[i].product_code}</td>
                         <td class="flex flex-row justify-content-between text-center">
@@ -632,17 +648,17 @@ function fetchProductName(page, searchQuery){
                 }
 
                 // Remove the previously appended selected option
-                $("#selectedProductNameInput").find('option[data-temp="true"]').remove();
-                $("#retrieveSelectedProductNameInput").find('option[data-temp="true"]').remove();
+                jQuery("#selectedProductNameInput").find('option[data-temp="true"]').remove();
+                jQuery("#retrieveSelectedProductNameInput").find('option[data-temp="true"]').remove();
                 // Append the new selected status option
-                $("#selectedProductNameInput").append(options);
-                $("#retrieveSelectedProductNameInput").append(options);
+                jQuery("#selectedProductNameInput").append(options);
+                jQuery("#retrieveSelectedProductNameInput").append(options);
 
                 // Generate pagination links
-                $('#product-name-pagination-links').empty();
+                jQuery('#product-name-pagination-links').empty();
 
                 // Previous Button
-                $('#product-name-pagination-links').append(`
+                jQuery('#product-name-pagination-links').append(`
                     <li class="page-item ${page === 1 ? 'disabled' : ''}">
                         <a class="page-link product-name-page-link" href="#" data-page="${page - 1}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
@@ -652,7 +668,7 @@ function fetchProductName(page, searchQuery){
                 
                 // Page Numbers
                 for (let i = 1; i <= response.total_pages; i++) {
-                    $('#product-name-pagination-links').append(`
+                    jQuery('#product-name-pagination-links').append(`
                         <li class="page-item ${i === page ? 'active' : ''}">
                             <a class="page-link product-name-page-link" href="#" data-page="${i}">${i}</a>
                         </li>
@@ -660,7 +676,7 @@ function fetchProductName(page, searchQuery){
                 }
 
                 // Next Button
-                $('#product-name-pagination-links').append(`
+                jQuery('#product-name-pagination-links').append(`
                     <li class="page-item ${page === response.total_pages ? 'disabled' : ''}">
                         <a class="page-link product-name-page-link" href="#" data-page="${page + 1}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
@@ -704,10 +720,10 @@ function formattedDate(inputDate)
 }
 
 function reset() {
-    $('#quantityInput').val('');
-    $('#selectedProductNameInput').val('');
-    $('#productDateProduceInput').val('');
-    $('#productDateExpirationInput').val('');
-    $('#productPriceInput').val('');
-    $('#unitOfPriceInput').val('');
+    jQuery('#quantityInput').val('');
+    jQuery('#selectedProductNameInput').val('');
+    jQuery('#productDateProduceInput').val('');
+    jQuery('#productDateExpirationInput').val('');
+    jQuery('#productPriceInput').val('');
+    jQuery('#unitOfPriceInput').val('');
 }
