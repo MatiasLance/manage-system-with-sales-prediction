@@ -27,3 +27,6 @@
 .fas.fa-arrow-right {
   transform: translateY(2px);
 }
+.heading-title {
+  color: var(--theme-color-charcoal-gray);
+}

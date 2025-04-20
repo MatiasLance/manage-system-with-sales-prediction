@@ -47,7 +47,7 @@
         <!-- Products Name Tab -->
         <li class="nav-item" role="presentation">
             <button class="nav-link product-link" id="product-name-tab" data-bs-toggle="tab" data-bs-target="#product-name-tab-pane" type="button" role="tab" aria-controls="product-name-tab-pane" aria-selected="false">
-                Product Names & Code
+                Product (Names, Code, & Category)
             </button>
         </li>
 

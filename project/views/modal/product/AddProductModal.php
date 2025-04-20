@@ -20,13 +20,13 @@
           </div>
 
           <div class="mb-3">
-            <label for="productCategoryInput" class="form-label text-capitalize">Select Product Category</label>
-            <select class="form-select" id="productCategoryInput" name="category" required>
-                <option value="" disabled selected>Select Product Category</option>
-                <option value="dairy">Dairy Product</option>
-                <option value="grains and cereals">Grains & Cereals</option>
-                <option value="meat and poultry">Meat & Poultry</option>
-            </select>
+            <label for="productCodeInput" class="form-label text-capitalize">Product Code</label>
+            <input type="text" class="form-control" id="productCodeInput" placeholder="Auto generate code" readonly="true" style="cursor: not-allowed">
+          </div>
+
+          <div class="mb-3">
+            <label for="productCategoryInput" class="form-label text-capitalize">Product Category</label>
+            <input type="text" class="form-control text-capitalize" id="productCategoryInput" placeholder="Auto generate category" readonly="true" style="cursor: not-allowed">
           </div>
 
           <div class="mb-3">
@@ -34,7 +34,7 @@
             <input type="date" class="form-control" id="productDateProduceInput" name="product_date_produce" required>
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3" id="productDateExpirationInputContainer">
             <label for="productDateExpirationInput" class="form-label text-capitalize">Product Date Expiration</label>
             <input type="text" class="form-control" id="productDateExpirationInput" placeholder="Auto Generate Expiry Date" disabled>
           </div>

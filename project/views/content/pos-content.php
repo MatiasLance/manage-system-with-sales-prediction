@@ -1,0 +1,82 @@
+<div class="container-fluid my-4">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">MBRLCFI POS</h3>
+    <!-- Logout Button -->
+    <a 
+      class="nav-link d-flex align-items-center text-danger" 
+      href="#" 
+      role="button" 
+      id="logout" 
+      title="Logout here..."
+    >
+      <i class="fas fa-sign-out-alt me-2"></i> 
+      <span class="d-none d-md-inline">Logout</span>
+    </a>
+  </div>
+
+  <div class="row">
+    <!-- Product List Section -->
+    <div class="col-lg-8 col-md-12 mb-4">
+      <div class="mb-3">
+        <input 
+          type="text" 
+          class="form-control" 
+          id="searchPOSProducts" 
+          placeholder="Search products..." 
+        >
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">Quantity</th>
+              <th scope="col" class="text-center">Name</th>
+              <th scope="col" class="text-center">Price</th>
+              <th scope="col" class="text-center">Unit of Price</th>
+            </tr>
+          </thead>
+          <tbody id="pos-products-container"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cart & Checkout Section -->
+    <div class="col-lg-4 col-md-12">
+      <hr class="text-white" />
+      <div class="cart"></div>
+      <hr class="text-white" />
+      <div class="mb-5" id="cashAmountParent">
+        <label for="cashAmountInput" class="form-label">Enter cash amount</label>
+        <input 
+          type="number" 
+          class="form-control" 
+          id="cashAmountInput" 
+          placeholder="₱00.00" 
+        >
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <p>Sub-Total:</p>
+        <p id="subTotal">₱0.00</p>
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <p>VAT(12%)</p>
+        <p id="vat">₱0.00</p>
+      </div>
+      <div class="d-flex justify-content-between mb-2">
+        <p>Total Amount:</p>
+        <p id="total">₱0.00</p>
+      </div>
+      <div class="d-flex justify-content-between mb-2" id="changeParent">
+        <p>Change:</p>
+        <p id="change">₱0.00</p>
+      </div>
+      <button 
+        class="checkout-btn w-100 mt-3" 
+        id="checkoutButton"
+      >
+        Complete Order
+      </button>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,10 @@ $viewDir = '/views/';
 
 switch($request) {
   case '/':
-    require __DIR__ . $viewDir . 'index.php';
+    require __DIR__ . $viewDir . 'cashier-login.php';
+    break;
+  case '/pos':
+    require __DIR__ . $viewDir . 'pos.php';
     break;
   case '/admin':
     require __DIR__ . $viewDir . 'login.php';

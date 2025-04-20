@@ -19,7 +19,7 @@ $offset = ($page - 1) * $items_per_page;
 $search_param = "%$search%";
 
 // Prepare the SQL query to fetch data with a JOIN
-$sql = "SELECT p.*, pn.product_name, pn.product_code
+$sql = "SELECT p.*, pn.product_name, pn.product_code, pn.product_category
         FROM products p
         INNER JOIN products_name pn ON p.product_name_id = pn.id
         WHERE pn.product_name LIKE ? OR pn.product_code LIKE ?

@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['id'])) {
-    header("Location: /");
+if (!isset($_SESSION['id']) && !isset($_SESSION['cashier_id'])) {
+    header('Location: /');
     exit();
 }

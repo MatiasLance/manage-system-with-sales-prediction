@@ -20,12 +20,13 @@
           </div>
 
           <div class="mb-3">
-            <label for="retrieveProductCategoryInput" class="form-label text-capitalize">Select Product Category</label>
-            <select class="form-select" id="retrieveProductCategoryInput" name="category" required>
-                <option value="dairy">Dairy Product</option>
-                <option value="grains and cereals">Grains & Cereals</option>
-                <option value="meat and poultry">Meat & Poultry</option>
-            </select>
+            <label for="retrieveProductCodeInput" class="form-label text-capitalize">Product Code</label>
+            <input type="text" class="form-control" id="retrieveProductCodeInput" placeholder="Auto generate code" readonly="true" style="cursor: not-allowed">
+          </div>
+
+          <div class="mb-3">
+            <label for="retrieveProductCategoryInput" class="form-label text-capitalize">Product Category</label>
+            <input type="text" class="form-control text-capitalize" id="retrieveProductCategoryInput" placeholder="Auto generate category" readonly="true" style="cursor: not-allowed">
           </div>
 
           <div class="mb-3">
@@ -33,7 +34,7 @@
             <input type="date" class="form-control" id="retrieveProductDateProduceInput" name="product_date_produce">
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3" id="retrieveProductDateExpirationContainer">
             <label for="productDateExpirationInput" class="form-label text-capitalize">Product Date Expiration</label>
             <input type="text" class="form-control" id="retrieveProductDateExpirationInput" name="product_date_expiration" readonly="true" style="cursor: not-allowed;">
             <small class="mt-3"><strong>Note:</strong>The product expiration date will automatically update based on the selected production date.</small>

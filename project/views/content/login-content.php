@@ -40,7 +40,7 @@
               </div>
               <div class="col-12">
                 <div class="d-flex flex-row-reverse">
-                  <button class="btn btn-custom-primary btn-sm" type="dubmit">Login <i class="fas fa-arrow-right"></i></button>
+                  <button class="btn btn-custom-primary btn-sm" type="submit">Login <i class="fas fa-arrow-right"></i></button>
                 </div>
               </div>
             </div>

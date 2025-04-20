@@ -18,11 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 pn.id as productNameID,
                 pn.product_name, 
                 pn.product_code,
+                pn.product_category,
                 p.date_expiration, 
                 p.date_produce, 
                 p.price, 
                 p.unit_of_price, 
-                p.category, 
                 p.status
             FROM products p
             INNER JOIN products_name pn ON p.product_name_id = pn.id

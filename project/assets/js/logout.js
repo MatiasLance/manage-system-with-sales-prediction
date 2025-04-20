@@ -14,7 +14,7 @@ jQuery(function($){
                         showConfirmButton: false
                     });
                     setTimeout(function(){
-                        window.location.href = '/admin';
+                        window.location.href = response.redirect;
                     }, 1000)
                 }
             },

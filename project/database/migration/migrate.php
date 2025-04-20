@@ -53,6 +53,7 @@ class DatabaseMigrator
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 product_name VARCHAR(255) NOT NULL,
                 product_code VARCHAR(255) NOT NULL,
+                product_category VARCHAR(50) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )",
 
@@ -60,11 +61,10 @@ class DatabaseMigrator
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 quantity INT NOT NULL,
                 product_name_id INT NOT NULL,
-                date_expiration DATE NOT NULL,
                 date_produce DATE NOT NULL,
+                date_expiration DATE NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 unit_of_price VARCHAR(50) NOT NULL,
-                category VARCHAR(50) NOT NULL,
                 status ENUM('new', 'old') NOT NULL DEFAULT 'new',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -110,15 +110,16 @@ class DatabaseMigrator
             )",
 
             "orders" => "CREATE TABLE IF NOT EXISTS orders (
-                id INT PRIMARY KEY,
+                id INT AUTO_INCREMENT PRIMARY KEY,
                 order_number VARCHAR(50) NOT NULL,
                 quantity INT NOT NULL,
                 product_name VARCHAR(255) NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 unit_of_price VARCHAR(50) NOT NULL,
+                tax_amount DECIMAL(10,2) NOT NULL,
                 total DECIMAL(10,2) NOT NULL,
-                created_at TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                deleted_at TIMESTAMP
             )"
         ];
 

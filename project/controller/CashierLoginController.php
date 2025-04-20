@@ -9,7 +9,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT id, firstname, lastname, email, password FROM users WHERE email = ? AND user_type = 'admin' LIMIT 1";
+    $sql = "SELECT id, firstname, lastname, email, password FROM users WHERE email = ? AND user_type = 'user' LIMIT 1";
 
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("s", $email);
@@ -24,7 +24,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             $stmt->fetch();
 
             if (password_verify($password, $password_db)) {
-                $_SESSION['id'] = $id;
+                $_SESSION['cashier_id'] = $id;
                 $_SESSION['firstname'] = $firstname;
                 $_SESSION['lastname'] = $lastname;
                 echo json_encode([
@@ -43,6 +43,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 'message' => 'No user found with this email.'
             ]);
         }
+
         $stmt->close();
     } else {
         echo json_encode([

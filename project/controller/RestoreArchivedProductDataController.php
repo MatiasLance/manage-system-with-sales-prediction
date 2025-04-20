@@ -4,7 +4,6 @@ require_once __DIR__ . '/../config/db_connection.php';
 
 header('Content-Type: application/json');
 
-// Validate request
 if (!isset($_POST['password'], $_POST['id'])) {
     echo json_encode(['success' => false, 'message' => 'Password and product ID are required.']);
     exit;
@@ -13,7 +12,6 @@ if (!isset($_POST['password'], $_POST['id'])) {
 $password = $_POST['password'];
 $product_id = (int)$_POST['id'];
 
-// Get the admin's hashed password
 $sql = "SELECT password FROM users WHERE user_type = 'admin' LIMIT 1";
 $stmt = $conn->prepare($sql);
 
@@ -25,12 +23,10 @@ if ($stmt) {
         $stmt->bind_result($password_db);
         $stmt->fetch();
 
-        // Verify admin password
         if (password_verify($password, $password_db)) {
             $conn->begin_transaction();
 
             try {
-                // Restore product (use product_name_id instead of product_name)
                 $sql_restore = "
                     INSERT INTO products 
                     (id, quantity, product_name_id, date_expiration, date_produce, price, unit_of_price, category, status)
