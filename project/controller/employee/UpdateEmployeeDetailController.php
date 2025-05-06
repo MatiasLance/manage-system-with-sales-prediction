@@ -4,9 +4,7 @@ require_once __DIR__ . '/../../config/db_connection.php';
 
 header('Content-Type: application/json');
 
-// Check if request is POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Sanitize and validate input data
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
     $first_name = htmlspecialchars(trim($_POST["first_name"] ?? ""));
     $middle_initial = htmlspecialchars(trim($_POST["middle_initial"] ?? ""));
@@ -19,11 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $gender = htmlspecialchars(trim($_POST["gender"] ?? ""));
     $date_of_birth = htmlspecialchars(trim($_POST["date_of_birth"] ?? ""));
     $salary = filter_input(INPUT_POST, 'salary', FILTER_VALIDATE_FLOAT);
+    $email = trim($_POST["employee_email"] ?? "");
+    $password = trim($_POST['employee_password'] ?? "");
+    $confirm_password = trim($_POST['employee_confirm_password'] ?? "");
 
-    // Array to store errors
     $errors = [];
 
-    // Validation checks
     if (!$id || $id <= 0) {
         $errors[] = "Invalid Employee ID.";
     }
@@ -33,8 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($last_name)) {
         $errors[] = "Last name is required.";
     }
-    if (!preg_match("/^(09|63)\d{9}$/", $phone_number)) {
-        $errors[] = "Invalid phone number format. Must start with '09' or '63' and be 11 digits long.";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+    if (!empty($phone_number)) {
+        $pattern = '/^(?:\+63|0)[89]\d{9}$/';
+        if (!preg_match($pattern, $phone_number)) {
+            $errors[] = "Invalid phone number. Please use a valid Philippine phone number format (+63 or 0).";
+        }
     }
     if (!in_array(strtolower($gender), ['male', 'female', 'other'])) {
         $errors[] = "Invalid gender value.";
@@ -46,31 +51,69 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Invalid date of birth format.";
     }
 
-    // If there are errors, stop execution
+    if (!empty($password) || !empty($confirm_password)) {
+        if ($password !== $confirm_password) {
+            $errors[] = "Password and confirm password do not match.";
+        } elseif (strlen($password) < 8) {
+            $errors[] = "Password must be at least 8 characters long.";
+        }
+    }
+
     if (!empty($errors)) {
         echo json_encode(["error" => true, "message" => $errors]);
         exit;
     }
 
-    // Check if the employee exists before updating
-    $check_stmt = $conn->prepare("SELECT COUNT(*) FROM employees WHERE id = ?");
-    $check_stmt->bind_param("i", $id);
-    $check_stmt->execute();
-    $check_stmt->bind_result($employeeCount);
-    $check_stmt->fetch();
-    $check_stmt->close();
-
-    if ($employeeCount === 0) {
-        echo json_encode(["error" => true, "message" => "Employee not found."]);
+    $check_employee_stmt = $conn->prepare("SELECT COUNT(*) AS count FROM employees WHERE id = ?");
+    if (!$check_employee_stmt) {
+        echo json_encode(["error" => true, "message" => "Database error: " . $conn->error]);
         exit;
     }
 
-    // Update query with prepared statement
+    $check_employee_stmt->bind_param("i", $id);
+    $check_employee_stmt->execute();
+    $result = $check_employee_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['count'] === 0) {
+        echo json_encode(["error" => true, "message" => "Employee not found."]);
+        $check_employee_stmt->close();
+        $conn->close();
+        exit;
+    }
+
+    $check_employee_stmt->close();
+
+    $check_email_stmt = $conn->prepare("SELECT COUNT(*) AS count FROM employees WHERE email = ? AND id != ?");
+    if (!$check_email_stmt) {
+        echo json_encode(["error" => true, "message" => "Database error: " . $conn->error]);
+        exit;
+    }
+
+    $check_email_stmt->bind_param("si", $email, $id);
+    $check_email_stmt->execute();
+    $result = $check_email_stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['count'] > 0) {
+        echo json_encode(["error" => true, "message" => "Email already exists. Please use a unique email."]);
+        $check_email_stmt->close();
+        $conn->close();
+        exit;
+    }
+
+    $check_email_stmt->close();
+
     $sql = "UPDATE employees 
             SET first_name = ?, middle_initial = ?, last_name = ?, working_department = ?, 
                 phone_number = ?, date_of_hire = ?, job = ?, educational_level = ?, 
-                gender = ?, date_of_birth = ?, salary = ?
-            WHERE id = ?";
+                gender = ?, date_of_birth = ?, salary = ?, email = ?";
+    
+    if (!empty($password)) {
+        $sql .= ", password = ?";
+    }
+
+    $sql .= " WHERE id = ?";
 
     $stmt = $conn->prepare($sql);
 
@@ -79,34 +122,53 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $stmt->bind_param(
-        "ssssssssssdi",
-        $first_name,
-        $middle_initial,
-        $last_name,
-        $working_department,
-        $phone_number,
-        $date_of_hire,
-        $job,
-        $educational_level,
-        $gender,
-        $date_of_birth,
-        $salary,
-        $id
-    );
+    if (!empty($password)) {
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        $stmt->bind_param(
+            "ssssssssssdsi",
+            $first_name,
+            $middle_initial,
+            $last_name,
+            $working_department,
+            $phone_number,
+            $date_of_hire,
+            $job,
+            $educational_level,
+            $gender,
+            $date_of_birth,
+            $salary,
+            $email,
+            $passwordHash,
+            $id
+        );
+    } else {
+        $stmt->bind_param(
+            "ssssssssssdsi",
+            $first_name,
+            $middle_initial,
+            $last_name,
+            $working_department,
+            $phone_number,
+            $date_of_hire,
+            $job,
+            $educational_level,
+            $gender,
+            $date_of_birth,
+            $salary,
+            $email,
+            $id
+        );
+    }
 
-    // Execute the statement
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Employee details updated successfully!"]);
     } else {
         echo json_encode(["error" => true, "message" => "Error updating employee details: " . $stmt->error]);
     }
 
-    // Close statement and connection
     $stmt->close();
     $conn->close();
 } else {
     echo json_encode(["error" => true, "message" => "Invalid request method."]);
     exit;
 }
-?>

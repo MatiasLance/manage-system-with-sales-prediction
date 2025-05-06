@@ -20,7 +20,7 @@ $offset = ($page - 1) * $items_per_page;
 $search_param = "%$search%";
 
 // Prepare the SQL query to fetch employee data with pagination and search
-$sql = "SELECT id, CONCAT(first_name, ' ', middle_initial, ' ', last_name) AS full_name, working_department, phone_number, date_of_hire, job, educational_level, gender, date_of_birth, salary
+$sql = "SELECT id, CONCAT(first_name, ' ', middle_initial, ' ', last_name) AS full_name, working_department, phone_number, date_of_hire, job, educational_level, gender, date_of_birth, salary, email
         FROM employees 
         WHERE CONCAT(first_name, ' ', middle_initial, ' ', last_name) LIKE ? 
         LIMIT ? OFFSET ?";

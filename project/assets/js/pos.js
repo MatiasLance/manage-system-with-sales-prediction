@@ -1,6 +1,5 @@
 $.noConflict();
 
-let stock = 1000;
 let cart = [];
 jQuery(function($){
 
@@ -69,6 +68,10 @@ jQuery(function($){
         const totalAmount = amountToPay + taxAmount;
         const amountChange = checkingAmountEntered(cash, amountToPay)
 
+        if (amountChange === null) {
+            return;
+        }
+
         saveOrders(cart);
 
         $('#vat').text(`₱${numberWithCommas(taxAmount.toFixed(2))}`);
@@ -80,39 +83,33 @@ jQuery(function($){
 });
 
 
-function checkIfQuantityIsGreaterToStock(quantity, stock){
-    if(quantity > stock){
-        
-    }
-}
-
 function calculateProductTotal(quantity, price){
     return quantity * price;
 }
 
-function checkingAmountEntered(cash, amountToPay){
-    if(cash > amountToPay){
-        return cash - amountToPay
-    } else if(cash === ''){
+function checkingAmountEntered(cash, amountToPay) {
+    const cashValue = parseFloat(cash);
+
+    if (isNaN(cashValue)) {
         Swal.fire({
             title: 'Warning!',
             text: 'To finalize the order, please specify the cash amount received.',
             icon: 'warning',
-        }).then((result) => {
-            if(result.isConfirmed){
-                return;
-            }
-        })
+        });
+        return null;
+    }
+
+    if (cashValue > amountToPay) {
+        return cashValue - amountToPay;
+    } else if (cashValue === amountToPay) {
+        return 0;
     } else {
         Swal.fire({
             title: 'Warning!',
             text: 'Insufficient balance',
             icon: 'warning',
-        }).then((result) => {
-            if(result.isConfirmed){
-                return;
-            }
-        })
+        });
+        return null;
     }
 }
 

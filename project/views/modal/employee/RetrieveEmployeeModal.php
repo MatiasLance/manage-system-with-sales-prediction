@@ -115,6 +115,32 @@
             <label for="salaryInput" class="form-label text-capitalize">salary</label>
             <input type="number" class="form-control" id="editedSalaryInput" name="salary">
           </div>
+
+          <div class="mb-3">
+            <label for="employeeEmail" class="form-label text-capitalize">Email</label>
+            <input type="email" class="form-control" name="employee_email" id="editedEmployeeEmail">
+          </div>
+
+          <div class="mb-3">
+            <label for="employeePassword" class="form-label">Password</label>
+            <div class="input-group">
+              <input type="password" class="form-control" name="employee_password" id="newEmployeePassword">
+              <span class="input-group-text" id="toggleEmployeePassword" style="cursor: pointer;">
+                <i class="fas fa-eye"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="employeeConfirmPassword" class="form-label">Confirm Password</label>
+            <div class="input-group">
+              <input type="password" class="form-control" name="employee_confirm_password" id="newEmployeeConfirmPassword">
+              <span class="input-group-text" id="toggleEmployeeConfirmPassword" style="cursor: pointer;">
+                <i class="fas fa-eye"></i>
+              </span>
+            </div>
+          </div>
+
        </div>
        <div class="modal-footer">
             <button type="submit" id="editProduct" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>

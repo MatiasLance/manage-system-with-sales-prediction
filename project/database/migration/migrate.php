@@ -30,6 +30,8 @@ class DatabaseMigrator
                 gender ENUM('Male', 'Female', 'Other') NOT NULL,
                 date_of_birth DATE,
                 salary DECIMAL(10, 2) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )",

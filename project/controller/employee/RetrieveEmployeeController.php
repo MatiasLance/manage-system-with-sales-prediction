@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $stmt = $conn->prepare("
         SELECT first_name, middle_initial, last_name, working_department, 
                phone_number, date_of_hire, job, educational_level, 
-               gender, date_of_birth, salary 
+               gender, date_of_birth, salary, email
         FROM employees 
         WHERE id = ?
     ");
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->bind_result(
             $first_name, $middle_initial, $last_name, $working_department, 
             $phone_number, $date_of_hire, $job, $educational_level, 
-            $gender, $date_of_birth, $salary
+            $gender, $date_of_birth, $salary, $email
         );
 
         // Fetch the result
@@ -44,7 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 "educational_level"  => $educational_level,
                 "gender"             => $gender,
                 "date_of_birth"      => $date_of_birth,
-                "salary"             => $salary
+                "salary"             => $salary,
+                "email"              => $email
             ]);
         } else {
             echo json_encode(["error" => true, "message" => "No data found"]);

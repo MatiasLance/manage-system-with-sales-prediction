@@ -11,8 +11,8 @@
             <input type="text" class="form-control" id="productNameInput" name="product_name" required>
           </div>
           <div class="mb-3">
-            <label for="productCodeInput" class="form-label text-capitalize">Product Code</label>
-            <input type="text" class="form-control" id="productCodeInput" name="product_code" required>
+            <label for="productNameCodeInput" class="form-label text-capitalize">Product Code</label>
+            <input type="text" class="form-control" id="productNameCodeInput" name="product_code" required>
           </div>
           <div class="mb-3">
             <label for="productCategorySelect" class="form-label text-capitalize">Select Category</label>

@@ -111,7 +111,7 @@ jQuery(function($){
     $(document).on('click', '#addProductName', function(){
         const payload = {
             product_name: $('#productNameInput').val(),
-            product_code: $('#productCodeInput').val(),
+            product_code: $('#productNameCodeInput').val(),
             product_category: $('#productCategorySelect').val()
         }
         $.ajax({
@@ -129,7 +129,7 @@ jQuery(function($){
                         if(result.isConfirmed){
                             fetchProductName(1, '');
                             // Clear these fields after values are stored.
-                            $('#productNameInput, #productCodeInput, #productCategorySelect').val('')
+                            $('#productNameInput, #productNameCodeInput, #productCategorySelect').val('')
                         }
                     });
                     
