@@ -10,11 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         exit;
     }
 
-    $id = intval($_GET['id']); // Ensure ID is an integer
+    $id = intval($_GET['id']);
 
-    // Prepare the SQL query with JOIN
     $sql = "SELECT 
-                p.quantity,
+                p.total_quantity,
+                p.added_quantity,
                 pn.id as productNameID,
                 pn.product_name, 
                 pn.product_code,

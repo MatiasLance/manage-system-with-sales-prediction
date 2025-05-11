@@ -5,11 +5,11 @@ require_once __DIR__ . '/../config/db_connection.php';
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../helper/helper.php';
 
-use Mike42\Escpos\Printer;
-use Mike42\Escpos\EscposImage;
-use Mike42\Escpos\PrintConnectors\FilePrintConnector; // For Linux USB
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector; // For Wireless Printer
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector; // For Windows (10, 11)
+// use Mike42\Escpos\Printer;
+// use Mike42\Escpos\EscposImage;
+// use Mike42\Escpos\PrintConnectors\FilePrintConnector; // For Linux USB
+// use Mike42\Escpos\PrintConnectors\NetworkPrintConnector; // For Wireless Printer
+// use Mike42\Escpos\PrintConnectors\WindowsPrintConnector; // For Windows (10, 11)
 
 header('Content-Type: application/json');
 
@@ -19,9 +19,9 @@ header('Content-Type: application/json');
 
 // $connector = new NetworkPrintConnector($ip, $port); // Uncomment if wireless printer ang gamiton
 // $connector = new WindowsPrintConnector($printerName); // Uncomment if window os ang gamiton sa pag print
-$connector = new FilePrintConnector("/dev/usb/lp0"); // Linux ni siya na printer connector so ug wala naka linux OS comment rani na code.
-$printer = new Printer($connector);
-$date = date('l jS \of F Y h:i:s A');
+// $connector = new FilePrintConnector("/dev/usb/lp0"); // Linux ni siya na printer connector so ug wala naka linux OS comment rani na code.
+// $printer = new Printer($connector);
+// $date = date('l jS \of F Y h:i:s A');
 $orderNumber = generateOrderNumber($conn);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -47,15 +47,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         for($i = 0; $i < count($results); $i++){
             $productID = (int) $results[$i]['id'];
-            $productStock = (int) $results[$i]['quantity'];
-            $deductedQuantity = (int) $productStock - (int) $quantity;
+            $productStock = (int) $results[$i]['total_quantity'];
+            
+            if ($productStock >= $quantity) {
+                $deductedQuantity = $productStock - $quantity;
 
-            $stmt = $conn->prepare('UPDATE products SET quantity = ? WHERE id = ?');
-            $stmt->bind_param('ii', $deductedQuantity, $productID);
-            $stmt->execute();
-            if($stmt->affected_rows === 0) {
-                $message = json_encode(['status' => 'error', 'message' => 'No rows updated']);
+                $updateStmt = $conn->prepare('UPDATE products SET total_quantity = ? WHERE id = ?');
+                $updateStmt->bind_param('ii', $deductedQuantity, $productID);
+                $updateStmt->execute();
+
+                if ($updateStmt->affected_rows === 0) {
+                    $message = json_encode(['status' => 'error', 'message' => 'Failed to update stock for product ID: ' . $productID]);
+                    echo $message;
+                    exit;
+                }
+            } else {
+                $message = json_encode(['status' => 'error', 'message' => "Insufficient stock for product: $name. Available: $productStock, Required: $quantity"]);
+                echo $message;
+                exit;
             }
+
         }
 
         $stmt = $conn->prepare('INSERT INTO orders (order_number, quantity, product_name, price, unit_of_price, tax_amount, total) VALUES (?, ?, ?, ?, ?, ?, ?)');
@@ -70,46 +81,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
         // Print the receipt
-        try {
-            $logo = EscposImage::load("https://i.imgur.com/3LvoZ6D.png", false);
-            $printer = new Printer($connector);
+        // try {
+        //     $logo = EscposImage::load("https://i.imgur.com/3LvoZ6D.png", false);
+        //     $printer = new Printer($connector);
 
-            /* Print top logo */
-            $printer -> setJustification(Printer::JUSTIFY_CENTER);
-            $printer -> graphics($logo);
+        //     /* Print top logo */
+        //     $printer -> setJustification(Printer::JUSTIFY_CENTER);
+        //     $printer -> graphics($logo);
 
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Thank You for Shopping\n");
-            $printer->text("Order Number: $orderNumber\n");
-            $printer->text("$date\n");
-            $printer->text("--------------------------------\n");
+        //     $printer->setJustification(Printer::JUSTIFY_CENTER);
+        //     $printer->text("Thank You for Shopping\n");
+        //     $printer->text("Order Number: $orderNumber\n");
+        //     $printer->text("$date\n");
+        //     $printer->text("--------------------------------\n");
     
-            $printer->setJustification(Printer::JUSTIFY_LEFT);
-            foreach ($items as $item) {
-                $itemName = $item['name'];
-                $itemQuantity = $item['quantity'];
-                $itemPrice = $item['price'];
-                $itemUnit = $item['unit'];
-                $itemSubtotal = calculateItemTotal($itemQuantity, $itemPrice);
+        //     $printer->setJustification(Printer::JUSTIFY_LEFT);
+        //     foreach ($items as $item) {
+        //         $itemName = $item['name'];
+        //         $itemQuantity = $item['quantity'];
+        //         $itemPrice = $item['price'];
+        //         $itemUnit = $item['unit'];
+        //         $itemSubtotal = calculateItemTotal($itemQuantity, $itemPrice);
     
-                $printer->text("$itemName ($itemUnit)\n");
-                $printer->text("Qty: $itemQuantity | Price: $$itemPrice | Subtotal: $$itemSubtotal\n");
-            }
+        //         $printer->text("$itemName ($itemUnit)\n");
+        //         $printer->text("Qty: $itemQuantity | Price: $$itemPrice | Subtotal: $$itemSubtotal\n");
+        //     }
     
-            $printer->text("--------------------------------\n");
-            $printer->setJustification(Printer::JUSTIFY_RIGHT);
-            $printer->text("Tax: $" . number_format($taxAmount, 2) . "\n");
-            $printer->text("Total: $" . number_format($itemTotal + $taxAmount, 2) . "\n");
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Come Again Soon!\n");
+        //     $printer->text("--------------------------------\n");
+        //     $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        //     $printer->text("Tax: $" . number_format($taxAmount, 2) . "\n");
+        //     $printer->text("Total: $" . number_format($itemTotal + $taxAmount, 2) . "\n");
+        //     $printer->setJustification(Printer::JUSTIFY_CENTER);
+        //     $printer->text("Come Again Soon!\n");
     
-            $printer->cut();
+        //     $printer->cut();
     
-        } catch (Exception $e) {
-            $message = json_encode(['status' => 'error', 'message' => 'Printing failed: ' . $e->getMessage()]);
-        } finally {
-            $printer->close();
-        }
+        // } catch (Exception $e) {
+        //     $message = json_encode(['status' => 'error', 'message' => 'Printing failed: ' . $e->getMessage()]);
+        // } finally {
+        //     $printer->close();
+        // }
 
     echo $message;
 

@@ -9,8 +9,13 @@
         <form>
           <input type="hidden" id="productId">
           <div class="mb-3">
-            <label for="quantityInput" class="form-label text-capitalize">Quantity</label>
-            <input type="number" class="form-control" id="retrieveQuantityInput" name="quantity">
+            <label for="retrieveTotalQuantityInput" class="form-label text-capitalize">Total Quantity</label>
+            <input type="number" class="form-control" id="retrieveTotalQuantityInput" name="total_quantity" readonly="true">
+          </div>
+
+          <div class="mb-3">
+            <label for="retrieveAddQuantityInput" class="form-label text-capitalize">Add Quantity</label>
+            <input type="number" class="form-control" id="retrieveAddQuantityInput" name="add_quantity">
           </div>
 
           <div class="mb-3">

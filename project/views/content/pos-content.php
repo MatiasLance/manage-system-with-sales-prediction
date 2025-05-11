@@ -1,6 +1,6 @@
 <div class="container-fluid my-4">
   <!-- Header Section -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-4" id="notPrintable">
     <h3 class="fw-bold">MBRLCFI POS</h3>
     <!-- Logout Button -->
     <a 
@@ -17,7 +17,7 @@
 
   <div class="row">
     <!-- Product List Section -->
-    <div class="col-lg-8 col-md-12 mb-4">
+    <div class="col-lg-8 col-md-12 mb-4" id="notPrintable">
       <div class="mb-3">
         <input 
           type="text" 
@@ -34,6 +34,7 @@
               <th scope="col" class="text-center">Name</th>
               <th scope="col" class="text-center">Price</th>
               <th scope="col" class="text-center">Unit of Price</th>
+              <th scope="col" class="text-center">Action</th>
             </tr>
           </thead>
           <tbody id="pos-products-container"></tbody>
@@ -42,7 +43,13 @@
     </div>
 
     <!-- Cart & Checkout Section -->
-    <div class="col-lg-4 col-md-12">
+    <div class="col-lg-4 col-md-12" id="receiptContainer">
+      <div class="receipt-logo text-center">
+        <image src="https://i.imgur.com/3LvoZ6D.png" width="150" alt="MBRLCFI Logo">
+      </div>
+      <div class="header text-center">MBRLCFI</div>
+      <div class="address text-center">Purok Marang, Kinuskusan Bansalan Davao Del Sur</div>
+      <div class="transaction-date text-center"></div>
       <hr class="text-white" />
       <div class="cart"></div>
       <hr class="text-white" />
@@ -54,6 +61,10 @@
           id="cashAmountInput" 
           placeholder="₱00.00" 
         >
+      </div>
+      <div class="d-flex justify-content-between mb-2" id="printableCashElementContainer">
+        <p>Cash:</p>
+        <p id="cash">₱0.00</p>
       </div>
       <div class="d-flex justify-content-between mb-2">
         <p>Sub-Total:</p>
@@ -77,6 +88,7 @@
       >
         Complete Order
       </button>
+      <div class="footer text-center">Thank you for shopping!</div>
     </div>
   </div>
 </div>

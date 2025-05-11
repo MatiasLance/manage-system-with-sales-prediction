@@ -16,6 +16,7 @@
             <thead class="table-milk-white">
                 <tr>
                     <th scope="col">Total Quantity</th>
+                    <th scope="col">Added Quantity</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
                     <th scope="col">Date Purchase or Produce</th>

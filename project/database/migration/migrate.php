@@ -61,7 +61,8 @@ class DatabaseMigrator
 
             "products" => "CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                quantity INT NOT NULL,
+                total_quantity INT NOT NULL,
+                added_quantity INT NOT NULL,
                 product_name_id INT NOT NULL,
                 date_produce DATE NOT NULL,
                 date_expiration DATE NOT NULL,
