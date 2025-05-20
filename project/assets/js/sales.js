@@ -1,92 +1,5 @@
-
-// Sample data
-const products = ["Choco", "Milk", "Cow", "Goat", "Fish"];
-const salesData = [120, 90, 150, 80, 200];
-
-// Chart.js for Sales Graph
-const ctx = $('#salesChart')[0].getContext('2d');
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: products, // Product names as labels
-        datasets: [{
-            label: 'Sales Count',
-            data: salesData,
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)'
-            ],
-            borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)'
-            ],
-            borderWidth: 1,
-            hoverOffset: 4
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top',
-            },
-            tooltip: {
-                enabled: true,
-            }
-        },
-        indexAxis: 'y',
-        scales: {
-            x: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
 jQuery(function($){
-    const weeklySales = {
-        target: 70000,          // Your target number
-        element: '#weeklySales', // Display selector
-        duration: 2000,         // Animation duration (ms)
-        prefix: '$',            // Optional prefix
-        suffix: '',             // Optional suffix
-        separator: ',',         // Thousand separator
-        decimals: 0,            // Decimal places
-        easing: 'linear'        // Easing function
-      };
-
-      const monthlySales = {
-        target: 100000,          // Your target number
-        element: '#monthlySales', // Display selector
-        duration: 2000,         // Animation duration (ms)
-        prefix: '$',            // Optional prefix
-        suffix: '',             // Optional suffix
-        separator: ',',         // Thousand separator
-        decimals: 0,            // Decimal places
-        easing: 'linear'        // Easing function
-      };
-
-      const yearlySales = {
-        target: 10000000,          // Your target number
-        element: '#yearlySales', // Display selector
-        duration: 2000,         // Animation duration (ms)
-        prefix: '$',            // Optional prefix
-        suffix: '',             // Optional suffix
-        separator: ',',         // Thousand separator
-        decimals: 0,            // Decimal places
-        easing: 'linear'        // Easing function
-      };
-      
-      animateCounter(weeklySales);
-      animateCounter(monthlySales);
-      animateCounter(yearlySales);
+  fetchOrders();
 });
 
 
@@ -118,4 +31,107 @@ function formatNumber(num, opts) {
   const parts = fixedNum.split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, opts.separator);
   return opts.prefix + parts.join('.') + opts.suffix;
+}
+
+function fetchOrders(){
+  jQuery.ajax({
+        url: './controller/SalesController.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response){
+          console.log(response.data)
+          const products = response.data.weekly[0].products.map((value) => value.product_name);
+          const sales = response.data.weekly[0].products.map((value) => value.total_sales);
+            if(response.status === 'success'){
+              const ctx = $('#salesChart')[0].getContext('2d');
+              new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                      labels: products,
+                      datasets: [{
+                          label: 'Sales Count',
+                          data: sales,
+                          backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)'
+                          ],
+                          borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)'
+                          ],
+                          borderWidth: 1,
+                          hoverOffset: 4
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      plugins: {
+                          legend: {
+                              display: true,
+                              position: 'top',
+                          },
+                          tooltip: {
+                              enabled: true,
+                          }
+                      },
+                      indexAxis: 'x',
+                      scales: {
+                          y: {
+                              beginAtZero: true
+                          }
+                      }
+                  }
+              });
+
+                const weeklySales = {
+                target: response.data.weekly[0].total_sales,          
+                element: '#weeklySales', 
+                duration: 2000,         
+                prefix: '$',            
+                suffix: '',              
+                separator: ',',         
+                decimals: 0,            
+                easing: 'linear'        
+              };
+
+              const monthlySales = {
+                target: response.data.monthly[0].total_sales,          
+                element: '#monthlySales', 
+                duration: 2000,         
+                prefix: '$',            
+                suffix: '',             
+                separator: ',',         
+                decimals: 0,            
+                easing: 'linear'        
+              };
+
+              const yearlySales = {
+                target: response.data.yearly[0].total_sales,          
+                element: '#yearlySales', 
+                duration: 2000,         
+                prefix: '$',            
+                suffix: '',             
+                separator: ',',         
+                decimals: 0,            
+                easing: 'linear'        
+              };
+              
+              animateCounter(weeklySales);
+              animateCounter(monthlySales);
+              animateCounter(yearlySales);
+            }else{
+                Swal.fire({
+                    title: 'Warning!',
+                    text: response.message,
+                    icon: 'warning',
+                })
+            }
+        }
+    })
 }

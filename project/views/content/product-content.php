@@ -11,7 +11,7 @@
         <a class="nav-link" href="/bookings"><i class="fas fa-book"></i> Bookings</a>
         <a class="nav-link" href="/news"><i class="fas fa-newspaper"></i> News</a>
         <a class="nav-link" href="/inventory"><i class="fas fa-warehouse"></i> Inventory</a>
-        <span class="nav-link logout "><i class="fas fa-sign-out-alt"></i> Logout</span>
+        <!-- <span class="nav-link logout "><i class="fas fa-sign-out-alt"></i> Logout</span> -->
     </nav>
 </div>
 

@@ -589,7 +589,6 @@ function fetchData(page, searchQuery) {
                 if(response.data[i].product_category === 'dairy') {
                     jQuery('#data-container').append(`<tr>
                         <td>${response.data[i].total_quantity}</td>
-                        <td>${response.data[i].added_quantity}</td>
                         <td class="text-capitalize">${response.data[i].product_name}</td>
                         <td class="text-capitalize">${response.data[i].product_code}</td>
                         <td>${dateProduce.toDateString()}</td>
@@ -607,7 +606,6 @@ function fetchData(page, searchQuery) {
                 } else if(response.data[i].product_category === 'grains and cereals') {
                     jQuery('#grains-and-cereals-container').append(`<tr>
                         <td>${response.data[i].total_quantity}</td>
-                        <td>${response.data[i].added_quantity}</td>
                         <td class="text-capitalize">${response.data[i].product_name}</td>
                         <td class="text-capitalize">${response.data[i].product_code}</td>
                         <td>${dateProduce.toDateString()}</td>

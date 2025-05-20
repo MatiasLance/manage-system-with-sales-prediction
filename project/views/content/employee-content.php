@@ -22,7 +22,7 @@
                 </li>
             </ul>
         </div> -->
-        <span class="nav-link logout "><i class="fas fa-sign-out-alt"></i> Logout</span>
+        <!-- <span class="nav-link logout "><i class="fas fa-sign-out-alt"></i> Logout</span> -->
     </nav>
 </div>
 

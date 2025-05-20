@@ -17,6 +17,7 @@ $pageJS = [
     "https://cdn.jsdelivr.net/npm/chart.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/sales.js",
+    "./assets/js/product.js",
     "./assets/js/logout.js",
 ];
 
