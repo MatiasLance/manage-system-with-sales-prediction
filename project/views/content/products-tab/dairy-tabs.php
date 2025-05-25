@@ -15,7 +15,7 @@
         <table class="table table-bordered table-striped">
             <thead class="table-milk-white">
                 <tr>
-                    <th scope="col">Total Quantity</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
                     <th scope="col">Date Produce</th>
