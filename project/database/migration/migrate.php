@@ -98,13 +98,13 @@ class DatabaseMigrator
 
             "archived products" => "CREATE TABLE IF NOT EXISTS archived_products (
                 id INT PRIMARY KEY,
-                quantity INT NOT NULL,
+                total_quantity INT NOT NULL,
+                added_quantity INT NOT NULL,
                 product_name_id INT NOT NULL,
-                date_expiration DATE NOT NULL,
                 date_produce DATE NOT NULL,
+                date_expiration DATE NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 unit_of_price VARCHAR(50) NOT NULL,
-                category VARCHAR(50) NOT NULL,
                 status ENUM('new', 'old') NOT NULL,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP,

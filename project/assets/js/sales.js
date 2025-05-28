@@ -11,9 +11,8 @@ function animateCounter(opts) {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / opts.duration, 1);
       
-      // Apply easing if needed
       const easedProgress = opts.easing === 'linear' ? progress : 
-                           Math.sin(progress * Math.PI/2); // easeOutSine example
+                           Math.sin(progress * Math.PI/2);
       
       const value = easedProgress * (opts.target - 0) + 0;
       $el.text(formatNumber(value, opts));
@@ -39,7 +38,6 @@ function fetchOrders(){
         type: 'GET',
         dataType: 'json',
         success: function(response){
-          console.log(response.data)
           const products = response.data.weekly[0].products.map((value) => value.product_name);
           const sales = response.data.weekly[0].products.map((value) => value.total_sales);
             if(response.status === 'success'){
@@ -93,7 +91,7 @@ function fetchOrders(){
                 target: response.data.weekly[0].total_sales,          
                 element: '#weeklySales', 
                 duration: 2000,         
-                prefix: '$',            
+                prefix: '₱',            
                 suffix: '',              
                 separator: ',',         
                 decimals: 0,            
@@ -104,7 +102,7 @@ function fetchOrders(){
                 target: response.data.monthly[0].total_sales,          
                 element: '#monthlySales', 
                 duration: 2000,         
-                prefix: '$',            
+                prefix: '₱',            
                 suffix: '',             
                 separator: ',',         
                 decimals: 0,            
@@ -113,9 +111,9 @@ function fetchOrders(){
 
               const yearlySales = {
                 target: response.data.yearly[0].total_sales,          
-                element: '#yearlySales', 
+                element: '#yearlySales, #totalSales', 
                 duration: 2000,         
-                prefix: '$',            
+                prefix: '₱',            
                 suffix: '',             
                 separator: ',',         
                 decimals: 0,            

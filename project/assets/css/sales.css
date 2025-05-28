@@ -1,7 +1,7 @@
 .sales-content {
     height: 100vh;
     margin-top: 7rem;
-    /* margin-bottom: 8em; */
+    margin-bottom: 7rem;
 }
 .btn-milk-white {
     background-color: var(--theme-color-milk-white);
@@ -21,4 +21,12 @@
 
 #retrieveEmployee, #confirmDeleteEmployee {
     cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+  .sales-content {
+      height: 100vh;
+      margin-top: 7rem;
+      margin-bottom: 7rem;
+    }
 }

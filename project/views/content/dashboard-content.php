@@ -11,18 +11,6 @@
         <a class="nav-link" href="/bookings"><i class="fas fa-book"></i> Bookings</a>
         <a class="nav-link" href="/news"><i class="fas fa-newspaper"></i> News</a>
         <a class="nav-link" href="/inventory"><i class="fas fa-warehouse"></i> Inventory</a>
-        <!-- <div class="dropdown-center">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent" data-bs-auto-close="false" href="#"><i class="fas fa-cog"></i> Settings</a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#manageSystemLogoModal">Manage System Logo</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">Manage System Theme</a>
-                </li>
-            </ul>
-        </div> -->
-        <!-- <span class="nav-link logout "><i class="fas fa-sign-out-alt"></i> Logout</span> -->
     </nav>
 </div>
 
@@ -109,7 +97,7 @@
                     </svg>
                     <h3 class="text-capitalize mt-3 fw-bold text-charcoal-gray">Sales</h3>
                     <p class="text-uppercase text-muted small mb-1">Total</p>
-                    <span class="fs-4 fw-semibold text-charcoal-gray">30,000,000</span>
+                    <span class="fs-4 fw-semibold text-charcoal-gray" id="dashboardTotalSales"></span>
                 </div>
                 <div class="card-footer bg-light text-center border-0">
                     <a href="/sales" class="btn btn-dark-green btn-sm px-4">View All</a>

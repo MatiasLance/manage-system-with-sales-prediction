@@ -29,8 +29,8 @@ if ($stmt) {
             try {
                 $sql_restore = "
                     INSERT INTO products 
-                    (id, quantity, product_name_id, date_expiration, date_produce, price, unit_of_price, category, status)
-                    SELECT id, quantity, product_name_id, date_expiration, date_produce, price, unit_of_price, category, status
+                    (id, total_quantity, added_quantity, product_name_id, date_produce, date_expiration, price, unit_of_price, status)
+                    SELECT id, total_quantity, added_quantity, product_name_id, date_produce, date_expiration, price, unit_of_price, status
                     FROM archived_products WHERE id = ?
                 ";
 
@@ -39,7 +39,6 @@ if ($stmt) {
                 $stmt_restore->execute();
 
                 if ($stmt_restore->affected_rows > 0) {
-                    // Remove from archive
                     $stmt_delete = $conn->prepare("DELETE FROM archived_products WHERE id = ?");
                     $stmt_delete->bind_param("i", $product_id);
                     $stmt_delete->execute();
@@ -74,4 +73,3 @@ if ($stmt) {
 }
 
 $conn->close();
-?>

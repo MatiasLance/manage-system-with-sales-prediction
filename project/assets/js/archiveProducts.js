@@ -28,7 +28,8 @@ jQuery(function($){
         deleteArchivedProductData(payload)
     })
 
-    $(document).on('click', '#restoreArchivedProduct', function(){
+    $(document).on('submit', '#restoreArchivedProduct', function(e){
+        e.preventDefault();
         const payload = {
             id: $('#restoreArchivedProductId').val(),
             password: $('#restoreArchivedPasswordInput').val()
@@ -61,10 +62,9 @@ function listArchivedData(page, searchQuery) {
                 let dateExpiration = new Date(response.data[i].date_expiration);
                 let productId = response.data[i].id;
                 $('#archived-data-container').append(`<tr>
-                    <td>${response.data[i].quantity}</td>
+                    <td>${response.data[i].total_quantity}</td>
                     <td class="text-capitalize">${response.data[i].product_name}</td>
                     <td>${response.data[i].product_code}</td>
-                    <td class="text-capitalize">${response.data[i].category}</td>
                     <td>${dateProduce.toDateString()}</td>
                     <td>${dateExpiration.toDateString()}</td>
                     <td>${formatCurrency(response.data[i].price)}</td>

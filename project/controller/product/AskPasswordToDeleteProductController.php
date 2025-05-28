@@ -22,7 +22,6 @@ if ($product_id <= 0) {
     exit;
 }
 
-// Authenticate admin
 $sql = "SELECT password FROM users WHERE user_type = 'admin' LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -42,11 +41,9 @@ if (!password_verify($password, $hashed_password)) {
     exit;
 }
 
-// Begin archiving process
 $conn->begin_transaction();
 
 try {
-    // Fetch product details
     $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
     $stmt->bind_param("i", $product_id);
     $stmt->execute();
@@ -58,27 +55,29 @@ try {
         throw new Exception("Product not found.");
     }
 
-    // Insert into archived_products
     $stmt = $conn->prepare("
         INSERT INTO archived_products (
-            id, quantity, product_name_id, date_expiration, date_produce, price,
-            unit_of_price, category, status, created_at, updated_at, deleted_at
+            id, total_quantity, added_quantity, product_name_id,
+            date_produce, date_expiration, price, unit_of_price,
+            status, created_at, updated_at, deleted_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     ");
+
     $stmt->bind_param(
-        "iiissdsssss",
+        "iiiississss",
         $product['id'],
-        $product['quantity'],
+        $product['total_quantity'],
+        $product['added_quantity'],
         $product['product_name_id'],
-        $product['date_expiration'],
         $product['date_produce'],
+        $product['date_expiration'],
         $product['price'],
         $product['unit_of_price'],
-        $product['category'],
         $product['status'],
         $product['created_at'],
         $product['updated_at']
     );
+
     $stmt->execute();
 
     if ($stmt->affected_rows <= 0) {
@@ -86,7 +85,6 @@ try {
     }
     $stmt->close();
 
-    // Delete from products
     $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
     $stmt->bind_param("i", $product_id);
     $stmt->execute();
@@ -104,4 +102,3 @@ try {
 }
 
 $conn->close();
-?>

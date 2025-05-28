@@ -30,6 +30,9 @@ switch($request) {
   case '/sales':
     require __DIR__ . $viewDir . 'sales.php';
     break;
+  case '/news':
+    require __DIR__ . $viewDir . 'news.php';
+    break;
   case '/inventory':
     require __DIR__ . $viewDir . 'inventory.php';
     break;
