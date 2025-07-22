@@ -68,10 +68,12 @@ class DatabaseMigrator
                 date_expiration DATE NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 unit_of_price VARCHAR(50) NOT NULL,
+                barcode VARCHAR(255) UNIQUE NOT NULL COMMENT 'Unique barcode identifier (e.g., generated from name + random)',
+                barcode_image VARCHAR(500) NOT NULL COMMENT 'File path to saved barcode PNG image',
                 status ENUM('new', 'old') NOT NULL DEFAULT 'new',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                CONSTRAINT FK_ProductNameID FOREIGN KEY (product_name_id) REFERENCES products_name(id)
+                CONSTRAINT FK_ProductNameID FOREIGN KEY (product_name_id) REFERENCES products_name(id) ON DELETE RESTRICT ON UPDATE CASCADE
             )",
 
             "users" => "CREATE TABLE IF NOT EXISTS users (

@@ -18,6 +18,7 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
+                    <th scope="col">Barcode</th>
                     <th scope="col">Date Purchase or Produce</th>
                     <th scope="col">Price</th>
                     <th scope="col">Unit of Price</th>

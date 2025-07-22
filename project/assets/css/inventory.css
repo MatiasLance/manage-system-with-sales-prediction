@@ -3,3 +3,13 @@
     margin-top: 7rem;
     margin-bottom: 10rem;
 }
+
+.page-link {
+    color: var(--theme-color-dark-green);
+}
+.page-link:hover {
+    color: var(--theme-color-golden-wheat);
+}
+.page-link:active {
+    color: var(--theme-color-golden-wheat);
+}
