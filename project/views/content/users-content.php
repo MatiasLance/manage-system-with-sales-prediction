@@ -60,7 +60,7 @@
     </div>
 </nav>
 
-<div class="container employee-content">
+<div class="container users-content">
     <button type="button" class="btn btn-milk-white btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" data-bs-auto-close="false">Add Employee</button>
     <!-- Search Input -->
     <input type="text" id="search-employee" class="form-control mb-3" placeholder="Search by name...">

@@ -4,6 +4,9 @@ $viewDir = '/views/';
 
 switch($request) {
   case '/':
+    require __DIR__ . $viewDir . 'landing.php';
+    break;
+  case '/cashier':
     require __DIR__ . $viewDir . 'cashier-login.php';
     break;
   case '/pos':
@@ -35,6 +38,9 @@ switch($request) {
     break;
   case '/inventory':
     require __DIR__ . $viewDir . 'inventory.php';
+    break;
+  case '/users':
+    require __DIR__ . $viewDir . 'users.php';
     break;
   default:
     http_response_code(404);

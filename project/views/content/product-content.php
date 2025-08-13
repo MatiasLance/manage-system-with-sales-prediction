@@ -4,14 +4,38 @@
         <img id="sideBarMenuLogo" src="<?php echo isset($_SESSION['sidebar_menu_logo']) ? $_SESSION['sidebar_menu_logo']: 'https://i.imgur.com/3LvoZ6D.png'?>" alt="Goat Farm">
     </div>
     <nav class="nav flex-column">
-        <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a class="nav-link" href="/products"><i class="fas fa-box"></i> Products</a>
-        <a class="nav-link" href="/employees"><i class="fas fa-users"></i> Employees</a>
-        <a class="nav-link" href="/sales"><i class="fas fa-chart-line"></i> Sales</a>
-        <a class="nav-link" href="/bookings"><i class="fas fa-book"></i> Bookings</a>
-        <a class="nav-link" href="/news"><i class="fas fa-newspaper"></i> News</a>
-        <a class="nav-link" href="/inventory"><i class="fas fa-warehouse"></i> Inventory</a>
-        <!-- <span class="nav-link logout "><i class="fas fa-sign-out-alt"></i> Logout</span> -->
+        <a class="nav-link d-flex align-items-center gap-2" href="/dashboard">
+            <i class="fas fa-tachometer-alt"></i>
+            <span style="transform: translateY(2px);">Dashboard</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/products">
+            <i class="fas fa-box"></i>
+            <span style="transform: translateY(2px);">Products</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/employees">
+            <i class="fas fa-users"></i>
+            <span style="transform: translateY(2px);">Employees</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/sales">
+            <i class="fas fa-chart-line"></i>
+            <span style="transform: translateY(2px);">Sales</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/bookings">
+            <i class="fas fa-book"></i>
+            <span style="transform: translateY(2px);">Bookings</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/news">
+            <i class="fas fa-newspaper"></i>
+            <span style="transform: translateY(2px);">News</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/inventory">
+            <i class="fas fa-warehouse"></i>
+            <span style="transform: translateY(2px);">Inventory</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/users">
+            <i class="fas fa-user"></i>
+            <span style="transform: translateY(2px);">Users</span>
+        </a>
     </nav>
 </div>
 

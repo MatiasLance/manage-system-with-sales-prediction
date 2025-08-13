@@ -581,7 +581,6 @@ function fetchData(page, searchQuery) {
         data: { page: page, search: searchQuery },
         dataType: 'json',
         success: function(response) {
-            console.log(response)
             jQuery('#data-container, #grains-and-cereals-container, #pos-products-container, #inventory-dairy-product-data-container, #inventory-grains-and-cereals-data-container').empty();
             for (let i = 0; i < response.data.length; i++){
                 let dateProduce = new Date(response.data[i].date_produce);
