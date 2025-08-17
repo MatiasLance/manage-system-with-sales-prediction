@@ -9,7 +9,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT id, firstname, lastname, email, password FROM users WHERE email = ? AND user_type = 'admin' LIMIT 1";
+    $sql = "SELECT id, firstname, lastname, email, user_type, password FROM users WHERE email = ? AND user_type = 'admin' OR user_type = 'manager' LIMIT 1";
 
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("s", $email);
@@ -19,7 +19,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($id, $firstname, $lastname, $email_db, $password_db);
+            $stmt->bind_result($id, $firstname, $lastname, $email_db, $userType, $password_db);
 
             $stmt->fetch();
 
@@ -27,6 +27,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 $_SESSION['id'] = $id;
                 $_SESSION['firstname'] = $firstname;
                 $_SESSION['lastname'] = $lastname;
+                if ($userType === 'admin') {
+                    $_SESSION['user_role'] = 'admin';
+                } else {
+                    $_SESSION['user_role'] = 'manager';
+                }
                 echo json_encode([
                     'success' => true,
                     'message' => 'Login successful!',

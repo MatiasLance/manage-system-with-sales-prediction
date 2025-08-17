@@ -8,18 +8,19 @@ header('Content-Type: application/json');
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $userRole = 'cashier';
 
-    $sql = "SELECT id, first_name, last_name, email, password FROM employees WHERE email = ? LIMIT 1";
+    $sql = "SELECT id, firstname, lastname, email, password FROM users WHERE email = ? AND user_type = ? LIMIT 1";
 
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss", $email, $userRole);
 
         $stmt->execute();
 
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($id, $firstname, $lastname, $email_db, $password_db);
+            $stmt->bind_result($id, $firstname, $lastname, $email_db, $userType, $password_db);
 
             $stmt->fetch();
 
@@ -27,6 +28,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 $_SESSION['cashier_id'] = $id;
                 $_SESSION['firstname'] = $firstname;
                 $_SESSION['lastname'] = $lastname;
+                $_SESSION['user_role'] = $userType;
                 echo json_encode([
                     'success' => true,
                     'message' => 'Login successful!',

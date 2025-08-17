@@ -9,7 +9,6 @@ $pageCss = [
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css",
     "./assets/css/dashboard.css",
     "./assets/css/modal.css",
-    "./assets/css/image-upload.css",
     "./assets/css/users.css"
 ];
 
@@ -18,11 +17,7 @@ $pageJS = [
     "https://cdn.jsdelivr.net/npm/chart.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/logout.js",
-    "./assets/js/imageUpload.js",
-    "./assets/js/product.js",
-    "./assets/js/employee.js",
-    "./assets/js/booking.js",
-    "./assets/js/inventory.js",
+    "./assets/js/users.js"
 ];
 
 $pageContent = __DIR__ . "/content/users-content.php";
