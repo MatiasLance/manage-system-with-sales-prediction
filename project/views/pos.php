@@ -9,6 +9,7 @@ $pageJS = [
     "./assets/js/product.js",
     "./assets/js/pos.js",
     "./assets/js/logout.js",
+    "./assets/js/barcodeScanner.js",
 ];
 
 $pageContent = __DIR__ . "/content/pos-content.php";

@@ -7,34 +7,48 @@ header('Content-Type: application/json');
 try {
     $reports = [];
 
-    function getSalesData($conn, $groupByClause, $dateFormat = null) {
-        $query = "SELECT 
-                    {$groupByClause} AS period,
-                    product_name,
-                    SUM(total) AS total_sales
-                  FROM orders 
-                  WHERE deleted_at IS NULL 
-                  GROUP BY period, product_name, price";
+    function getSalesData($conn, $days, $groupByClause, $dateFormat) {
+        $sinceDate = date('Y-m-d H:i:s', strtotime("-{$days} days"));
 
-        $result = $conn->query($query);
+        $query = "
+            SELECT 
+                {$groupByClause} AS period,
+                product_name,
+                SUM(total) AS total_sales
+            FROM orders 
+            WHERE deleted_at IS NULL 
+              AND created_at >= ?
+            GROUP BY period, product_name
+            ORDER BY period DESC, total_sales DESC
+        ";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $sinceDate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
         $data = [];
 
         while ($row = $result->fetch_assoc()) {
-            $period = $row['period'];
+            $rawPeriod = $row['period'];
             $productName = $row['product_name'];
             $totalSales = (float)$row['total_sales'];
 
-            if (!isset($data[$period])) {
-                $data[$period] = [
-                    'period' => $dateFormat ? date($dateFormat, strtotime($period)) : $period,
+            $formattedPeriod = $dateFormat
+                ? date($dateFormat, strtotime($rawPeriod))
+                : $rawPeriod;
+
+            if (!isset($data[$rawPeriod])) {
+                $data[$rawPeriod] = [
+                    'period' => $formattedPeriod,
                     'total_sales' => 0,
                     'products' => []
                 ];
             }
 
-            $data[$period]['total_sales'] += $totalSales;
+            $data[$rawPeriod]['total_sales'] += $totalSales;
 
-            $data[$period]['products'][] = [
+            $data[$rawPeriod]['products'][] = [
                 'product_name' => $productName,
                 'total_sales' => $totalSales
             ];
@@ -43,28 +57,31 @@ try {
         return array_values($data);
     }
 
-    $weeklyQueryGroupBy = "DATE_FORMAT(created_at, '%Y-%U')";
-    $weeklyDateFormat = "Y-\$U";
-    $reports['weekly'] = getSalesData($conn, $weeklyQueryGroupBy, $weeklyDateFormat);
+    $weeklyGroupBy = "DATE(created_at)";
+    $weeklyDateFormat = "M j, Y";
+    $reports['weekly'] = getSalesData($conn, 7, $weeklyGroupBy, $weeklyDateFormat);
 
-    $monthlyQueryGroupBy = "DATE_FORMAT(created_at, '%Y-%m')";
-    $monthlyDateFormat = "F Y";
-    $reports['monthly'] = getSalesData($conn, $monthlyQueryGroupBy, $monthlyDateFormat);
+    $monthlyGroupBy = "DATE(created_at)";
+    $monthlyDateFormat = "M j, Y";
+    $reports['monthly'] = getSalesData($conn, 30, $monthlyGroupBy, $monthlyDateFormat);
 
-    $yearlyQueryGroupBy = "YEAR(created_at)";
+    $yearlyGroupBy = "YEAR(created_at)";
     $yearlyDateFormat = "Y";
-    $reports['yearly'] = getSalesData($conn, $yearlyQueryGroupBy, $yearlyDateFormat);
+    $reports['yearly'] = getSalesData($conn, 365, $yearlyGroupBy, $yearlyDateFormat);
 
     echo json_encode([
         'status' => 'success',
         'data' => $reports
-    ]);
+    ], JSON_PRETTY_PRINT);
 
 } catch (Exception $e) {
+    http_response_code(500);
     echo json_encode([
         'status' => 'error',
         'message' => 'Database error: ' . $e->getMessage()
     ]);
 }
 
-$conn->close();
+if (isset($conn)) {
+    $conn->close();
+}

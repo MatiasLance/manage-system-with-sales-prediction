@@ -1,19 +1,19 @@
-const password = $('#userPassword');
-const confirmPassword = $('#userConfirmPassword');
-const passwordIcon = $('#toggleEmployeePassword i');
-const confirmPasswordIcon = $('#toggleEmployeeConfirmPassword i');
+const password = $('#userPassword, #newUserPassword');
+const confirmPassword = $('#userConfirmPassword, #newUserConfirmPassword');
+const passwordIcon = $('#toggleUserPassword i, #toggleEditUserPassword i');
+const confirmPasswordIcon = $('#toggleUserConfirmPassword i, #toggleEditUserConfirmPassword i');
 
 jQuery(function($){
     save($)
     listUsers($, 1, '');
 
-    $(document).on('click', '#toggleEmployeePassword', function() {
+    $(document).on('click', '#toggleUserPassword, #toggleEditUserPassword', function() {
         const type = password.attr('type') === 'password' ? 'text' : 'password';
         password.attr('type', type);
         passwordIcon.toggleClass('fa-eye fa-eye-slash');
     })
 
-    $(document).on('click', '#toggleEmployeeConfirmPassword', function() {
+    $(document).on('click', '#toggleUserConfirmPassword, #toggleEditUserConfirmPassword', function() {
         const type = confirmPassword.attr('type') === 'password' ? 'text' : 'password';
         confirmPassword.attr('type', type);
         confirmPasswordIcon.toggleClass('fa-eye fa-eye-slash');
@@ -22,6 +22,12 @@ jQuery(function($){
     $(document).on('click', '#retrieveUser', function() {
         const userId = $(this).data('id');
         retrieveUser($, userId);
+    });
+
+    $('#saveUserDataChanges').on('submit', function(e){
+        e.preventDefault();
+        const data = $(this).serializeArray();
+        updateUser($, data);
     });
 });
 
@@ -162,6 +168,39 @@ function save($) {
                 console.error('An error occurred while adding the user.');
             }
         });
+    });
+}
+
+function updateUser($, data){
+    $.ajax({
+        url: './controller/user/EditUserController.php',
+        type: 'POST',
+        data: data,
+        dataType: "json",
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    title: 'Success',
+                    text: response.message,
+                    icon: 'success',
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        $('#saveUserDataChanges')[0].reset();
+                        $('#retrieveUserModal').modal('hide');
+                        listUsers($, 1, '');
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: 'error',
+                    text: response.message,
+                    icon: 'error',
+                });
+            }
+        },
+        error: function() {
+            console.error('An error occurred while adding the user.');
+        }
     });
 }
 

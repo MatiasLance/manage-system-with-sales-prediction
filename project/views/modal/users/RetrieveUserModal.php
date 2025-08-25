@@ -36,7 +36,7 @@
             <label for="userPassword" class="form-label">Password</label>
             <div class="input-group">
               <input type="password" class="form-control" name="user_password" id="newUserPassword" required>
-              <span class="input-group-text" id="toggleEmployeePassword" style="cursor: pointer;">
+              <span class="input-group-text" id="toggleEditUserPassword" style="cursor: pointer;">
                 <i class="fas fa-eye"></i>
               </span>
             </div>
@@ -46,7 +46,7 @@
             <label for="userConfirmPassword" class="form-label">Confirm Password</label>
             <div class="input-group">
               <input type="password" class="form-control" name="user_confirm_password" id="newUserConfirmPassword" required>
-              <span class="input-group-text" id="toggleEmployeeConfirmPassword" style="cursor: pointer;">
+              <span class="input-group-text" id="toggleEditUserConfirmPassword" style="cursor: pointer;">
                 <i class="fas fa-eye"></i>
               </span>
             </div>

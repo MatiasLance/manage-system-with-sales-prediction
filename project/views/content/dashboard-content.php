@@ -65,12 +65,12 @@
 <div id="content" class="content container-fluid p-4">
     <div class="row align-items-start g-4">
 
-
+        <?php if($_SESSION['user_role'] === 'admin') { ?>
         <div class="col-md-12">
             <div class="card shadow-sm border-0 bg-milk-white text-charcoal-gray">
                 <div class="card-body text-center py-4">
                     <h2 class="card-title display-6 fw-bold">
-                        Good day, <?= $_SESSION['firstname']; ?>! 👋
+                        Good day, <?= $_SESSION['firstname'] . ' ' . $_SESSION['user_role']; ?>! 👋
                     </h2>
                     <p class="card-text mt-2 lead">
                         Welcome to your admin dashboard. Here’s what’s happening today.
@@ -78,6 +78,7 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
 
 
         <div class="col-md-4">
@@ -170,6 +171,18 @@
                 </div>
                 <div class="card-footer bg-light text-center border-0">
                     <a href="/news" class="btn btn-charcoal-gray btn-sm px-4">See More</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 bg-milk-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-user text-charcoal-gray fs-1"></i>
+                    <h3 class="text-capitalize mt-3 fw-bold text-charcoal-gray">Users</h3>
+                </div>
+                <div class="card-footer bg-light text-center border-0">
+                    <a href="/users" class="btn btn-charcoal-gray btn-sm px-4">Manage</a>
                 </div>
             </div>
         </div>

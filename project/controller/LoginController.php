@@ -27,6 +27,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 $_SESSION['id'] = $id;
                 $_SESSION['firstname'] = $firstname;
                 $_SESSION['lastname'] = $lastname;
+                $_SESSION['user_role'] = $userType;
                 if ($userType === 'admin') {
                     $_SESSION['user_role'] = 'admin';
                 } else {

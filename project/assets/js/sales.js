@@ -1,4 +1,9 @@
+let salesChart = null;
+
 jQuery(function($){
+  setInterval(function(){
+    fetchOrders();
+  }, 30000);
   fetchOrders();
 });
 
@@ -38,11 +43,16 @@ function fetchOrders(){
         type: 'GET',
         dataType: 'json',
         success: function(response){
-          const products = response.data.weekly[0].products.map((value) => value.product_name);
-          const sales = response.data.weekly[0].products.map((value) => value.total_sales);
+          const products = response.data.yearly[0]?.products.map((value) => value.product_name);
+          const sales = response.data.yearly[0]?.products.map((value) => value.total_sales);
             if(response.status === 'success'){
               const ctx = $('#salesChart')[0].getContext('2d');
-              new Chart(ctx, {
+
+              if (salesChart !== null) {
+                  salesChart.destroy();
+              }
+              
+              salesChart = new Chart(ctx, {
                   type: 'bar',
                   data: {
                       labels: products,
@@ -87,42 +97,48 @@ function fetchOrders(){
                   }
               });
 
-                const weeklySales = {
-                target: response.data.weekly[0].total_sales,          
-                element: '#weeklySales', 
-                duration: 2000,         
-                prefix: '₱',            
-                suffix: '',              
-                separator: ',',         
-                decimals: 0,            
-                easing: 'linear'        
-              };
+              if(response.data.weekly){
+                    const weeklySales = {
+                        target: response.data.weekly[0]?.total_sales || 0,          
+                        element: '#weeklySales', 
+                        duration: 2000,         
+                        prefix: '₱',            
+                        suffix: '',              
+                        separator: ',',         
+                        decimals: 0,            
+                        easing: 'linear'        
+                    };
+                    animateCounter(weeklySales);
+                }
 
-              const monthlySales = {
-                target: response.data.monthly[0].total_sales,          
-                element: '#monthlySales', 
-                duration: 2000,         
-                prefix: '₱',            
-                suffix: '',             
-                separator: ',',         
-                decimals: 0,            
-                easing: 'linear'        
-              };
+                if(response.data.monthly){
+                    const monthlySales = {
+                        target: response.data.monthly[0]?.total_sales || 0,          
+                        element: '#monthlySales', 
+                        duration: 2000,         
+                        prefix: '₱',            
+                        suffix: '',             
+                        separator: ',',         
+                        decimals: 0,            
+                        easing: 'linear'        
+                    };
+                    animateCounter(monthlySales);
+                }
 
-              const yearlySales = {
-                target: response.data.yearly[0].total_sales,          
-                element: '#yearlySales, #totalSales', 
-                duration: 2000,         
-                prefix: '₱',            
-                suffix: '',             
-                separator: ',',         
-                decimals: 0,            
-                easing: 'linear'        
-              };
-              
-              animateCounter(weeklySales);
-              animateCounter(monthlySales);
-              animateCounter(yearlySales);
+                if(response.data.yearly) {
+                    const yearlySales = {
+                        target: response.data.yearly[0]?.total_sales || 0,          
+                        element: '#yearlySales', 
+                        duration: 2000,         
+                        prefix: '₱',            
+                        suffix: '',             
+                        separator: ',',         
+                        decimals: 0,            
+                        easing: 'linear'        
+                    };
+                    animateCounter(yearlySales);
+                }
+
             }else{
                 Swal.fire({
                     title: 'Warning!',

@@ -50,17 +50,12 @@
 
     <div class="d-flex flex-row justify-content-between mb-5">
         <div class="input-group w-50">
-            <select class="form-select" id="inputGroupSelect02">
-                <option value="" selected>Filter Sales (Weekly, Monthly, Yearly)</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="weekly">Yearly</option>
-            </select>
+            <input type="date" class="form-control" id="filterSalesByDate">
             <label class="input-group-text" for="inputGroupSelect02">
                 <i class="bi bi-funnel-fill"></i>
             </label>
         </div>
-        <i class="bi bi-filetype-csv display-6" style="color: #fff; cursor: pointer;"></i>
+        <i class="bi bi-filetype-csv display-6" id="exportCSV" style="color: #fff; cursor: pointer;"></i>
     </div>
 
     <div class="d-flex flex-row justify-content-between">
@@ -76,7 +71,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" id="inventoryTable">
             <thead class="table-milk-white">
                 <tr>
                 <th scope="col">Order #</th>

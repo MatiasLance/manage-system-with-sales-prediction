@@ -19,6 +19,7 @@ $pageJS = [
     "./assets/js/inventory.js",
     "./assets/js/product.js",
     "./assets/js/logout.js",
+    "./assets/js/exportCSV.js"
 ];
 
 $pageContent = __DIR__ . "/content/inventory-content.php";

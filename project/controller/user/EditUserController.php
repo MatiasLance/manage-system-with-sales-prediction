@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../config/db_connection.php';
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $id = filter_input($_POST['id'], FILTER_VALIDATE_INT);
+    $id = (int)$_POST['user_id'];
     $first_name = htmlspecialchars(trim($_POST["first_name"] ?? ""));
     $last_name = htmlspecialchars(trim($_POST["last_name"] ?? ""));
     $email = trim($_POST["user_email"] ?? "");
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $check_employee_stmt->close();
+    $check_user_stmt->close();
 
     $check_email_stmt = $conn->prepare("SELECT COUNT(*) AS count FROM users WHERE email = ? AND id != ?");
     if (!$check_email_stmt) {
