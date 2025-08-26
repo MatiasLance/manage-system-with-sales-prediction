@@ -3,11 +3,15 @@
     <div class="sidebar-header">
         <img id="sideBarMenuLogo" src="<?php echo isset($_SESSION['sidebar_menu_logo']) ? $_SESSION['sidebar_menu_logo']: 'https://i.imgur.com/3LvoZ6D.png'?>" alt="Goat Farm">
     </div>
+
     <nav class="nav flex-column">
+       <?php if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'manager') { ?>
         <a class="nav-link d-flex align-items-center gap-2" href="#">
             <i class="fas fa-tachometer-alt"></i>
             <span style="transform: translateY(2px);">Dashboard</span>
         </a>
+        <?php } ?>
+        <?php if($_SESSION['user_role'] === 'admin') { ?>
         <a class="nav-link d-flex align-items-center gap-2" href="/products">
             <i class="fas fa-box"></i>
             <span style="transform: translateY(2px);">Products</span>
@@ -20,22 +24,31 @@
             <i class="fas fa-chart-line"></i>
             <span style="transform: translateY(2px);">Sales</span>
         </a>
+        <?php } ?>
+        <?php if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'manager') { ?>
         <a class="nav-link d-flex align-items-center gap-2" href="/bookings">
             <i class="fas fa-book"></i>
             <span style="transform: translateY(2px);">Bookings</span>
         </a>
+        <?php } ?>
+        <?php if($_SESSION['user_role'] === 'admin') { ?>
         <a class="nav-link d-flex align-items-center gap-2" href="/news">
             <i class="fas fa-newspaper"></i>
             <span style="transform: translateY(2px);">News</span>
         </a>
+        <?php } ?>
+        <?php if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'manager') { ?>
         <a class="nav-link d-flex align-items-center gap-2" href="/inventory">
             <i class="fas fa-warehouse"></i>
             <span style="transform: translateY(2px);">Inventory</span>
         </a>
+        <?php } ?>
+        <?php if($_SESSION['user_role'] === 'admin') { ?>
         <a class="nav-link d-flex align-items-center gap-2" href="/users">
             <i class="fas fa-user"></i>
             <span style="transform: translateY(2px);">Users</span>
         </a>
+        <?php } ?>
     </nav>
 </div>
 
@@ -65,7 +78,7 @@
 <div id="content" class="content container-fluid p-4">
     <div class="row align-items-start g-4">
 
-        <?php if($_SESSION['user_role'] === 'admin') { ?>
+       
         <div class="col-md-12">
             <div class="card shadow-sm border-0 bg-milk-white text-charcoal-gray">
                 <div class="card-body text-center py-4">
@@ -78,9 +91,8 @@
                 </div>
             </div>
         </div>
-        <?php } ?>
 
-
+        <?php if($_SESSION['user_role'] === 'admin') { ?>
         <div class="col-md-4">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
@@ -130,7 +142,9 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
 
+        <?php if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'manager') { ?>
         <div class="col-md-4">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
@@ -160,7 +174,9 @@
                 </div>
             </div>
         </div>
-
+        <?php } ?>
+    
+        <?php if($_SESSION['user_role'] === 'admin') { ?>
         <div class="col-md-4">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
@@ -186,6 +202,7 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
 
     </div>
 </div>
