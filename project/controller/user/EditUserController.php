@@ -102,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!empty($password)) {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+
         $stmt->bind_param(
             "sssssi",
             $first_name,

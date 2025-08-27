@@ -1,8 +1,6 @@
 <div class="container-fluid my-4">
-  <!-- Header Section -->
   <div class="d-flex justify-content-between align-items-center mb-4" id="notPrintable">
     <h3 class="fw-bold">MBRLCFI POS</h3>
-    <!-- Logout Button -->
     <a 
       class="nav-link d-flex align-items-center text-danger" 
       href="#" 
@@ -15,8 +13,28 @@
     </a>
   </div>
 
+  <div class="text-center mb-4">
+    <div
+      id="running-clock"
+      class="d-inline-flex flex-column align-items-center p-3 bg-dark text-white rounded shadow-sm border border-secondary"
+      style="min-width: 180px"
+      role="timer"
+      aria-label="Current time display"
+    >
+      <!-- Time -->
+      <div
+        class="fs-3 fw-bold text-white mb-1 font-monospace"
+        style="letter-spacing: 1px;"
+      >
+      </div>
+
+      <!-- Date -->
+      <small class="text-white">
+      </small>
+    </div>
+  </div>
+
   <div class="row">
-    <!-- Product List Section -->
     <div class="col-lg-8 col-md-12 mb-4" id="notPrintable">
       <div class="mb-3">
         <input 
@@ -42,7 +60,6 @@
       </div>
     </div>
 
-    <!-- Cart & Checkout Section -->
     <div class="col-lg-4 col-md-12" id="receiptContainer">
       <div class="receipt-logo text-center">
         <image src="https://i.imgur.com/3LvoZ6D.png" width="150" alt="MBRLCFI Logo">

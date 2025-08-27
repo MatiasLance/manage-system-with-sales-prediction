@@ -8,12 +8,11 @@ header('Content-Type: application/json');
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $userRole = 'cashier';
 
-    $sql = "SELECT id, firstname, lastname, email, password, user_type FROM users WHERE email = ? AND user_type = ? LIMIT 1";
+    $sql = "SELECT id, firstname, lastname, email, password, user_type FROM users WHERE email = ? AND user_type IN ('cashier', 'admin') LIMIT 1";
 
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ss", $email, $userRole);
+        $stmt->bind_param("s", $email);
 
         $stmt->execute();
 

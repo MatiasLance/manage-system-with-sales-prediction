@@ -24,6 +24,19 @@ jQuery(function($){
         retrieveUser($, userId);
     });
 
+    $(document).on('click', '#openDeleteUserModal', function() {
+        const userId = $(this).data('id');
+        $('#deleteUserId').val(userId);
+        retrieveUser($, userId);
+    });
+
+    $('#deleteUser').on('click', function() {
+        const userId = $('#deleteUserId').val();
+        const password = $('#deleteUserPasswordInput').val();
+        const payload = { id: userId, password: password };
+        deleteUser($, payload);
+    });
+
     $('#saveUserDataChanges').on('submit', function(e){
         e.preventDefault();
         const data = $(this).serializeArray();
@@ -48,8 +61,26 @@ function listUsers($, page, searchQuery) {
                         <td>${user.email}</td>
                         <td><span class="badge text-bg-warning text-capitalize">${user.user_type}</span></td>
                         <td class="text-center">
-                            <button class="btn btn-sm" id="retrieveUser" data-id="${user.id}"><i class="fas fa-pen"></i></button>
-                            <button class="btn btn-sm" id="deleteUser" data-id="${user.id}"><i class="fas fa-trash"></i></button>
+                            <button
+                            class="btn btn-sm"
+                            id="retrieveUser"
+                            data-id="${user.id}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#retrieveUserModal"
+                            data-bs-auto-close="false"
+                            >
+                            <i class="fas fa-pen"></i>
+                            </button>
+                            <button
+                                class="btn btn-sm"
+                                id="openDeleteUserModal"
+                                data-id="${user.id}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#userConfirmationDeleteModal"
+                                data-bs-auto-close="false"
+                                >
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>`;
                 });
@@ -104,6 +135,7 @@ function listUsers($, page, searchQuery) {
                 $('#editUserFirstNameInput').val(user.first_name);
                 $('#editUserLastNameInput').val(user.last_name);
                 $('#editUserEmail').val(user.email);
+                $('#userFullName').text(user.first_name + ' ' + user.last_name);
 
                 const selectUserRole = user.user_type.toLowerCase();
                 const roleSelect = $('#editUserRole');
@@ -118,8 +150,6 @@ function listUsers($, page, searchQuery) {
                 roleSelect.val(selectUserRole);
 
                 roleSelect.trigger('change');
-
-                $('#retrieveUserModal').modal('show');
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -154,6 +184,7 @@ function save($) {
                         if(result.isConfirmed) {
                             $('#saveUserData')[0].reset();
                             $('#addUserModal').modal('hide');
+                            listUsers($, 1, '');
                         }
                     })
                 } else {
@@ -200,6 +231,39 @@ function updateUser($, data){
         },
         error: function() {
             console.error('An error occurred while adding the user.');
+        }
+    });
+}
+
+function deleteUser($, payload) {
+    $.ajax({
+        url: './controller/user/DeleteUserController.php',
+        type: 'POST',
+        data: payload,
+        dataType: "json",
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    title: 'Success',
+                    text: response.message,
+                    icon: 'success',
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        listUsers($, 1, '');
+                        $('#deleteUserPasswordInput').val('');
+                        $('#askPasswordOnUserDeletionModal').modal('hide');
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: 'error',
+                    text: response.message,
+                    icon: 'error',
+                });
+            }
+        },
+        error: function() {
+            console.error('An error occurred while deleting the user.');
         }
     });
 }

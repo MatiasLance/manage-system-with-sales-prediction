@@ -74,6 +74,8 @@ jQuery(function($){
 
         $('.cart').append(productDetails);
         $('#subTotal').text(`₱${numberWithCommas(totalAmount.toFixed(2))}`).data('totalAmount', totalAmount)
+
+
     })
 
     $('#checkoutButton').on('click', function(){
@@ -113,6 +115,48 @@ jQuery(function($){
         cart.splice(index, 1);
         updateCart();
     })
+
+    const handleQuantityChange = debounce(function () {
+        const input = $(this);
+        const inputtedQuantity = input.val().trim();
+        const row = input.closest('tr');
+        const productId = row.find('.checkout-btn').data('id');
+        const productName = row.find('.product-name').text();
+
+        const payload = { id: productId, quantity: inputtedQuantity, name: productName };
+        checkingQuantityEntered(payload);
+    }, 500);
+
+    $(document).on('input', '.quantity-input', handleQuantityChange);
+
+    // Display current date and time
+    const $clockTime = $('#running-clock .fs-3');
+    const $clockDate = $('#running-clock small');
+
+    function updateClock() {
+        const now = new Date();
+
+        const timeStr = now.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+        });
+
+        const dateStr = now.toLocaleDateString(undefined, {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        });
+
+        $clockTime.text(timeStr);
+        $clockDate.text(dateStr);
+    }
+
+    updateClock();
+
+    setInterval(updateClock, 1000);
 });
 
 function updateCart() {
@@ -271,6 +315,32 @@ function saveOrders(orders){
     })
 }
 
+function checkingQuantityEntered(payload){
+    jQuery.ajax({
+        url: './controller/product/CheckProductQuantityController.php',
+        type: 'POST',
+        data: payload,
+        dataType: 'json',
+        success: function(response){
+            if(response.status === 'error'){
+                Swal.fire({
+                    title: 'Warning!',
+                    text: response.message,
+                    icon: 'warning',
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        jQuery('.quantity-input').val('');
+                    }
+                });
+                return;
+            }
+        },
+        error: function(xhr, status, error){
+            console.error(error)
+        }
+    });
+}
+
 function getCurrentDateTime() {
     const now = new Date();
     const year = now.getFullYear();
@@ -281,4 +351,13 @@ function getCurrentDateTime() {
     const seconds = String(now.getSeconds()).padStart(2, '0');
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+        const context = this;
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(context, args), delay);
+    };
 }

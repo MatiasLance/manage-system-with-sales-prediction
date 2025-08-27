@@ -9,7 +9,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT id, firstname, lastname, email, user_type, password FROM users WHERE email = ? AND user_type = 'admin' OR user_type = 'manager' LIMIT 1";
+    $sql = "SELECT id, firstname, lastname, email, user_type, password FROM users WHERE email = ? AND user_type IN ('manager', 'admin') LIMIT 1";
 
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("s", $email);

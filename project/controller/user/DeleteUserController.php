@@ -12,7 +12,7 @@ if (!isset($_POST['password'], $_POST['id'])) {
 $password = trim($_POST['password']);
 $user_id = filter_var($_POST['id'], FILTER_VALIDATE_INT);
 
-if (!$user_id || $employee_id <= 0) {
+if (!$user_id || $user_id <= 0) {
     echo json_encode(['error' => true, 'message' => 'Invalid user ID.']);
     exit;
 }
@@ -37,7 +37,7 @@ if ($stmt->num_rows > 0) {
         $checkStmt = $conn->prepare($checkSql);
 
         if ($checkStmt) {
-            $checkStmt->bind_param("i", $employee_id);
+            $checkStmt->bind_param("i", $user_id);
             $checkStmt->execute();
             $checkStmt->store_result();
 
