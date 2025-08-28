@@ -50,7 +50,7 @@
 
     <div class="d-flex flex-row justify-content-between mb-5">
         <div class="input-group w-50">
-            <input type="date" class="form-control" id="filterSalesByDate">
+            <input type="text" class="form-control" id="filterSalesByDate">
             <label class="input-group-text" for="inputGroupSelect02">
                 <i class="bi bi-funnel-fill"></i>
             </label>
@@ -90,6 +90,12 @@
                 </tr>
             </thead>
             <tbody id="inventory-sales-data-container"></tbody>
+            <tfooter>
+                 <tr>
+                    <th colspan="6" class="text-end">Total Sales:</th>
+                    <th colspan="3" id="totalSalesAmount" class="text-start"></th>
+                </tr>
+            </tfooter>
         </table>
     </div>
 </div>

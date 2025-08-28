@@ -133,5 +133,6 @@ include __DIR__ . '/../modal/product/DeleteProductModal.php';
 include __DIR__ . '/../modal/product/DeleteProductNameModal.php';
 include __DIR__ . '/../modal/RestoreArchivedProductModal.php';
 include __DIR__ . '/../modal/DeleteArchivedProductModal.php';
+include __DIR__ . '/../modal/ViewOrderDetailModal.php';
 ?>
 
