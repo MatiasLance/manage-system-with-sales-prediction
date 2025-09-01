@@ -194,11 +194,23 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
-                    <i class="fas fa-user text-charcoal-gray fs-1"></i>
+                    <i class="fas fa-user text-charcoal-gray" style="font-size: 90px;"></i>
                     <h3 class="text-capitalize mt-3 fw-bold text-charcoal-gray">Users</h3>
                 </div>
                 <div class="card-footer bg-light text-center border-0">
                     <a href="/users" class="btn btn-charcoal-gray btn-sm px-4">Manage</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 bg-milk-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-cash-register text-golden-wheat" style="font-size: 90px;"></i>
+                    <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark">POS</h3>
+                </div>
+                <div class="card-footer bg-light text-center border-0">
+                    <span class="btn btn-golden-wheat btn-sm px-4" id="loginToPOS">Login</span>
                 </div>
             </div>
         </div>
