@@ -93,7 +93,7 @@
         </div>
 
         <?php if($_SESSION['user_role'] === 'admin') { ?>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="80" height="80" class="text-dark-brown mb-2">
@@ -110,7 +110,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="80" height="80" 
@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="80" height="80" 
@@ -145,7 +145,7 @@
         <?php } ?>
 
         <?php if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'manager') { ?>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="80" height="80" 
@@ -161,7 +161,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="80" height="80" 
@@ -177,7 +177,7 @@
         <?php } ?>
     
         <?php if($_SESSION['user_role'] === 'admin') { ?>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="80" height="80" 
@@ -191,7 +191,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <i class="fas fa-user text-charcoal-gray" style="font-size: 90px;"></i>
@@ -203,7 +203,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body text-center">
                     <i class="fas fa-cash-register text-golden-wheat" style="font-size: 90px;"></i>
