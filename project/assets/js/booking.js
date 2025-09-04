@@ -195,9 +195,8 @@ function retrieveBooking(id){
         data: { id: id },
         dataType: 'json',
         success: function(response){
-            if(response){
-                let formattedDate = response.data.booking.booking_schedule.replace(/\s00:00:00$/, "");
-                let bookingScheduleDate = new Date(formattedDate);
+            if(response.success){
+                // let formattedDate = response.data.booking.booking_schedule.replace(/\s00:00:00$/, "");
                 jQuery('#editBookingId').val(response.data.booking.id);
                 jQuery('#deleteBookingId').val(response.data.booking.id);
                 jQuery('#retrieveBookingFirstNameInput').val(response.data.booking.first_name);

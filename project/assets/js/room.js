@@ -43,6 +43,10 @@ jQuery(function($){
         deleteRoomNumberDetail(payload);
     });
 
+    $('#room-tab').on('click', function(){
+        roomList(1, '');
+    });
+
     roomList(1, '')
 });
 

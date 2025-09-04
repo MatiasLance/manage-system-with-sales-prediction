@@ -46,7 +46,6 @@ class DatabaseMigrator
                 phone_number VARCHAR(20) NOT NULL,
                 status ENUM('pending', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending',
                 guest_count INT NOT NULL,
-                selected_room INT NOT NULL,
                 booking_schedule DATETIME NOT NULL,
                 check_in TIME DEFAULT NULL,
                 check_out TIME DEFAULT NULL,

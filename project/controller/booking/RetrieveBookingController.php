@@ -76,7 +76,7 @@ $booking = $result->fetch_assoc();
 $stmt->close();
 $conn->close();
 
-$booking['booking_schedule'] = date('Y-m-d\TH:i', strtotime($booking['booking_schedule']));
+$booking['booking_schedule'] = date('Y-m-d H:i:s', strtotime($booking['booking_schedule']));
 $booking['booking_created_at'] = date('Y-m-d H:i:s', strtotime($booking['booking_created_at']));
 $booking['booking_updated_at'] = date('Y-m-d H:i:s', strtotime($booking['booking_updated_at']));
 

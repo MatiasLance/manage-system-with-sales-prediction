@@ -37,7 +37,7 @@
 
           <div class="mb-3">
             <label for="bookingScheduleDateInput" class="form-label text-capitalize">Guest Count</label>
-            <input type="number" class="form-control" id="retrieveBookingGuestCountInput" name="guest_count" required>
+            <input type="number" class="form-control" id="retrieveBookingGuestCountInput" name="guest_count">
           </div>
 
           <div class="mb-3">
