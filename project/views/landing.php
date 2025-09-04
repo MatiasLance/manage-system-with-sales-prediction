@@ -185,16 +185,18 @@
       border-radius: 8px;
     }
 
-    .form-control {
+    .form-control,
+    .form-select {
       border: none;
       border-bottom: 2px solid #ddd;
       border-radius: 0;
       padding: 12px 0;
       font-size: 1.1rem;
-      min-height: 48px; /* Better tap target on mobile */
+      min-height: 48px;
     }
 
-    .form-control:focus {
+    .form-control:focus,
+    .form-select:focus {
       border-color: var(--green-forest);
       box-shadow: none;
     }
@@ -249,16 +251,15 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">SUNNY MEADOWS</a>
+      <a class="navbar-brand" href="#">RMC</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#news">Journal</a></li>
-          <li class="nav-item"><a class="nav-link" href="#book">Visit</a></li>
+          <li class="nav-item"><a class="nav-link" href="#news">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="#book">Book</a></li>
         </ul>
       </div>
     </div>
@@ -301,7 +302,7 @@
   <!-- News -->
   <section id="news" class="container">
     <div data-aos="fade-up" data-aos-duration="800">
-      <h2 class="text-center mb-5" style="color: var(--green-forest);">From the Farm Journal</h2>
+      <h2 class="text-center mb-5" style="color: var(--green-forest);">News</h2>
     </div>
     <div class="news-item" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
       <div class="row">
@@ -339,23 +340,39 @@
         <h2>Come Say Hello</h2>
         <p class="lead" style="color: #555;">Open weekends. Reserve your visit below.</p>
       </div>
-      <form>
+      <form id="bookNow">
         <div class="row g-4">
           <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="100">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" required>
+          </div>
+          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="100">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name" required>
           </div>
           <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="200">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control" required>
+            <input type="email" class="form-control" name="email" required>
+          </div>
+          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="100">
+            <label class="form-label">Phone Number</label>
+            <input type="text" class="form-control" name="phone_number" required>
+            <div class="invalid-feedback">
+                Phone number must start with 09, followed by 9 digits.
+            </div>
           </div>
           <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="300">
-            <label class="form-label">Date</label>
-            <input type="date" class="form-control" required>
+            <label class="form-label">Booking Schedule</label>
+            <input type="date" class="form-control" name="booking_schedule" required>
           </div>
           <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="400">
-            <label class="form-label">Guests</label>
-            <input type="number" class="form-control" min="1" value="1">
+            <label class="form-label">Guests Count</label>
+            <input type="number" class="form-control" name="guest_count" min="1" value="1">
+          </div>
+          <div class="col-md-12" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="400">
+            <label class="form-label">Select Room</label>
+            <select class="form-select" aria-label="Default select example" id="selectedRoom" name="selected_room_id">
+            </select>
           </div>
           <div class="col-12 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-delay="500">
             <button type="submit" class="btn btn-gold btn-lg">Request Your Visit</button>
@@ -399,6 +416,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- AOS Library -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="./assets/js/booking.js"></script>
+  <script src="./assets/js/room.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       AOS.init({

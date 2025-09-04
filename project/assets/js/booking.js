@@ -1,8 +1,8 @@
-let bookingDebounceTimer; // Timer for debouncing
-let currentSearchBooking = ''; // Store last search value
+let bookingDebounceTimer;
+let currentSearchBooking = '';
 
 jQuery(function($){
-    $('#saveBookingInformation').on('submit', function(e){
+    $('#saveBookingInformation, #bookNow').on('submit', function(e){
         e.preventDefault();
 
         const data = $(this).serializeArray();
@@ -16,7 +16,7 @@ jQuery(function($){
                 if (response.success) {
                     Swal.fire("Success", response.message, "success").then((result) => {
                         if(result.isConfirmed){
-                            $('#saveBookingInformation')[0].reset();
+                            $('#saveBookingInformation, #bookNow')[0].reset();
                             listOfBooking(1, '');
                         }
                     });
@@ -45,7 +45,6 @@ jQuery(function($){
         });
     })
 
-   // Validate phone number
     $(document).on('keyup', '#bookingPhoneNumberInput', function(){
         let phoneNumber = $(this).val().trim();
         let phonePattern = /^09\d{9}$/;
@@ -63,16 +62,19 @@ jQuery(function($){
     })
 
     $(document).on('click', '#editBookingDetail', function(){
-        let editedBookingSchedule = $('#retrieveBookingScheduleDateInput').val()
+        let editedBookingSchedule = $('#retrieveBookingScheduleDateInput').val();
+        let currentBookingScheduleDate = $('#currentBookingScheduleDateInput').val();
         const payload = {
             id: $('#editBookingId').val(),
+            selected_room_id: $('#retrieveBookingSelectRoomID').val(),
             first_name: $('#retrieveBookingFirstNameInput').val(),
             middle_name: $('#retrieveBookingMiddleNameInput').val(),
             last_name: $('#retrieveBookingLastNameInput').val(),
             email: $('#retrieveBookingEmailInput').val(),
             phone_number: $('#retrieveBookingPhoneNumberInput').val(),
+            guest_count: $('#retrieveBookingGuestCountInput').val(),
             status: $('#retrieveBookingStatusSelect').val(),
-            booking_schedule: editedBookingSchedule !== '' ? editedBookingSchedule : $('#currentBookingScheduleDateInput').val(),
+            booking_schedule: editedBookingSchedule !== '' ? editedBookingSchedule : currentBookingScheduleDate,
             check_in: $('#retrieveBookingCheckInInput').val(),
             check_out: $('#retrieveBookingCheckOutInput').val()
         }
@@ -92,25 +94,22 @@ jQuery(function($){
         deleteBookingDetail(payload);
     })
 
-    // Pagination click event for employee
     $(document).on('click', '.booking-page-link', function(e) {
         e.preventDefault();
         let page = $(this).data('page');
         listOfBooking(page, currentSearchBooking);
     });
 
-    // Debounced search input event for employee
     $('#searchBooking').on('keyup', function() {
-        clearTimeout(bookingDebounceTimer); // Clear previous timer
+        clearTimeout(bookingDebounceTimer);
         let searchQuery = $(this).val();
 
         bookingDebounceTimer = setTimeout(() => {
-            currentSearchBooking = searchQuery; // Update current search
-            listOfBooking(1, searchQuery); // Fetch data after 5 seconds
-        }, 500); // 5-second debounce
+            currentSearchBooking = searchQuery;
+            listOfBooking(1, searchQuery); 
+        }, 500);
     });
 
-    // Initially fetch employees
     listOfBooking(1, '');
 })
 
@@ -121,7 +120,6 @@ function listOfBooking(page, searchQuery){
         data: { page: page, search: searchQuery },
         dataType: 'json',
         success: function(response) {
-            // Populate table with fetched data
             $('#booking-container').empty();
             for (let i = 0; i < response.data.length; i++){
                 let bookingScheduleDate = new Date(response.data[i].booking_schedule);
@@ -134,12 +132,14 @@ function listOfBooking(page, searchQuery){
                     <td class="text-capitalize">${response.data[i].email}</td>
                     <td class="text-capitalize">${response.data[i].phone_number}</td>
                     <td class="text-capitalize">
-                        ${response.data[i].status === 'confirmed' 
-                            ? `<span class="badge text-bg-success">${response.data[i].status}</span>` 
-                            : response.data[i].status === 'cancelled' 
-                                ? `<span class="badge text-bg-danger">${response.data[i].status}</span>` 
-                                : `<span class="badge text-bg-warning">${response.data[i].status}</span>`}
+                        ${response.data[i].booking_status === 'confirmed' 
+                            ? `<span class="badge text-bg-success">${response.data[i].booking_status}</span>` 
+                            : response.data[i].booking_status === 'cancelled' 
+                                ? `<span class="badge text-bg-danger">${response.data[i].booking_status}</span>` 
+                                : `<span class="badge text-bg-warning">${response.data[i].booking_status}</span>`}
                     </td>
+                    <td>${response.data[i].guest_count}</td>
+                    <td>${response.data[i].room_number}</td>
                     <td>${bookingScheduleDate.toDateString()}</td>
                     <td>${response.data[i].check_in}</td>
                     <td>${response.data[i].check_out}</td>
@@ -150,7 +150,7 @@ function listOfBooking(page, searchQuery){
                 </tr>`);
             }
 
-            $('#totalBookings').text(response.total_bookings);
+            $('#totalBookings').text(response.pagination.total_items);
 
             // Generate pagination links
             $('#booking-pagination-links').empty();
@@ -196,26 +196,27 @@ function retrieveBooking(id){
         dataType: 'json',
         success: function(response){
             if(response){
-                let formattedDate = response.booking_schedule.replace(/\s00:00:00$/, ""); // Remove time part
-                jQuery('#editBookingId').val(id);
-                jQuery('#deleteBookingId').val(id);
-                jQuery('#retrieveBookingFirstNameInput').val(response.first_name);
-                jQuery('#retrieveBookingMiddleNameInput').val(response.middle_name);
-                jQuery('#retrieveBookingLastNameInput').val(response.last_name);
-                jQuery('#retrieveBookingEmailInput').val(response.email);
-                jQuery('#retrieveBookingPhoneNumberInput').val(response.phone_number);
-                jQuery('#retrieveBookingStatusSelect').prepend(`<option value="" disabled selected data-temp="true">${response.status}</option>`);
-                jQuery('#currentBookingScheduleDateInput').val(formattedDate);
-                jQuery('#retrieveBookingCheckInInput').val(response.check_in);
-                jQuery('#retrieveBookingCheckOutInput').val(response.check_out);
-
-                jQuery('#bookingName').text(`${response.first_name} ${response.last_name}`)
+                let formattedDate = response.data.booking.booking_schedule.replace(/\s00:00:00$/, "");
+                let bookingScheduleDate = new Date(formattedDate);
+                jQuery('#editBookingId').val(response.data.booking.id);
+                jQuery('#deleteBookingId').val(response.data.booking.id);
+                jQuery('#retrieveBookingFirstNameInput').val(response.data.booking.first_name);
+                jQuery('#retrieveBookingMiddleNameInput').val(response.data.booking.middle_name);
+                jQuery('#retrieveBookingLastNameInput').val(response.data.booking.last_name);
+                jQuery('#retrieveBookingEmailInput').val(response.data.booking.email);
+                jQuery('#retrieveBookingPhoneNumberInput').val(response.data.booking.phone_number);
+                jQuery('#retrieveBookingStatusSelect').prepend(`<option value="" disabled selected data-temp="true">${response.data.booking.status}</option>`);
+                jQuery('#currentBookingScheduleDateInput').val(response.data.booking.booking_schedule);
+                jQuery('#retrieveBookingCheckInInput').val(response.data.booking.check_in);
+                jQuery('#retrieveBookingCheckOutInput').val(response.data.booking.check_out);
+                jQuery('#bookingName').text(`${response.data.booking.full_name}`)
+                jQuery('#retrieveBookingGuestCountInput').val(response.data.booking.guest_count)
 
                 // Remove the previously prepended selected option
                 jQuery('#retrieveBookingStatusSelect').find('option[data-temp="true"]').remove();
         
                 // Prepend the new selected status option
-                jQuery('#retrieveBookingStatusSelect').prepend(`<option value="${response.status}" disabled selected data-temp="true">${response.status}</option>`);
+                jQuery('#retrieveBookingStatusSelect').prepend(`<option value="${response.data.booking.status}" disabled selected data-temp="true">${response.data.booking.status}</option>`);
 
             }
             if(response.error){

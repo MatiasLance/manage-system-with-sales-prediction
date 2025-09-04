@@ -56,7 +56,26 @@ function listUsers($, page, searchQuery) {
                 const users = response.data;
                 let userList = '';
                 users.forEach(user => {
-                    userList += `<tr>
+                    if(user.user_type === 'admin'){
+                        userList += `<tr>
+                        <td class="text-capitalize">${user.full_name}</td>
+                        <td>${user.email}</td>
+                        <td><span class="badge text-bg-warning text-capitalize">${user.user_type}</span></td>
+                        <td class="text-center">
+                            <button
+                            class="btn btn-sm"
+                            id="retrieveUser"
+                            data-id="${user.id}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#retrieveUserModal"
+                            data-bs-auto-close="false"
+                            >
+                            <i class="fas fa-pen"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+                    }else{
+                        userList += `<tr>
                         <td class="text-capitalize">${user.full_name}</td>
                         <td>${user.email}</td>
                         <td><span class="badge text-bg-warning text-capitalize">${user.user_type}</span></td>
@@ -83,6 +102,7 @@ function listUsers($, page, searchQuery) {
                             </button>
                         </td>
                     </tr>`;
+                    }
                 });
                 $('#user-data-container').html(userList);
 

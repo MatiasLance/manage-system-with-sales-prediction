@@ -29,10 +29,21 @@
 
           <div class="mb-3">
             <label for="retrieveBookingPhoneNumberInput" class="form-label text-capitalize">phone number</label>
-            <input type="text" class="form-control" id="retrieveBookingPhoneNumberInput" readonly="true">
+            <input type="text" class="form-control" id="retrieveBookingPhoneNumberInput">
             <div class="invalid-feedback">
                 Phone number must start with 09
             </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="bookingScheduleDateInput" class="form-label text-capitalize">Guest Count</label>
+            <input type="number" class="form-control" id="retrieveBookingGuestCountInput" name="guest_count" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Select Room</label>
+            <select class="form-select" aria-label="Default select example" id="retrieveBookingSelectRoomID" name="selected_room_id">
+            </select>
           </div>
 
           <div class="mb-3">

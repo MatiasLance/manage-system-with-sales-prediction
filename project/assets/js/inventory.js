@@ -38,9 +38,10 @@ jQuery(function(){
         $('#filterSalesByDate').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
         const payload = {
             startDate: start.format('YYYY-MM-DD'),
-            endDate: end.format('YYYY-MM-DD')   
+            endDate: end.format('YYYY-MM-DD'),
+            page: 1,
         }
-        getSalesByDate($, payload);
+        getSalesByDate($, 1, payload);
     });
 
     $(document).on('click', '.view-order-detail', function() {
@@ -209,6 +210,36 @@ function getSalesByDate($, payload){
                         <td>${new Date(response.data[i].created_at).toDateString()}</td>
                     </tr>`)
                 }
+
+                // Generate pagination links
+                jQuery('#inventory-sales-data-pagination-links').empty();
+
+                // Previous Button
+                jQuery('#inventory-sales-data-pagination-links').append(`
+                    <li class="page-item ${payload.page === 1 ? 'disabled' : ''}">
+                        <a class="page-link inventory-page-link" href="#" data-page="${payload.page - 1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                `);
+                
+                // Page Numbers
+                for (let i = 1; i <= response.pagination.total_pages; i++) {
+                    jQuery('#inventory-sales-data-pagination-links').append(`
+                        <li class="page-item ${i === payload.page ? 'active' : ''}">
+                            <a class="page-link inventory-page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `);
+                }
+
+                // Next Button
+                jQuery('#inventory-sales-data-pagination-links').append(`
+                    <li class="page-item ${payload.page === response.pagination.total_pages ? 'disabled' : ''}">
+                        <a class="page-link inventory-page-link" href="#" data-page="${payload.page + 1}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                `);
             }
         }
     })

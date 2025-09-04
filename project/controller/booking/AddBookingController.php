@@ -6,18 +6,18 @@ require_once __DIR__ . '/../../config/db_connection.php';
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Sanitize and trim input
+    $selectedRoomID = filter_input(INPUT_POST, 'selected_room_id', FILTER_VALIDATE_INT);
     $first_name = htmlspecialchars(trim($_POST["first_name"] ?? ""));
     $middle_name = htmlspecialchars(trim($_POST["middle_name"] ?? ""));
     $last_name = htmlspecialchars(trim($_POST["last_name"] ?? ""));
     $email = filter_var(trim($_POST["email"] ?? ""), FILTER_VALIDATE_EMAIL);
     $phone_number = htmlspecialchars(trim($_POST["phone_number"] ?? ""));
     $status = htmlspecialchars(trim($_POST["status"] ?? "pending"));
+    $guestCount = (int) $_POST['guest_count'];
     $booking_schedule = htmlspecialchars(trim($_POST["booking_schedule"] ?? ""));
     $check_in = htmlspecialchars(trim($_POST["check_in"] ?? ""));
     $check_out = htmlspecialchars(trim($_POST["check_out"] ?? ""));
 
-    // Validation rules
     $errors = [];
 
     if (empty($first_name)) $errors[] = "First name is required.";
@@ -29,19 +29,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!in_array($status, ["pending", "confirmed", "cancelled"])) {
         $errors[] = "Invalid status.";
     }
+    if(is_nan($guestCount)){
+        $errors[] = "Please enter a valid number for the guest count.";
+    }
+    if(!$selectedRoomID || $selectedRoomID <= 0){
+        $errors[] = "Please enter a valid room id.";
+    }
     if (!empty($booking_schedule) && !strtotime($booking_schedule)) {
         $errors[] = "Invalid booking schedule format.";
     }
 
-    // Return errors if any
     if (!empty($errors)) {
         echo json_encode(["error" => true, "messages" => $errors]);
         exit;
     }
 
-    // Check if there is an existing confirmed or pending booking for the same day
-    $checkSql = "SELECT COUNT(*) FROM booking WHERE booking_schedule = ? AND status IN ('pending', 'confirmed')";
-    $checkStmt = $conn->prepare($checkSql);
+    $checkBookingSchedule = "SELECT COUNT(*) FROM booking WHERE booking_schedule = ? AND status IN ('pending', 'confirmed')";
+    $checkStmt = $conn->prepare($checkBookingSchedule);
     $checkStmt->bind_param("s", $booking_schedule);
     $checkStmt->execute();
     $checkStmt->bind_result($existingBookings);
@@ -53,9 +57,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // Insert data using prepared statements
-    $sql = "INSERT INTO booking (first_name, middle_name, last_name, email, phone_number, status, booking_schedule, check_in, check_out) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $checkSelectedRoom = "SELECT COUNT(*) FROM booking WHERE room_id = ? AND status IN ('occupied')";
+    $checkStmt = $conn->prepare($checkSelectedRoom);
+    $checkStmt->bind_param("i", $selectedRoomID);
+    $checkStmt->execute();
+    $checkStmt->bind_result($existingSelectedRoom);
+    $checkStmt->fetch();
+    $checkStmt->close();
+
+    if ($existingSelectedRoom > 0) {
+        echo json_encode(["error" => true, "message" => "Room ". $selectedRoom ." is not available."]);
+        exit;
+    }
+
+    $sql = "INSERT INTO booking (room_id, first_name, middle_name, last_name, email, phone_number, status, guest_count, booking_schedule, check_in, check_out) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
 
@@ -65,13 +81,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $stmt->bind_param(
-        "sssssssss", 
+        "issssssssss",
+        $selectedRoomID,
         $first_name, 
         $middle_name, 
         $last_name, 
         $email, 
         $phone_number, 
         $status,
+        $guestCount,
         $booking_schedule,
         $check_in,
         $check_out
@@ -88,4 +106,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 } else {
     echo json_encode(["error" => true, "message" => "Invalid request method."]);
 }
-?>

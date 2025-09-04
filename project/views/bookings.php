@@ -17,7 +17,8 @@ $pageJS = [
     "https://cdn.jsdelivr.net/npm/chart.js",
     "./assets/js/toggleSideBar.js",
     "./assets/js/logout.js",
-    "./assets/js/booking.js"
+    "./assets/js/booking.js",
+    "./assets/js/room.js"
 ];
 
 $pageContent = __DIR__ . "/content/booking-content.php";

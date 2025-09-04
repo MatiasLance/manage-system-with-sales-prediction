@@ -36,6 +36,17 @@
           </div>
 
           <div class="mb-3">
+            <label for="bookingScheduleDateInput" class="form-label text-capitalize">Guest Count</label>
+            <input type="number" class="form-control" id="bookingGuestCountInput" name="guest_count" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Select Room</label>
+            <select class="form-select" aria-label="Default select example" id="bookingSelectRoomID" name="selected_room_id">
+            </select>
+          </div>
+
+          <div class="mb-3">
             <label for="bookingScheduleDateInput" class="form-label text-capitalize">Booking Schedule</label>
             <input type="date" class="form-control" id="bookingScheduleDateInput" name="booking_schedule" required>
           </div>
