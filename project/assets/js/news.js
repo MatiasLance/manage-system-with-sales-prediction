@@ -79,7 +79,9 @@ function list($, page, searchQuery) {
         success: function(response) {
             if(response.success === true) {
                 const newsContainer = $('#newsList');
+                const websiteNewsContainer = $('#websiteNewsContainer');
                 newsContainer.empty();
+                websiteNewsContainer.empty();
 
                 response.data.forEach(function(news) {
                     const newsItem = `
@@ -137,6 +139,24 @@ function list($, page, searchQuery) {
                         </div>
                     `;
                     newsContainer.append(newsItem);
+
+                    websiteNewsContainer.append(`
+                        <div class="news-item" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
+                            <div class="row">
+                                <div class="col-12">
+                                <span class="news-date">
+                                ${new Date(news.created_at).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })}
+                                </span>
+                                <h3>${news.title}</h3>
+                                <p>${news.content}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
                 });
 
                 if (response.data.length === 0) {

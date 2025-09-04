@@ -304,33 +304,12 @@
     <div data-aos="fade-up" data-aos-duration="800">
       <h2 class="text-center mb-5" style="color: var(--green-forest);">News</h2>
     </div>
-    <div class="news-item" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
-      <div class="row">
-        <div class="col-12">
-          <span class="news-date">Apr 5, 2025</span>
-          <h3>Meet <span class="goat-name">Buttercup</span>!</h3>
-          <p>Our newest kid arrived at dawn — full of hops, curiosity, and mischief.</p>
-        </div>
-      </div>
+    <div class="d-flex flex-column flex-md-row-reverse flex-md-row align-items-center justify-content-between mb-3 gap-2">
+        <nav class="mt-2 mt-md-0">
+            <ul class="pagination mb-0 justify-content-center" id="news-pagination-links"></ul>
+        </nav>
     </div>
-    <div class="news-item" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
-      <div class="row">
-        <div class="col-12">
-          <span class="news-date">Mar 28, 2025</span>
-          <h3>Spring Cheese Batch Ready</h3>
-          <p>Lavender-infused goat cheese, made with flowers from our west field. Available every Saturday.</p>
-        </div>
-      </div>
-    </div>
-    <div class="news-item" data-aos="fade-up" data-aos-duration="700" data-aos-delay="300">
-      <div class="row">
-        <div class="col-12">
-          <span class="news-date">Mar 15, 2025</span>
-          <h3>School Tours Open</h3>
-          <p>Hands-on learning: milking, feeding, and understanding where food comes from.</p>
-        </div>
-      </div>
-    </div>
+    <div id="websiteNewsContainer"></div>
   </section>
 
   <!-- Booking -->
@@ -420,6 +399,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="./assets/js/booking.js"></script>
   <script src="./assets/js/room.js"></script>
+  <script src="./assets/js/news.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       AOS.init({
