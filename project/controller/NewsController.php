@@ -1,5 +1,5 @@
 <?php
-ob_start(); // Start output buffering to prevent header errors
+ob_start();
 session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -13,34 +13,29 @@ $dotenv->safeLoad();
 try {
     $newsapi = new NewsApi($_ENV['NEWS_API_KEY']);
 
-    // Fetch top headlines about Philippines
     $response = $newsapi->getEverything(
-        'Philippines',  // Query/keywords
-        null,           // Sources
-        null,           // Domains
-        null,           // Exclude domains
-        null,           // From date
-        null,           // To date
-        'en',           // Language
-        'popularity',   // Sort by
-        20,             // Page size
-        1               // Page number
+        'Philippines',
+        null,
+        null,
+        null,
+        null,
+        null,
+        'en',
+        'popularity',
+        20,
+        1
     );
 
-    // Clear any previous output
     ob_end_clean();
     
-    // Set JSON header
     header('Content-Type: application/json');
 
-    // Prepare output array
     $output = [
         'status' => $response->status,
         'totalResults' => $response->totalResults,
         'articles' => []
     ];
 
-    // Loop through articles and format the output
     foreach ($response->articles as $article) {
         $output['articles'][] = [
             'source' => $article->source->name,
@@ -52,11 +47,9 @@ try {
         ];
     }
 
-    // Output the formatted JSON
     echo json_encode($output['articles']);
 
 } catch (Exception $e) {
-    // Clean output buffer before error response
     ob_end_clean();
     header('Content-Type: application/json');
     http_response_code(500);

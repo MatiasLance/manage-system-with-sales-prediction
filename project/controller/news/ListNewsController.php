@@ -15,7 +15,7 @@ $offset = ($page - 1) * $items_per_page;
 
 $search_param = "%$search%";
 
-$sql = "SELECT id, title, content, created_at
+$sql = "SELECT id, title, image_path, content, created_at
     FROM news
     WHERE deleted_at IS NULL
       AND (
@@ -74,4 +74,3 @@ $response = [
 echo json_encode($response, JSON_NUMERIC_CHECK);
 
 $conn->close();
-?>

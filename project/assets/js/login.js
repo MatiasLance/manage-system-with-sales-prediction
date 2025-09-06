@@ -54,11 +54,15 @@ jQuery(function($) {
                         title: 'Success',
                         text: response.message,
                         icon: 'success',
-                        showConfirmButton: false
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            if(response.user_role === 'admin' || response.user_role === 'manager'){
+                                window.location.href = '/dashboard';
+                            }else{
+                                window.location.href = '/pos';
+                            }
+                        }
                     });
-                    setTimeout(function(){
-                        window.location.href = '/dashboard';
-                    }, 1000)
                 } else {
                     Swal.fire({
                         title: 'error',

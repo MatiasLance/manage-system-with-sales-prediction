@@ -151,10 +151,10 @@ function roomList(page, searchQuery){
                     </td>
                 </tr>`);
                 if(response.data[i].status === 'available'){
-                    jQuery('#selectedRoom, #bookingSelectRoomID, #retrieveBookingSelectRoomID').append(`
+                    jQuery('#selectedRoom, #bookingSelectRoomID').append(`
                     <option value="${roomId}">${capitalizeWords(response.data[i].room_number)}</option>`)
                 }else{
-                    jQuery('#selectedRoom, #bookingSelectRoomID, #retrieveBookingSelectRoomID').append(`
+                    jQuery('#selectedRoom, #bookingSelectRoomID').append(`
                     <option value="${roomId}" class="position-relative" disabled>
                     ${capitalizeWords(response.data[i].room_number)}
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -162,6 +162,8 @@ function roomList(page, searchQuery){
                     </span>
                     </option>`)
                 }
+                jQuery('#retrieveBookingSelectRoomID').append(`
+                    <option value="${roomId}">${capitalizeWords(response.data[i].room_number)}</option>`)
             }
 
             // Generate pagination links

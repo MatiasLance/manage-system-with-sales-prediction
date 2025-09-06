@@ -12,6 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
   <!-- AOS - Animate On Scroll -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <style>
     :root {
       --green-forest: #4A7C59;
@@ -342,7 +343,7 @@
           </div>
           <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="300">
             <label class="form-label">Booking Schedule</label>
-            <input type="date" class="form-control" name="booking_schedule" required>
+            <input type="text" class="form-control" id="filterSalesByDate" name="booking_schedule" required>
           </div>
           <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="400">
             <label class="form-label">Guests Count</label>
@@ -397,6 +398,8 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <script src="./assets/js/booking.js"></script>
   <script src="./assets/js/room.js"></script>
   <script src="./assets/js/news.js"></script>

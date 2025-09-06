@@ -51,17 +51,23 @@
             <select class="form-select text-capitalize" id="retrieveBookingStatusSelect" name="status">
                 <option value="confirmed">Confirmed</option>
                 <option value="cancelled">Cancelled</option>
+                <option value="done">Done</option>
             </select>
           </div>
 
           <div class="mb-3">
-            <label for="currentBookingScheduleDateInput" class="form-label text-capitalize">Current Booking Schedule</label>
-            <input type="text" class="form-control" id="currentBookingScheduleDateInput" readonly="true">
+            <label for="retrieveStartDateInput" class="form-label text-capitalize">Start Date</label>
+            <input type="text" class="form-control" id="retrieveStartDateInput" readonly="true">
+          </div>
+
+          <div class="mb-3">
+            <label for="retrieveEndDateInput" class="form-label text-capitalize">End Date</label>
+            <input type="text" class="form-control" id="retrieveEndDateInput" readonly="true">
           </div>
 
           <div class="mb-3">
             <label for="retrieveBookingScheduleDateInput" class="form-label text-capitalize">Reschedule Booking</label>
-            <input type="date" class="form-control" id="retrieveBookingScheduleDateInput" name="booking_schedule">
+            <input type="text" class="form-control" id="retrieveBookingScheduleDateInput" name="booking_schedule">
           </div>
 
           <div class="mb-3">

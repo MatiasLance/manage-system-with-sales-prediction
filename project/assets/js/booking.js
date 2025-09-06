@@ -45,6 +45,17 @@ jQuery(function($){
         });
     })
 
+    $('#filterSalesByDate, #retrieveBookingScheduleDateInput').daterangepicker({
+        opens: 'left',
+        autoUpdateInput: false,
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    },
+    function(start, end, label) {
+        $('#filterSalesByDate, #retrieveBookingScheduleDateInput').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+    });
+
     $(document).on('keyup', '#bookingPhoneNumberInput', function(){
         let phoneNumber = $(this).val().trim();
         let phonePattern = /^09\d{9}$/;
@@ -62,8 +73,6 @@ jQuery(function($){
     })
 
     $(document).on('click', '#editBookingDetail', function(){
-        let editedBookingSchedule = $('#retrieveBookingScheduleDateInput').val();
-        let currentBookingScheduleDate = $('#currentBookingScheduleDateInput').val();
         const payload = {
             id: $('#editBookingId').val(),
             selected_room_id: $('#retrieveBookingSelectRoomID').val(),
@@ -74,7 +83,9 @@ jQuery(function($){
             phone_number: $('#retrieveBookingPhoneNumberInput').val(),
             guest_count: $('#retrieveBookingGuestCountInput').val(),
             status: $('#retrieveBookingStatusSelect').val(),
-            booking_schedule: editedBookingSchedule !== '' ? editedBookingSchedule : currentBookingScheduleDate,
+            booking_schedule: $('#retrieveBookingScheduleDateInput').val(),
+            start_date: $('#retrieveStartDateInput').val(),
+            end_date: $('#retrieveEndDateInput').val(),
             check_in: $('#retrieveBookingCheckInInput').val(),
             check_out: $('#retrieveBookingCheckOutInput').val()
         }
@@ -122,7 +133,8 @@ function listOfBooking(page, searchQuery){
         success: function(response) {
             $('#booking-container').empty();
             for (let i = 0; i < response.data.length; i++){
-                let bookingScheduleDate = new Date(response.data[i].booking_schedule);
+                let startDate = new Date(response.data[i].start_date);
+                let endDate = new Date(response.data[i].end_date);
                 let bookingId = response.data[i].id;
                 
                 $('#booking-container').append(`<tr>
@@ -132,7 +144,7 @@ function listOfBooking(page, searchQuery){
                     <td class="text-capitalize">${response.data[i].email}</td>
                     <td class="text-capitalize">${response.data[i].phone_number}</td>
                     <td class="text-capitalize">
-                        ${response.data[i].booking_status === 'confirmed' 
+                        ${response.data[i].booking_status === 'confirmed' || response.data[i].booking_status === 'done'
                             ? `<span class="badge text-bg-success">${response.data[i].booking_status}</span>` 
                             : response.data[i].booking_status === 'cancelled' 
                                 ? `<span class="badge text-bg-danger">${response.data[i].booking_status}</span>` 
@@ -140,7 +152,8 @@ function listOfBooking(page, searchQuery){
                     </td>
                     <td>${response.data[i].guest_count}</td>
                     <td>${response.data[i].room_number}</td>
-                    <td>${bookingScheduleDate.toDateString()}</td>
+                    <td>${startDate.toDateString()}</td>
+                    <td>${endDate.toDateString()}</td>
                     <td>${response.data[i].check_in}</td>
                     <td>${response.data[i].check_out}</td>
                     <td class="flex flex-row justify-content-between">
@@ -165,7 +178,7 @@ function listOfBooking(page, searchQuery){
             `);
             
             // Page Numbers
-            for (let i = 1; i <= response.total_pages; i++) {
+            for (let i = 1; i <= response.pagination.total_pages; i++) {
                 $('#booking-pagination-links').append(`
                     <li class="page-item ${i === page ? 'active' : ''}">
                         <a class="page-link booking-page-link" href="#" data-page="${i}">${i}</a>
@@ -175,7 +188,7 @@ function listOfBooking(page, searchQuery){
 
             // Next Button
             $('#booking-pagination-links').append(`
-                <li class="page-item ${page === response.total_pages ? 'disabled' : ''}">
+                <li class="page-item ${page === response.pagination.total_pages ? 'disabled' : ''}">
                     <a class="page-link booking-page-link" href="#" data-page="${page + 1}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
@@ -205,7 +218,8 @@ function retrieveBooking(id){
                 jQuery('#retrieveBookingEmailInput').val(response.data.booking.email);
                 jQuery('#retrieveBookingPhoneNumberInput').val(response.data.booking.phone_number);
                 jQuery('#retrieveBookingStatusSelect').prepend(`<option value="" disabled selected data-temp="true">${response.data.booking.status}</option>`);
-                jQuery('#currentBookingScheduleDateInput').val(response.data.booking.booking_schedule);
+                jQuery('#retrieveStartDateInput').val(response.data.booking.start_date);
+                jQuery('#retrieveEndDateInput').val(response.data.booking.end_date);
                 jQuery('#retrieveBookingCheckInInput').val(response.data.booking.check_in);
                 jQuery('#retrieveBookingCheckOutInput').val(response.data.booking.check_out);
                 jQuery('#bookingName').text(`${response.data.booking.full_name}`)

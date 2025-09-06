@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 header("Content-Type: application/json");
 
@@ -10,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     exit;
 }
 
-if (!isset($_GET['id']) || empty(trim($_GET['id']))) {
+if (!isset($_GET['id']) || trim($_GET['id']) === '') {
     http_response_code(400);
     echo json_encode(["error" => "Booking ID is required"]);
     exit;
@@ -34,13 +35,14 @@ $sql = "
         b.phone_number,
         b.status AS booking_status,
         b.guest_count,
-        b.booking_schedule,
+        b.start_date,
+        b.end_date,
         b.check_in,
         b.check_out,
         b.created_at AS booking_created_at,
         b.updated_at AS booking_updated_at,
         
-        -- Room fields
+        -- Room fields (if assigned)
         r.id AS room_id,
         r.room_number,
         r.status AS room_status,
@@ -56,7 +58,10 @@ $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
     http_response_code(500);
-    echo json_encode(["error" => "Database error: Unable to prepare statement"]);
+    echo json_encode([
+        "error" => true,
+        "message" => "Database error: Unable to prepare statement"
+    ]);
     exit;
 }
 
@@ -66,7 +71,10 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     http_response_code(404);
-    echo json_encode(["error" => true, "message" => "Booking not found"]);
+    echo json_encode([
+        "error" => true,
+        "message" => "Booking not found"
+    ]);
     $stmt->close();
     $conn->close();
     exit;
@@ -76,17 +84,15 @@ $booking = $result->fetch_assoc();
 $stmt->close();
 $conn->close();
 
-$booking['booking_schedule'] = date('Y-m-d H:i:s', strtotime($booking['booking_schedule']));
-$booking['booking_created_at'] = date('Y-m-d H:i:s', strtotime($booking['booking_created_at']));
-$booking['booking_updated_at'] = date('Y-m-d H:i:s', strtotime($booking['booking_updated_at']));
+$formatDate = function ($datetime) {
+    return $datetime ? date('Y-m-d H:i', strtotime($datetime)) : null;
+};
 
-if ($booking['room_created_at']) {
-    $booking['room_created_at'] = date('Y-m-d H:i:s', strtotime($booking['room_created_at']));
-    $booking['room_updated_at'] = date('Y-m-d H:i:s', strtotime($booking['room_updated_at']));
-}
+$formatTime = function ($time) {
+    return $time ? date('H:i', strtotime($time)) : null;
+};
 
 $fullName = trim("{$booking['first_name']} {$booking['middle_name']} {$booking['last_name']}");
-$booking['full_name'] = $fullName;
 
 $response = [
     'success' => true,
@@ -95,24 +101,25 @@ $response = [
             'id' => (int)$booking['id'],
             'full_name' => $fullName,
             'first_name' => $booking['first_name'],
-            'middle_name' => $booking['middle_name'],
+            'middle_name' => $booking['middle_name'] ?? null,
             'last_name' => $booking['last_name'],
             'email' => $booking['email'],
             'phone_number' => $booking['phone_number'],
             'status' => $booking['booking_status'],
             'guest_count' => (int)$booking['guest_count'],
-            'booking_schedule' => $booking['booking_schedule'],
-            'check_in' => $booking['check_in'] ?? null,
-            'check_out' => $booking['check_out'] ?? null,
-            'created_at' => $booking['booking_created_at'],
-            'updated_at' => $booking['booking_updated_at']
+            'start_date' => $formatDate($booking['start_date']),
+            'end_date' => $formatDate($booking['end_date']),
+            'check_in' => $formatTime($booking['check_in']),
+            'check_out' => $formatTime($booking['check_out']),
+            'created_at' => $formatDate($booking['booking_created_at']),
+            'updated_at' => $formatDate($booking['booking_updated_at'])
         ],
         'room' => $booking['room_id'] ? [
             'id' => (int)$booking['room_id'],
             'room_number' => $booking['room_number'],
             'status' => $booking['room_status'],
-            'created_at' => $booking['room_created_at'],
-            'updated_at' => $booking['room_updated_at']
+            'created_at' => $formatDate($booking['room_created_at']),
+            'updated_at' => $formatDate($booking['room_updated_at'])
         ] : null
     ]
 ];

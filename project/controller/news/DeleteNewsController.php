@@ -74,4 +74,3 @@ if ($stmt->num_rows > 0) {
 
 $stmt->close();
 $conn->close();
-?>

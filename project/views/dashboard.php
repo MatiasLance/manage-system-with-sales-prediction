@@ -22,6 +22,7 @@ $pageJS = [
     "./assets/js/employee.js",
     "./assets/js/booking.js",
     "./assets/js/inventory.js",
+    "./assets/js/sales.js"
 ];
 
 $pageContent = __DIR__ . "/content/dashboard-content.php";

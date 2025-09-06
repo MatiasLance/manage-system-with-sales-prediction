@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 header("Content-Type: application/json");
 
@@ -26,7 +27,8 @@ $sql = "
         b.phone_number,
         b.status AS booking_status,
         b.guest_count,
-        b.booking_schedule,
+        b.start_date,
+        b.end_date,
         b.check_in,
         b.check_out,
         b.created_at,
@@ -43,7 +45,7 @@ $sql = "
         OR CONCAT(b.first_name, ' ', b.last_name) LIKE ?
         OR CONCAT(b.last_name, ' ', b.first_name) LIKE ?
       )
-    ORDER BY b.booking_schedule DESC, b.created_at DESC
+    ORDER BY b.start_date DESC, b.created_at DESC
     LIMIT ? OFFSET ?
 ";
 
@@ -54,7 +56,7 @@ if (!$stmt) {
     echo json_encode([
         "error" => true,
         "message" => "Database prepare error: " . $conn->error
-    ]);
+    ], JSON_PRETTY_PRINT);
     exit;
 }
 
@@ -70,16 +72,23 @@ $result = $stmt->get_result();
 $bookings = [];
 
 while ($row = $result->fetch_assoc()) {
-    $row['booking_schedule'] = date('Y-m-d H:i', strtotime($row['booking_schedule']));
-    $row['created_at'] = date('Y-m-d H:i', strtotime($row['created_at']));
+    $row['start_date'] = $row['start_date'] ? date('Y-m-d H:i', strtotime($row['start_date'])) : null;
+    $row['end_date']   = $row['end_date']   ? date('Y-m-d H:i', strtotime($row['end_date']))   : null;
+    $row['created_at'] = $row['created_at'] ? date('Y-m-d H:i', strtotime($row['created_at'])) : null;
+
+    $row['check_in']  = $row['check_in']  ? date('H:i', strtotime($row['check_in']))  : null;
+    $row['check_out'] = $row['check_out'] ? date('H:i', strtotime($row['check_out'])) : null;
+
     $row['full_name'] = trim("{$row['first_name']} {$row['middle_name']} {$row['last_name']}");
+
     $row['id'] = (int)$row['id'];
     $row['guest_count'] = (int)$row['guest_count'];
-    $row['check_in'] = $row['check_in'] ?? '';
-    $row['check_out'] = $row['check_out'] ?? '';
+    $row['room_number'] = $row['room_number'] ?? null;
+    $row['room_status'] = $row['room_status'] ?? null;
 
     $bookings[] = $row;
 }
+
 $stmt->close();
 
 $sql_total = "

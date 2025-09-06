@@ -5,6 +5,28 @@ jQuery(function($){
     save($);
     list($, 1, '');
 
+    const imageInput = $('#newsImageInput, #editNewsImageInput');
+    const imagePreview = $('#imagePreview, #editImagePreview');
+    const imagePreviewContainer = $('#imagePreviewContainer, #editImagePreviewContainer');
+
+    imageInput.on('change', function () {
+        const file = this.files[0];
+
+        imagePreviewContainer.addClass('d-none');
+        imagePreview.attr('src', '');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                imagePreview.attr('src', e.target.result);
+                imagePreviewContainer.removeClass('d-none');
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
     $('#search-news').on('keyup', function() {
         clearTimeout(debounceTimer);
         let searchQuery = $(this).val();
@@ -24,6 +46,7 @@ jQuery(function($){
         const newsId = $('#newsId').val();
         const title = $('#editNewsTitleInput').val();
         const content = $('#editNewsContentInput').val();
+        const imageFile = $('#editNewsImageInput')[0].files[0];
 
         if (!title || !content) {
             Swal.fire({
@@ -34,13 +57,15 @@ jQuery(function($){
             return;
         }
 
-        const payload = {
-            id: newsId,
-            title: title,
-            content: content
-        };
+        const formData = new FormData();
+        formData.append('id', newsId);
+        formData.append('title', title);
+        formData.append('content', content);
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
 
-        edit($, payload);
+        edit($, formData);
     });
 
     $(document).on('click', '#openDeleteNewsModal', function() {
@@ -87,6 +112,14 @@ function list($, page, searchQuery) {
                     const newsItem = `
                         <div class="col-md-4 mb-4">
                             <div class="card shadow-sm border-light">
+                            ${news.image_path 
+                                ? `<img src="${news.image_path}" 
+                                        class="card-img-top" 
+                                        alt="News Image" 
+                                        loading="lazy"
+                                        style="height: 200px; object-fit: cover; border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem;">`
+                                : ''}
+
                                 <!-- Card Header with Icons -->
                                 <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom-0 pt-3 px-3 pb-0">
                                     <span class="badge bg-light text-dark border rounded-pill px-3 py-1" style="font-size: 0.75rem;">News</span>
@@ -141,21 +174,37 @@ function list($, page, searchQuery) {
                     newsContainer.append(newsItem);
 
                     websiteNewsContainer.append(`
-                        <div class="news-item" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
-                            <div class="row">
-                                <div class="col-12">
-                                <span class="news-date">
-                                ${new Date(news.created_at).toLocaleDateString('en-US', {
+                        <div class="news-item mb-4" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
+                            <div class="row g-0 align-items-start">
+                                
+                                ${news.image_path 
+                                ? `<div class="col-md-4 col-12">
+                                    <img src="${news.image_path}" 
+                                        class="img-fluid rounded-start rounded-md-start object-fit-cover" 
+                                        alt="News Image"
+                                        loading="lazy"
+                                        style="width: 100%; height: 180px; object-fit: cover; border-radius: 0.375rem;">
+                                    </div>`
+                                : ''}
+
+                                <div class="${news.image_url ? 'col-md-8' : 'col-12'} ps-md-3 pt-2 pt-md-0">
+                                <span class="text-muted news-date mb-1 d-block" style="font-size: 0.85rem;">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    ${new Date(news.created_at).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'short',
                                     day: 'numeric'
-                                })}
+                                    })}
                                 </span>
-                                <h3>${news.title}</h3>
-                                <p>${news.content}</p>
+                                <h3 class="h5 fw-bold text-dark mb-2">${news.title}</h3>
+                                <p class="text-secondary mb-0" style="font-size: 0.95rem; line-height: 1.6;">
+                                    ${news.content.length > 180 
+                                    ? news.content.substring(0, 180) + '...' 
+                                    : news.content}
+                                </p>
                                 </div>
                             </div>
-                        </div>
+                            </div>
                     `);
                 });
 
@@ -206,10 +255,10 @@ function list($, page, searchQuery) {
 }
 
 function save($) {
-        $('#saveNews').on('click', function() {
-
-        const title = $('#newsTitleInput').val();
-        const content = $('#newsContentInput').val();
+    $('#saveNews').on('click', function () {
+        const title = $('#newsTitleInput').val().trim();
+        const content = $('#newsContentInput').val().trim();
+        const imageFile = $('#newsImageInput')[0].files[0];
 
         if (!title || !content) {
             Swal.fire({
@@ -220,41 +269,69 @@ function save($) {
             return;
         }
 
-        const payload = {
-            title: title,
-            content: content
-        };
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+
 
         $.ajax({
             url: './controller/news/AddNewsController.php',
             type: 'POST',
-            data: payload,
-            success: function(response) {
-                if(response.success === true) {
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                let res;
+                if (typeof response === 'string') {
+                    try {
+                        res = JSON.parse(response);
+                    } catch (e) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Invalid response from server.',
+                            icon: 'error',
+                        });
+                        console.error('Parse error:', e);
+                        return;
+                    }
+                } else {
+                    res = response;
+                }
+
+                if (res.success === true) {
                     Swal.fire({
-                        title: 'Success',
-                        text: response.message,
+                        title: 'Success!',
+                        text: res.message,
                         icon: 'success',
                     });
-                    $('#newsTitleInput').val('');
-                    $('#newsContentInput').val('');
-                    setTimeout(function() {
+                    $('#newsForm')[0].reset();
+                    $('#imagePreviewContainer').addClass('d-none');
+                    $('#imagePreview').attr('src', '');
+
+                    setTimeout(function () {
                         $('#addNewsModal').modal('hide');
                         list($, 1, currentSearch);
                     }, 500);
                 }
 
-                if (response.error === true) {
+                if (res.error === true) {
                     Swal.fire({
-                        title: 'Error',
-                        text: response.message,
+                        title: 'Error!',
+                        text: res.message,
                         icon: 'error',
                     });
-                    return;
                 }
             },
-            error: function(xhr, status, error) {
-                console.error('Error saving news: ' + error);
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Request Failed',
+                    text: 'An error occurred while saving the news.',
+                    icon: 'error',
+                });
+                console.error('AJAX Error:', error, xhr);
             }
         });
     });
@@ -290,6 +367,8 @@ function edit($, payload) {
         url: './controller/news/EditNewsController.php',
         type: 'POST',
         data: payload,
+        contentType: false,
+        processData: false,
         success: function(response) {
             if(response.success === true) {
                 Swal.fire({
