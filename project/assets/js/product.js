@@ -718,7 +718,7 @@ function fetchData(page, searchQuery) {
                 }
             }
 
-            jQuery('#totalProduct').text(response.total_products);
+            jQuery('#totalProduct').text(response.pagination.total_items);
         },
         error: function() {
             console.error('Error loading data');
