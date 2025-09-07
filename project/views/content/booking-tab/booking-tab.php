@@ -1,8 +1,12 @@
 <div class="tab-pane fade show active" id="booking-tab-pane" role="tabpanel" aria-labelledby="booking-tab-pane" tabindex="0">
         <button type="button" class="btn btn-milk-white btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#addBookingModal" data-bs-auto-close="false">Add Booking</button>
 
-        <!-- Search Input -->
-        <input type="text" id="searchBooking" class="form-control mb-3" placeholder="Search by name...">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
+            <input type="text" id="searchBooking" class="form-control mb-3 w-50" placeholder="Search by name...">
+            <nav>
+                <ul class="pagination justify-content-center" id="booking-pagination-links"></ul>
+            </nav>
+        </div>
 
         <!-- Data Table -->
         <div class="table-responsive">
@@ -29,9 +33,4 @@
             <tbody id="booking-container"></tbody>
         </table>
         </div>
-
-        <!-- Pagination Controls -->
-        <nav>
-            <ul class="pagination justify-content-center" id="booking-pagination-links"></ul>
-        </nav>
 </div>
