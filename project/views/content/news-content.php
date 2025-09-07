@@ -24,18 +24,10 @@
 <div class="container news-content">
     <button type="button" class="btn btn-milk-white btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#addNewsModal" data-bs-auto-close="false">Add News</button>
 
-    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3 gap-2">
-        <div class="flex-grow-1">
-            <input 
-                type="text" 
-                id="search-news" 
-                class="form-control"
-                placeholder="Search by news title or content..." 
-                aria-label="Search News"
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
+         <input type="text" id="search-news" class="form-control mb-3 w-50" placeholder="Search by news title or content..." aria-label="Search News"
             >
-        </div>
-
-        <nav class="mt-2 mt-md-0">
+        <nav>
             <ul class="pagination mb-0 justify-content-center" id="news-pagination-links"></ul>
         </nav>
     </div>

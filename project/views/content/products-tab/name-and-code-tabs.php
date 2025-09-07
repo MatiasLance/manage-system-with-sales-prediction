@@ -2,7 +2,7 @@
 <div class="tab-pane fade" id="product-name-tab-pane" role="tabpanel" aria-labelledby="product-name-tab" tabindex="0">
     <button type="button" class="btn btn-milk-white btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#addProductNameModal" data-bs-auto-close="false">Add Product (Name, Code, & Category)</button>
         
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <!-- Filter Products Name and Code -->
         <input type="text" id="searchProductName" class="form-control mb-3 w-50" placeholder="Search by name or code">
         <!-- Pagination Controls -->

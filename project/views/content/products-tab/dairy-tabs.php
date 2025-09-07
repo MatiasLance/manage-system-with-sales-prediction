@@ -1,7 +1,7 @@
 <!-- Dairy Products -->
 <div class="tab-pane fade show active" id="dairy-product-tab-pane" role="tabpanel" aria-labelledby="dairy-product-tab" tabindex="0">
 
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <!-- Filter Dairy Products -->
         <input type="text" id="searchProducts" class="form-control mb-3 w-50" placeholder="Search by name...">
         <!-- Pagination Controls -->

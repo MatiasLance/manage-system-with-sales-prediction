@@ -1,7 +1,7 @@
 <!-- Grains & Cereals -->
 <div class="tab-pane fade" id="grain-and-cereals-product-tab-pane" role="tabpanel" aria-labelledby="grain-and-cereals-product-tab" tabindex="0">
 
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <!-- Filter Dairy Products -->
         <input type="text" id="searchGrainsAndCerealsProducts" class="form-control mb-3 w-50" placeholder="Search by name...">
         <!-- Pagination Controls -->

@@ -1,7 +1,7 @@
 <!-- Archived Products Tab Content -->
 <div class="tab-pane fade" id="archived-data-tab-pane" role="tabpanel" aria-labelledby="archived-data-tab" tabindex="0">
 
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <input type="text" id="searchAchivedProductName" class="form-control mb-3 w-50" placeholder="Search by name...">
         <!-- Pagination Controls -->
         <nav>
