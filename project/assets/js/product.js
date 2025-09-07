@@ -635,7 +635,7 @@ function fetchData(page, searchQuery) {
                         `);
                         
                         // Page Numbers
-                        for (let i = 1; i <= response.total_pages; i++) {
+                        for (let i = 1; i <= response.categories.dairy.total_pages; i++) {
                             jQuery('#pagination-links').append(`
                                 <li class="page-item ${i === page ? 'active' : ''}">
                                     <a class="page-link products-page-link" href="#" data-page="${i}">${i}</a>
@@ -645,7 +645,7 @@ function fetchData(page, searchQuery) {
 
                         // Next Button
                         jQuery('#pagination-links').append(`
-                            <li class="page-item ${page === response.total_pages ? 'disabled' : ''}">
+                            <li class="page-item ${page === response.categories.dairy.total_pages ? 'disabled' : ''}">
                                 <a class="page-link products-page-link" href="#" data-page="${page + 1}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
@@ -699,7 +699,7 @@ function fetchData(page, searchQuery) {
                     `);
                     
                     // Page Numbers
-                    for (let i = 1; i <= response.total_pages; i++) {
+                    for (let i = 1; i <= response.categories.grains_cereals.total_pages; i++) {
                         jQuery('#grains-and-cereals-pagination-links').append(`
                             <li class="page-item ${i === page ? 'active' : ''}">
                                 <a class="page-link products-page-link" href="#" data-page="${i}">${i}</a>
@@ -709,7 +709,7 @@ function fetchData(page, searchQuery) {
 
                     // Next Button
                     jQuery('#grains-and-cereals-pagination-links').append(`
-                        <li class="page-item ${page === response.total_pages ? 'disabled' : ''}">
+                        <li class="page-item ${page === response.categories.grains_cereals.total_pages ? 'disabled' : ''}">
                             <a class="page-link products-page-link" href="#" data-page="${page + 1}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
