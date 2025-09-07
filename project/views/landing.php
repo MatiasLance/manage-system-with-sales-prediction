@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sunny Meadows | Golden Goats in Green Hills</title>
+  <title>MBRLCFI | BOOKING</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=Quicksand:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
   <!-- Bootstrap 5 -->
@@ -49,7 +49,7 @@
       min-height: 100vh;
       height: auto;
       background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
-                        url('https://i.imgur.com/9AMFYVI.jpeg');
+                        url('https://i.imgur.com/9GfrqMK.png');
       background-size: cover;
       background-position: center;
       display: flex;
@@ -252,7 +252,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">RMC</a>
+      <a class="navbar-brand" href="#">MBRLCFI</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -268,33 +268,35 @@
 
   <!-- Hero -->
   <section class="hero d-flex align-items-center">
-    <div class="container" data-aos="fade-up" data-aos-duration="1000">
+    <!-- <div class="container" data-aos="fade-up" data-aos-duration="1000">
       <h1>Where <span class="goat-name">Golden Goats</span><br>Roam Green Hills</h1>
       <p class="lead">A small farm rooted in care, sunshine, and slow living.</p>
       <a href="#book" class="btn btn-gold mt-4">Plan Your Visit <span class="floating-goat">🐐</span></a>
-    </div>
+    </div> -->
   </section>
 
   <!-- About -->
   <section id="about" class="container">
     <div class="row align-items-center g-5">
       <div class="col-md-7" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
-        <h2>In Harmony with Nature</h2>
+        <h2>Mindanao Baptist Rural Life Center Foundation, Inc.</h2>
         <p class="about-text">
-          At Sunny Meadows, we believe farming should be gentle.  
-          Our goats graze freely on lush pastures, nurtured by rain and sunlight.
+        The Mindanao Baptist Rural Life Center Foundation, Inc. (MBRLCFI)
+         is a non-profit organization located in Kinuskusan, Bansalan, Davao del Sur, Philippines.
+          Established with a vision to empower rural communities, MBRLCFI is dedicated 
+          to promoting sustainable agriculture, rural development, and community
+           transformation through faith-based values and innovative practices.
+          
         </p>
         <p class="about-text mt-3">
-          We make small-batch goat cheese, host weekend tours,  
-          and welcome families to connect with the land — and with joy.
-        </p>
+          
         <p class="about-text mt-3" style="font-style: italic;">
-          “The goats aren’t just animals — they’re <span class="goat-name">family</span>.” – Clara, Founder
+          “I have come that you might have <span class="goat-name">life</span> and that you might have it more abundantly.” – John, 10:10b
         </p>
       </div>
       <div class="col-md-5" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
         <div class="about-img-wrapper">
-          <img src="https://i.imgur.com/9AMFYVI.jpeg" alt="Goat in green field" class="about-img">
+          <img src="https://i.imgur.com/9GfrqMK.png" alt="Goat in green field" class="about-img">
         </div>
       </div>
     </div>
@@ -318,7 +320,7 @@
     <div class="container" data-aos="fade-in" data-aos-duration="800">
       <div class="text-center mb-5">
         <h2>Come Say Hello</h2>
-        <p class="lead" style="color: #555;">Open weekends. Reserve your visit below.</p>
+        <p class="lead" style="color: #555;">Open Monday to Friday. Reserve your visit below.</p>
       </div>
       <form id="bookNow">
         <div class="row g-4">
@@ -367,26 +369,20 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <h5>Visit</h5>
-          <p>123 Green Pasture Lane<br>Vermont, USA</p>
+          <h5 class="text-white">Visit</h5>
+          <p>📍Kinuskusan Bansalan Davao Del Sur</p>
         </div>
         <div class="col-md-3">
-          <h5>Contact</h5>
-          <p>
-            <a href="mailto:hello@sunymeadows.com">hello@sunymeadows.com</a><br>
-            (555) 123-GOAT
-          </p>
+          <h5 class="text-white">Contact</h5>
+          <p>  mbrlcfi71@gmail.com  </p>
         </div>
         <div class="col-md-3">
-          <h5>Hours</h5>
-          <p>Sat–Sun: 10am–4pm<br>Tours by reservation</p>
+          <h5 class="text-white">Hours</h5>
+          <p>Mon–Fri: 8am–4pm<br>Tours by reservation</p>
         </div>
         <div class="col-md-3">
-          <h5>Follow</h5>
-          <p>
-            <a href="#">Instagram</a> · <a href="#">Journal</a>
-          </p>
-          <p class="footer-signature">— Clara & Tom</p>
+          <h5 class="text-white">Follow</h5>
+          <p>Facebook<br>MBRLCFI DAVAO</p>
         </div>
       </div>
     </div>

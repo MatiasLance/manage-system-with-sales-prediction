@@ -35,6 +35,15 @@ class DatabaseMigrator
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )",
+
+            
+            "room" => "CREATE TABLE IF NOT EXISTS room (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                room_number VARCHAR(50) NOT NULL,
+                status ENUM('available', 'occupied') NOT NULL DEFAULT 'available',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )",
             
             "booking" => "CREATE TABLE IF NOT EXISTS booking (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,14 +62,6 @@ class DatabaseMigrator
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 FOREIGN KEY (room_id) REFERENCES room(id)
-            )",
-
-            "room" => "CREATE TABLE IF NOT EXISTS room (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                room_number VARCHAR(50) NOT NULL,
-                status ENUM('available', 'occupied') NOT NULL DEFAULT 'available',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )",
 
             "products name" => "CREATE TABLE IF NOT EXISTS products_name (
