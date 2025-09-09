@@ -18,6 +18,11 @@ jQuery(function(){
         getTotalSales();
     });
 
+    $('#loadAllData').on('click', function() {
+        $('#filterSalesByDate').val('');
+        listOfSales(1, '');
+    });
+
     $(document).on('click', '.inventory-page-link', function() {
         let page = $(this).data('page');
         listOfSales(page, inventoryCurrentSearch);
@@ -61,7 +66,7 @@ jQuery(function(){
         salesFilterState.endDate = end.format('YYYY-MM-DD');
         salesFilterState.page = 1;
 
-        getSalesByDate($, salesFilterState);
+        getSalesByDate($, { ...salesFilterState });
     });
 
     $(document).on('click', '.view-order-detail', function() {

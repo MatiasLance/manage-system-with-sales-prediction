@@ -55,7 +55,20 @@
                 <i class="bi bi-funnel-fill"></i>
             </label>
         </div>
-        <i class="bi bi-filetype-csv display-6" id="exportCSV" style="color: #fff; cursor: pointer;"></i>
+        <div class="d-flex align-items-center gap-3">
+            <!-- Load All Data Button -->
+            <button type="button" class="btn btn-success btn-sm d-flex align-items-center gap-1" id="loadAllData">
+                <i class="bi bi-arrow-clockwise" style="font-size: 1.1rem;"></i>
+                <span>Load All Data</span>
+            </button>
+
+            <!-- Export CSV Icon (Styled as Button) -->
+            <button type="button" class="btn btn-outline-light btn-sm d-flex align-items-center gap-1" 
+                    id="exportCSV" title="Export to CSV">
+                <i class="bi bi-filetype-csv" style="font-size: 1.1rem;"></i>
+                <small>Export CSV</small>
+            </button>
+        </div>
     </div>
 
     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
