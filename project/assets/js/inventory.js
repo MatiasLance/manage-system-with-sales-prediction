@@ -14,6 +14,12 @@ jQuery(function(){
     $(document).on('click', '.inventory-page-link', function(e) {
         e.preventDefault();
         let page = $(this).data('page');
+        getSalesByDate(page, inventoryCurrentSearch);
+    });
+
+    $(document).on('click', '.date-range-page-link', function(e) {
+        e.preventDefault();
+        let page = $(this).data('page');
         listOfSales(page, inventoryCurrentSearch);
     });
 
@@ -226,7 +232,7 @@ function getSalesByDate($, payload){
                 // Previous Button
                 jQuery('#inventory-sales-data-pagination-links').append(`
                     <li class="page-item ${payload.page === 1 ? 'disabled' : ''}">
-                        <a class="page-link inventory-page-link" href="#" data-page="${payload.page - 1}" aria-label="Previous">
+                        <a class="page-link date-range-page-link" href="#" data-page="${payload.page - 1}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -236,7 +242,7 @@ function getSalesByDate($, payload){
                 for (let i = 1; i <= response.pagination.total_pages; i++) {
                     jQuery('#inventory-sales-data-pagination-links').append(`
                         <li class="page-item ${i === payload.page ? 'active' : ''}">
-                            <a class="page-link inventory-page-link" href="#" data-page="${i}">${i}</a>
+                            <a class="page-link date-range-page-link" href="#" data-page="${i}">${i}</a>
                         </li>
                     `);
                 }
@@ -244,7 +250,7 @@ function getSalesByDate($, payload){
                 // Next Button
                 jQuery('#inventory-sales-data-pagination-links').append(`
                     <li class="page-item ${payload.page === response.pagination.total_pages ? 'disabled' : ''}">
-                        <a class="page-link inventory-page-link" href="#" data-page="${payload.page + 1}" aria-label="Next">
+                        <a class="page-link date-range-page-link" href="#" data-page="${payload.page + 1}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
