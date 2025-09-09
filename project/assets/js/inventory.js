@@ -11,16 +11,14 @@ jQuery(function(){
         getTotalSales();
     });
 
-    $(document).on('click', '.inventory-page-link', function(e) {
-        e.preventDefault();
-        let page = $(this).data('page');
-        getSalesByDate(page, inventoryCurrentSearch);
-    });
-
-    $(document).on('click', '.date-range-page-link', function(e) {
-        e.preventDefault();
+    $(document).on('click', '.inventory-page-link', function() {
         let page = $(this).data('page');
         listOfSales(page, inventoryCurrentSearch);
+    });
+
+    $(document).on('click', '.date-range-page-link', function() {
+        let page = $(this).data('page');
+        getSalesByDate(page, inventoryCurrentSearch);
     });
 
     $('#searchInventorySalesOrderNumber').on('keyup', function() {
