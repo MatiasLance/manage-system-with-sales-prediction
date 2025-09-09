@@ -41,7 +41,7 @@ jQuery(function(){
             endDate: end.format('YYYY-MM-DD'),
             page: 1,
         }
-        getSalesByDate($, 1, payload);
+        getSalesByDate($, payload);
     });
 
     $(document).on('click', '.view-order-detail', function() {
@@ -92,7 +92,7 @@ function listOfSales(page, searchQuery){
             `);
             
             // Page Numbers
-            for (let i = 1; i <= response.total_pages; i++) {
+            for (let i = 1; i <= response.pagination.total_pages; i++) {
                 jQuery('#inventory-sales-data-pagination-links').append(`
                     <li class="page-item ${i === page ? 'active' : ''}">
                         <a class="page-link inventory-page-link" href="#" data-page="${i}">${i}</a>
@@ -102,12 +102,14 @@ function listOfSales(page, searchQuery){
 
             // Next Button
             jQuery('#inventory-sales-data-pagination-links').append(`
-                <li class="page-item ${page === response.total_pages ? 'disabled' : ''}">
+                <li class="page-item ${page === response.pagination.total_pages ? 'disabled' : ''}">
                     <a class="page-link inventory-page-link" href="#" data-page="${page + 1}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             `);
+
+            $('#totalSalesAmount').text(formatCurrency(response.total_amount || 0));
         },
         error: function() {
             console.error('Error loading data');
@@ -177,7 +179,6 @@ function getTotalSales(){
                     };
                     animateCounter(totalSales);
                 }
-                $('#totalSalesAmount').text(formatCurrency(response.data.yearly[0]?.total_sales || 0));
             }else{
                 Swal.fire({
                     title: 'Warning!',
@@ -208,6 +209,14 @@ function getSalesByDate($, payload){
                         <td>${formatCurrency(response.data[i].tax_amount)}</td>
                         <td>${formatCurrency(response.data[i].total)}</td>
                         <td>${new Date(response.data[i].created_at).toDateString()}</td>
+                        <td class="flex flex-row justify-content-between text-center">
+                        <button
+                            class="btn btn-sm view-order-detail"
+                            data-id="${response.data[i].id}"
+                        >
+                            <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
                     </tr>`)
                 }
 
@@ -240,6 +249,8 @@ function getSalesByDate($, payload){
                         </a>
                     </li>
                 `);
+
+                $('#totalSalesAmount').text(formatCurrency(response.summary.total_sales || 0));
             }
         }
     })

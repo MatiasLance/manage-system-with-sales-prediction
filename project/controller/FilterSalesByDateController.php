@@ -5,8 +5,11 @@ require_once __DIR__ . '/../config/db_connection.php';
 header('Content-Type: application/json');
 
 try {
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $items_per_page = isset($_GET['items_per_page']) ? (int)$_GET['items_per_page'] : 10;
+    $page = (int)($_GET['page'] ?? 1);
+    $items_per_page = (int)($_GET['items_per_page'] ?? 10);
+    $search = trim($_GET['search'] ?? '');
+    $start = $_GET['startDate'] ?? null;
+    $end = $_GET['endDate'] ?? null;
 
     if ($page < 1) $page = 1;
     if ($items_per_page < 1) $items_per_page = 10;
@@ -14,10 +17,12 @@ try {
 
     $offset = ($page - 1) * $items_per_page;
 
-    $search = trim($_GET['search'] ?? '');
-    $start = $_GET['startDate'] ?? null;
-    $end = $_GET['endDate'] ?? null;
+    $timezone = 'Asia/Manila';
+    date_default_timezone_set($timezone);
 
+    if (!$conn->query("SET time_zone = '+08:00'")) {
+        throw new Exception("Failed to set MySQL timezone: " . $conn->error);
+    }
 
     if (empty($start) && empty($end)) {
         $today = new DateTime('today');
@@ -46,17 +51,16 @@ try {
         $end = $endObj->format('Y-m-d');
     }
 
-    $startOfDay = $start . ' 00:00:00';
-    $endOfDay = $end . ' 23:59:59';
+    $startDateTime = $start . ' 00:00:00';
+    $endDateTime = (new DateTime($end))->modify('+1 day')->format('Y-m-d 00:00:00');
 
-    $whereConditions = [];
+    $whereConditions = ['deleted_at IS NULL'];
     $params = [];
     $types = '';
 
-    $whereConditions[] = "deleted_at IS NULL";
-    $whereConditions[] = "created_at >= ? AND created_at <= ?";
-    $params[] = $startOfDay;
-    $params[] = $endOfDay;
+    $whereConditions[] = "created_at >= ? AND created_at < ?";
+    $params[] = $startDateTime;
+    $params[] = $endDateTime;
     $types .= 'ss';
 
     if (!empty($search)) {
@@ -68,6 +72,20 @@ try {
     }
 
     $whereClause = implode(' AND ', $whereConditions);
+
+    $countQuery = "SELECT COUNT(*) AS total FROM orders WHERE $whereClause";
+    $stmtCount = $conn->prepare($countQuery);
+    if (!$stmtCount) {
+        throw new Exception("Count query prepare failed: " . $conn->error);
+    }
+    $stmtCount->bind_param($types, ...$params);
+    $stmtCount->execute();
+    $resultCount = $stmtCount->get_result();
+    $total_row = $resultCount->fetch_assoc();
+    $total_items = (int)($total_row['total'] ?? 0);
+    $stmtCount->close();
+
+    $total_pages = $total_items > 0 ? ceil($total_items / $items_per_page) : 1;
 
     $query = "
         SELECT 
@@ -86,34 +104,13 @@ try {
         LIMIT ? OFFSET ?
     ";
 
-    $countQuery = "
-        SELECT COUNT(*) AS total
-        FROM orders
-        WHERE $whereClause
-    ";
-
-    $stmtCount = $conn->prepare($countQuery);
-    if (!$stmtCount) {
-        throw new Exception("Failed to prepare count query: " . $conn->error);
-    }
-
-    $stmtCount->bind_param($types, ...$params);
-    $stmtCount->execute();
-    $resultCount = $stmtCount->get_result();
-    $total_row = $resultCount->fetch_assoc();
-    $total_items = (int)($total_row['total'] ?? 0);
-    $stmtCount->close();
-
-    $total_pages = $total_items > 0 ? ceil($total_items / $items_per_page) : 1;
-
     $finalParams = array_merge($params, [$items_per_page, $offset]);
     $finalTypes = $types . 'ii';
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
-        throw new Exception("Failed to prepare data query: " . $conn->error);
+        throw new Exception("Data query prepare failed: " . $conn->error);
     }
-
     $stmt->bind_param($finalTypes, ...$finalParams);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -153,7 +150,7 @@ try {
             'has_prev'      => $page > 1
         ],
         'summary' => [
-            'total_orders' => count($orders),
+            'total_orders' => $total_items,
             'total_sales'  => round($totalSales, 2)
         ],
         'data' => $orders
@@ -169,6 +166,7 @@ try {
     ], JSON_PRETTY_PRINT);
 
 } catch (Exception $e) {
+    error_log("Order list error: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'status' => 'error',

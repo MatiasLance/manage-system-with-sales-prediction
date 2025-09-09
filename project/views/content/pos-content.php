@@ -13,7 +13,7 @@
     </a>
   </div>
 
-  <div class="text-center mb-4">
+  <div class="text-center mb-4" id="notPrintable">
     <div
       id="running-clock"
       class="d-inline-flex flex-column align-items-center p-3 bg-dark text-white rounded shadow-sm border border-secondary"
