@@ -1,5 +1,12 @@
 let inventoryCurrentSearch = '';
 let inventoryDebounceTimer;
+let salesFilterState = {
+    startDate: null,
+    endDate: null,
+    page: 1,
+    items_per_page: 10
+};
+
 jQuery(function(){
     listOfSales(1, '');
     setInterval(function(){
@@ -17,8 +24,18 @@ jQuery(function(){
     });
 
     $(document).on('click', '.date-range-page-link', function() {
-        let page = $(this).data('page');
-        getSalesByDate(page, inventoryCurrentSearch);
+        const page = parseInt($(this).data('page'));
+
+        if (page < 1 || (page > totalPages && totalPages > 0)) return;
+
+        const newPayload = {
+            ...salesFilterState,
+            page: page
+        };
+
+        salesFilterState.page = page;
+
+        getSalesByDate($, newPayload);
     });
 
     $('#searchInventorySalesOrderNumber').on('keyup', function() {
@@ -37,15 +54,14 @@ jQuery(function(){
         locale: {
             cancelLabel: 'Clear'
         }
-    },
-    function(start, end, label) {
+    }, function(start, end, label) {
         $('#filterSalesByDate').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
-        const payload = {
-            startDate: start.format('YYYY-MM-DD'),
-            endDate: end.format('YYYY-MM-DD'),
-            page: 1,
-        }
-        getSalesByDate($, payload);
+
+        salesFilterState.startDate = start.format('YYYY-MM-DD');
+        salesFilterState.endDate = end.format('YYYY-MM-DD');
+        salesFilterState.page = 1;
+
+        getSalesByDate($, salesFilterState);
     });
 
     $(document).on('click', '.view-order-detail', function() {
@@ -194,72 +210,103 @@ function getTotalSales(){
     })
 }
 
-function getSalesByDate($, payload){
+function getSalesByDate($, payload) {
     jQuery.ajax({
         url: './controller/FilterSalesByDateController.php',
         type: 'GET',
         data: payload,
         dataType: 'json',
-        success: function(response){
+        success: function(response) {
             $('#inventory-sales-data-container').empty();
-            if(response.status === 'success'){ 
-                for (let i = 0; i < response.data.length; i++){
-                    jQuery('#inventory-sales-data-container').append(`<tr>
-                        <td>${response.data[i].order_number}</td>
-                        <td>${response.data[i].quantity}</td>
-                        <td>${response.data[i].product_name}</td>
-                        <td>${formatCurrency(response.data[i].price)}</td>
-                        <td class="text-capitalize">${response.data[i].unit_of_price}</td>
-                        <td>${formatCurrency(response.data[i].tax_amount)}</td>
-                        <td>${formatCurrency(response.data[i].total)}</td>
-                        <td>${new Date(response.data[i].created_at).toDateString()}</td>
-                        <td class="flex flex-row justify-content-between text-center">
-                        <button
-                            class="btn btn-sm view-order-detail"
-                            data-id="${response.data[i].id}"
-                        >
-                            <i class="fas fa-eye"></i>
-                            </button>
-                        </td>
-                    </tr>`)
-                }
 
-                // Generate pagination links
-                jQuery('#inventory-sales-data-pagination-links').empty();
+            if (response.status === 'success') {
+                response.data.forEach(item => {
+                    jQuery('#inventory-sales-data-container').append(`
+                        <tr>
+                            <td>${item.order_number}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.product_name}</td>
+                            <td>${formatCurrency(item.price)}</td>
+                            <td class="text-capitalize">${item.unit_of_price}</td>
+                            <td>${formatCurrency(item.tax_amount)}</td>
+                            <td>${formatCurrency(item.total)}</td>
+                            <td>${new Date(item.created_at).toLocaleDateString()}</td>
+                            <td class="flex flex-row justify-content-between text-center">
+                                <button class="btn btn-sm view-order-detail" data-id="${item.id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                });
+
+                $('#totalSalesAmount').text(formatCurrency(response.summary.total_sales || 0));
+
+                const $paginationContainer = $('#inventory-sales-data-pagination-links');
+                $paginationContainer.empty();
+
+                const currentPage = payload.page;
+                const totalPages = response.pagination.total_pages;
 
                 // Previous Button
-                jQuery('#inventory-sales-data-pagination-links').append(`
-                    <li class="page-item ${payload.page === 1 ? 'disabled' : ''}">
-                        <a class="page-link date-range-page-link" href="#" data-page="${payload.page - 1}" aria-label="Previous">
+                $paginationContainer.append(`
+                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link date-range-page-link" href="#" data-page="${currentPage - 1}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                 `);
-                
-                // Page Numbers
-                for (let i = 1; i <= response.pagination.total_pages; i++) {
-                    jQuery('#inventory-sales-data-pagination-links').append(`
-                        <li class="page-item ${i === payload.page ? 'active' : ''}">
+
+                const maxVisible = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                let endPage = startPage + maxVisible - 1;
+
+                if (endPage > totalPages) {
+                    endPage = totalPages;
+                    startPage = Math.max(1, endPage - maxVisible + 1);
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    $paginationContainer.append(`
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
                             <a class="page-link date-range-page-link" href="#" data-page="${i}">${i}</a>
                         </li>
                     `);
                 }
 
                 // Next Button
-                jQuery('#inventory-sales-data-pagination-links').append(`
-                    <li class="page-item ${payload.page === response.pagination.total_pages ? 'disabled' : ''}">
-                        <a class="page-link date-range-page-link" href="#" data-page="${payload.page + 1}" aria-label="Next">
+                $paginationContainer.append(`
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link date-range-page-link" href="#" data-page="${currentPage + 1}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 `);
 
-                $('#totalSalesAmount').text(formatCurrency(response.summary.total_sales || 0));
-            }
-        }
-    })
-}
+                $('.date-range-page-link').on('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt($(this).data('page'));
 
+                    if (page < 1 || (page > totalPages && totalPages > 0)) return;
+
+                    const newPayload = {
+                        ...salesFilterState,
+                        page: page
+                    };
+
+                    salesFilterState.page = page;
+
+                    getSalesByDate($, newPayload);
+                });
+            }
+        },
+        error: function() {
+            $('#inventory-sales-data-container').html(`
+                <tr><td colspan="9" class="text-center">Failed to load data.</td></tr>
+            `);
+        }
+    });
+}
 function getOrderDetail(orderId){
     jQuery.ajax({
         url: './controller/ViewOrderDetailController.php',

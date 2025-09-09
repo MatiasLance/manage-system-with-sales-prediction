@@ -87,6 +87,16 @@ try {
 
     $total_pages = $total_items > 0 ? ceil($total_items / $items_per_page) : 1;
 
+    if ($page > $total_pages && $total_pages > 0) {
+        http_response_code(404);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Page not found. Exceeds total pages.'
+        ]);
+        $conn->close();
+        exit;
+    }
+
     $query = "
         SELECT 
             id,
@@ -137,6 +147,12 @@ try {
 
     $response = [
         'status' => 'success',
+        'filters' => [
+            'search' => $search,
+            'startDate' => $start,
+            'endDate' => $end,
+            'items_per_page' => $items_per_page
+        ],
         'range' => [
             'start' => $start,
             'end'   => $end
