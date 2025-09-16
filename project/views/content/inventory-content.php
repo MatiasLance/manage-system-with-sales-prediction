@@ -22,49 +22,8 @@
 </nav>
 
 <div class="container inventory-content">
-    <ul class="nav nav-tabs mb-5 justify-content-center" id="myTab" role="tablist">
-        <!-- Products Tab -->
-        <li class="nav-item" role="presentation">
-            <button class="nav-link product-link active" id="products-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane" type="button" role="tab" aria-controls="product-tab-pane" aria-selected="true">
-                Manage Products
-            </button>
-        </li>
-
-        <!--Sales -->
-        <li class="nav-item" role="presentation">
-            <button class="nav-link product-link" id="inventory-sales-data-tab" data-bs-toggle="tab" data-bs-target="#inventory-sales-data-tab-pane" type="button" role="tab" aria-controls="inventory-sales-data-tab-pane" aria-selected="false">
-                Manage Sales
-            </button>
-        </li>
-    </ul>
-
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="product-tab-pane" role="tabpanel" aria-labelledby="product-tab" tabindex="0">
-            <ul class="nav nav-underline mb-5 justify-content-center" id="myTabOne" role="tablist">
-                <!-- Dairy Products Tab -->
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link product-link active" id="inventory-dairy-product-tab" data-bs-toggle="tab" data-bs-target="#inventory-dairy-product-tab-pane" type="button" role="tab" aria-controls="inventory-dairy-product-tab-pane" aria-selected="true">
-                        Dairy Products
-                    </button>
-                </li>
-                <!-- Grains & Cereals Products Tab -->
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link product-link" id="inventory-grain-and-cereals-product-tab" data-bs-toggle="tab" data-bs-target="#inventory-grain-and-cereals-product-tab-pane" type="button" role="tab" aria-controls="inventory-grain-and-cereals-product-tab-pane" aria-selected="false">
-                        Grains & Cereals
-                    </button>
-                </li>
-            </ul>
-
-            <div class="tab-content" id="myTabOneContent">
-                <!-- Dairy Products -->
-                <?php include __DIR__ . '/products-tab/inventory-dairy-tabs.php'; ?>
-                <!-- Grains & Cereals -->
-                <?php include __DIR__ . '/products-tab/inventory-grains-and-cereals-tabs.php'; ?>
-            </div> 
-        </div>
-        <!-- Sales -->
-        <?php include __DIR__ . '/sales-tab/inventory-sales-tab.php'; ?>
-    </div>
+    <!-- Sales -->
+    <?php include __DIR__ . '/sales-tab/inventory-sales-tab.php'; ?>
 </div>
 
 <!-- Footer -->

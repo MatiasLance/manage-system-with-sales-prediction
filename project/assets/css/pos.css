@@ -130,3 +130,125 @@ label {
       border-color: black;
     }
 }
+
+
+/* === Scanner Button Animation === */
+.scan-button.scanning {
+  background-color: #0b5ed7;
+  box-shadow: 0 0 15px rgba(13, 110, 253, 0.7);
+}
+
+.scan-button {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 18px !important;
+  border-radius: 12px !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  position: relative;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+}
+
+.scan-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35);
+  background-color: #0d6efd;
+}
+
+.scan-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+}
+
+/* === Barcode Icon Animation === */
+.scan-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.4s ease;
+  color: white;
+}
+
+.scan-button:hover .scan-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* === Glowing Scan Line (Animated Pulse Effect) === */
+.scan-glow {
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 200%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  transform: translateY(-50%);
+  animation: scanLine 1.5s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes scanLine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* === Text Animation on Hover === */
+.scan-text {
+  transition: opacity 0.3s ease;
+}
+
+.scan-button:hover .scan-text {
+  opacity: 1;
+}
+
+/* === Responsive Scaling === */
+@media (max-width: 576px) {
+  .scan-button {
+    padding: 6px 14px !important;
+    font-size: 0.875rem;
+    min-width: 140px;
+  }
+
+  .scan-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* === Accessibility: Focus State === */
+.scan-button:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.5);
+}
+
+/* === Reduced Motion Support === */
+@media (prefers-reduced-motion: reduce) {
+  .scan-glow {
+    animation: none;
+  }
+
+  .scan-button:hover .scan-icon {
+    transform: none;
+  }
+
+  .scan-button,
+  .scan-button:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+  }
+}

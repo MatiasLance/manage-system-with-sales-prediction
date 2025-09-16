@@ -4,16 +4,13 @@ header("Content-Type: application/json");
 
 require_once __DIR__ . '/../config/db_connection.php';
 
-// Get the page number and search query
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $items_per_page = 10;
 $search = isset($_GET['search']) ? $_GET['search'] : "";
 
-// Calculate offset
 $offset = ($page - 1) * $items_per_page;
 $search_param = "%$search%";
 
-// Fetch archived products with joined product name
 $sql = "
     SELECT 
         ap.*, 
@@ -33,7 +30,6 @@ $result = $stmt->get_result();
 $data = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Count total archived products matching search
 $sql_total = "
     SELECT COUNT(*) AS total 
     FROM archived_products ap
@@ -48,10 +44,8 @@ $total_row = $total_result->fetch_assoc();
 $total_items = $total_row['total'];
 $stmt_total->close();
 
-// Calculate total pages
 $total_pages = ceil($total_items / $items_per_page);
 
-// Return response
 $response = [
     'data' => $data,
     'total_pages' => $total_pages,

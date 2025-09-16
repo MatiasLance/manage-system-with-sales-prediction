@@ -29,8 +29,8 @@ if ($stmt) {
             try {
                 $sql_restore = "
                     INSERT INTO products 
-                    (id, total_quantity, added_quantity, product_name_id, date_produce, date_expiration, price, unit_of_price, status)
-                    SELECT id, total_quantity, added_quantity, product_name_id, date_produce, date_expiration, price, unit_of_price, status
+                    (id, total_quantity, added_quantity, product_name_id, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, status)
+                    SELECT id, total_quantity, added_quantity, product_name_id, date_produce, date_expiration, price, unit_of_price, barcode, barcode_image, status
                     FROM archived_products WHERE id = ?
                 ";
 

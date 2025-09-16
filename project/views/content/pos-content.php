@@ -44,6 +44,16 @@
           placeholder="Search products..." 
         >
       </div>
+      <div class="mb-3">
+        <input type="text" id="barcode-input" style="position: absolute; left: -9999px; opacity: 0;" tabindex="-1" autocomplete="off" />
+        <button type="button" class="btn btn-primary btn-sm scan-button position-relative overflow-hidden" id="scan-button">
+          <span class="scan-icon me-2">
+            <i class="bi bi-barcode-scan"></i>
+          </span>
+          <span class="scan-text">Activate Barcode</span>
+          <div class="scan-glow"></div>
+        </button>
+      </div>
       <div class="table-responsive">
         <table class="table">
           <thead>

@@ -61,15 +61,12 @@ function retrieveRoom(id){
                 jQuery('#roomNumberToDelete').text(response.room_number)
                 jQuery('#deleteRoomNumberId').val(id);
                 jQuery('#editedRoomInput').val(response.room_number);
-
-                jQuery('#editedSelectedStatusInput').prepend(`<option value="" disabled selected data-temp="true">${capitalizeWords(response.status)}</option>`);
-
-                // Remove the previously prepended selected option
-                jQuery('#editedSelectedStatusInput').find('option[data-temp="true"]').remove();
-        
-                // Prepend the new selected status option
-                jQuery('#editedSelectedStatusInput').prepend(`<option value="${response.status}" disabled selected data-temp="true">${capitalizeWords(response.status)}</option>`);
-
+                const existingRoomStatusOption = jQuery(`#editedSelectedStatusInput option[value="${response.status}"]`)
+                if (existingRoomStatusOption.length > 0) {
+                    existingRoomStatusOption.prop('selected', true);
+                } else {
+                    jQuery('#editedSelectedStatusInput').prepend(`<option value="${response.status}" selected>${response.status}</option>`);
+                }
             }
             if(response.error){
                 Swal.fire({
@@ -216,8 +213,16 @@ function updateRoomDetails(payload){
                         roomList(1, '');
                     }
                 });
-            } else {
-                Swal.fire("Error", response.message[0], "error");
+            }
+
+            if (response.errors) {
+                for(let i = 0; i < response.messages.length; i++){
+                    Swal.fire("Warning", response.messages[i], "warning");
+                }
+            }
+
+            if(response.error){
+                Swal.fire("Warning", response.message, "warning");
             }
         },
         error: function (error) {

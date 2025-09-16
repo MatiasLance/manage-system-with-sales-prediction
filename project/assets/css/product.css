@@ -1,7 +1,7 @@
 .product-content {
+    min-height: calc(100vh - 7rem - 10rem);
     margin-top: 7rem;
-    margin-bottom: 7rem;
-    min-height: calc(100vh - 14rem);
+    margin-bottom: 10rem;
 }
 .btn-milk-white {
     background-color: var(--theme-color-milk-white);

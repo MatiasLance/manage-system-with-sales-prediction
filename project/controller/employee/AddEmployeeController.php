@@ -18,8 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date_of_birth = htmlspecialchars($_POST["date_of_birth"] ?? "");
     $salary = filter_var($_POST["salary"] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $email = trim($_POST["employee_email"] ?? "");
-    $password = htmlspecialchars(trim($_POST['employee_password'] ?? ""));
-    $confirm_password = htmlspecialchars(trim($_POST['employee_confirm_password'] ?? ""));
 
     $errors = [];
 
@@ -43,11 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     if (!is_numeric($salary) || $salary < 0) {
         $errors[] = "Salary must be a valid positive number.";
-    }
-    if (empty($password)) {
-        $errors[] = "Password is required.";
-    } elseif ($password !== $confirm_password) {
-        $errors[] = "Password did not match.";
     }
 
     if (!empty($errors)) {
@@ -75,14 +68,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $checkEmailStmt->close();
 
-    $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-
-
     $sql = "INSERT INTO employees (
                 first_name, middle_initial, last_name, working_department, 
                 phone_number, date_of_hire, job, educational_level, 
-                gender, date_of_birth, salary, email, password
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                gender, date_of_birth, salary, email
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
 
@@ -92,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $stmt->bind_param(
-        "ssssssssssdss", 
+        "ssssssssssds", 
         $first_name, 
         $middle_initial, 
         $last_name, 
@@ -105,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $date_of_birth, 
         $salary,
         $email,
-        $passwordHash
     );
 
     if ($stmt->execute()) {

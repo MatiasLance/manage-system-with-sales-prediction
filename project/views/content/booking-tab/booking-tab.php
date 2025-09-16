@@ -25,7 +25,7 @@
                     <th scope="col">End Date</th>
                     <th scope="col">Check In</th>
                     <th scope="col">Check Out</th>
-                    <th scope="col" class="text-center">
+                    <th class="col-1" scope="col" class="text-center">
                         Setting
                     </th>
                 </tr>

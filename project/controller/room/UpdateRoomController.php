@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (!empty($errors)) {
-        echo json_encode(["error" => true, "message" => $errors]);
+        echo json_encode(["errors" => true, "messages" => $errors]);
         exit;
     }
 

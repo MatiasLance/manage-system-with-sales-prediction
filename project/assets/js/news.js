@@ -91,6 +91,24 @@ jQuery(function($){
 
         deleteNews($, payload);
     });
+
+    $(document).on('click', '#viewImageInModal', function(){
+        $('#viewImageModal').modal('show');
+        const imagePath = $(this).data('image');
+        const newsDate = $(this).data('date');
+        const newsTitle = $(this).data('title');
+        const newsContent = $(this).data('content');
+        $('#imgSrc').attr('src', imagePath);
+        $('#news-date-published').text(`
+            ${new Date(newsDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+            })}
+        `)
+        $('#news-title').text(newsTitle);
+        $('#news-content').text(newsContent);
+    });
 })
 
 function list($, page, searchQuery) {
@@ -179,17 +197,22 @@ function list($, page, searchQuery) {
                                 
                                 ${news.image_path 
                                 ? `<div class="col-md-4 col-12">
-                                    <img src="${news.image_path}" 
+                                        <img src="${news.image_path}" 
                                         class="img-fluid rounded-start rounded-md-start object-fit-cover" 
                                         alt="News Image"
                                         loading="lazy"
-                                        style="width: 100%; height: 180px; object-fit: cover; border-radius: 0.375rem;">
+                                        id="viewImageInModal"
+                                        data-image="${news.image_path}"
+                                        data-date="${news.created_at}"
+                                        data-title="${news.title}"
+                                        data-content="${news.content}"
+                                        style="width: 100%; height: 180px; object-fit: cover; border-radius: 0.375rem; cursor: pointer;">
                                     </div>`
                                 : ''}
 
                                 <div class="${news.image_url ? 'col-md-8' : 'col-12'} ps-md-3 pt-2 pt-md-0">
-                                <span class="text-muted news-date mb-1 d-block" style="font-size: 0.85rem;">
-                                    <i class="fas fa-calendar-alt me-1"></i>
+                                <span class="text-black mb-1 d-block" style="font-size: 0.85rem;">
+                                    <i class="bi bi-calendar-heart me-1"></i>
                                     ${new Date(news.created_at).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'short',

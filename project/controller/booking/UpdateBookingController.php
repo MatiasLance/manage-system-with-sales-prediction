@@ -9,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-// --- Input Validation & Sanitization ---
 $id               = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 $selectedRoomID   = filter_input(INPUT_POST, 'selected_room_id', FILTER_VALIDATE_INT);
 $first_name       = htmlspecialchars(trim($_POST['first_name'] ?? ''), ENT_QUOTES, 'UTF-8');
@@ -42,8 +41,8 @@ if (!$email) {
 }
 if (empty($phone_number)) {
     $errors[] = "Phone number is required.";
-} else if (!preg_match('/^(09|63)\d{9,10}$/', $phone_number)) {
-    $errors[] = "Phone number must start with '09' or '63' and be 10–11 digits long.";
+} else if (!preg_match('/^(9|63)\d{9,10}$/', $phone_number)) {
+    $errors[] = "Phone number must start with '9' or '63' and be 10–11 digits long.";
 }
 if ($guestCount === false || $guestCount < 1) {
     $errors[] = "Guest count must be a positive integer.";
@@ -62,20 +61,15 @@ if (!empty($booking_range)) {
 }
 
 if (!empty($errors)) {
-    echo json_encode(["error" => true, "messages" => $errors]);
+    echo json_encode(["errors" => true, "messages" => $errors]);
     exit;
 }
 
-if(is_null($dates)){
+if (is_null($dates)) {
     $start_date = trim($_POST['start_date'] ?? '');
     $end_date = trim($_POST['end_date'] ?? '');
-}else{
+} else {
     ['start_db' => $start_date, 'end_db' => $end_date] = $dates;
-}
-
-if (!empty($errors)) {
-    echo json_encode(["error" => true, "messages" => $errors]);
-    exit;
 }
 
 $conn->autocommit(FALSE);
@@ -85,26 +79,39 @@ try {
     $checkBooking->bind_param("i", $id);
     $checkBooking->execute();
     $checkBooking->bind_result($old_room_id);
+    
     if (!$checkBooking->fetch()) {
         $checkBooking->close();
-        throw new Exception("Booking not found.");
+        echo json_encode([
+            "error" => true,
+            "message" => "Booking not found."
+        ]);
+        exit;
     }
     $checkBooking->close();
+
+    if ($selectedRoomID !== $old_room_id) {
+        echo json_encode([
+            "error" => true,
+            "message" => "Selected room cannot be modified after booking creation."
+        ]);
+        exit;
+    }
 
     $checkRoom = $conn->prepare("SELECT status, room_number FROM room WHERE id = ?");
     $checkRoom->bind_param("i", $selectedRoomID);
     $checkRoom->execute();
     $checkRoom->bind_result($room_status, $room_number);
+
     if (!$checkRoom->fetch()) {
         $checkRoom->close();
-        throw new Exception("Room not found.");
+        echo json_encode([
+            "error" => true,
+            "message" => "Room not found."
+        ]);
+        exit;
     }
     $checkRoom->close();
-
-    // if ($room_status === 'occupied' && $selectedRoomID != $old_room_id) {
-    //     throw new Exception("Room {$room_number} is occupied and cannot be assigned.");
-    // }
-
 
     $overlapSql = "SELECT id FROM booking 
                    WHERE id != ? 
@@ -120,13 +127,16 @@ try {
 
     if ($overlapStmt->num_rows > 0) {
         $overlapStmt->close();
-        throw new Exception("This room is already booked for the selected dates. Please choose another date.");
+        echo json_encode([
+            "error" => true,
+            "message" => "This room is already booked for the selected dates. Please choose another date."
+        ]);
+        exit;
     }
     $overlapStmt->close();
 
     $updateSql = "UPDATE booking 
                   SET 
-                      room_id = ?, 
                       first_name = ?, 
                       middle_name = ?, 
                       last_name = ?, 
@@ -146,8 +156,7 @@ try {
     }
 
     $stmt->bind_param(
-        "issssssissssi",
-        $selectedRoomID,
+        "ssssssissssi",
         $first_name,
         $middle_name,
         $last_name,
@@ -174,7 +183,7 @@ try {
             throw new Exception("Failed to update room status: " . $updateRoom->error);
         }
         $updateRoom->close();
-    }elseif (in_array(strtolower($status), ['done', 'cancelled'])){
+    } elseif (in_array(strtolower($status), ['done', 'cancelled'])) {
         $updateRoom = $conn->prepare("UPDATE room SET status = 'available' WHERE id = ?");
         $updateRoom->bind_param("i", $selectedRoomID);
         if (!$updateRoom->execute()) {

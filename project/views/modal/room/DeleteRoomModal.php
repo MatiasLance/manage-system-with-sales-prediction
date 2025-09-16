@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content shadow-lg border-0">
       <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title fw-bold" id="roomConfirmationDeleteModalLabel">Confirm Deletion</h5>
+        <h5 class="modal-title fw-bold" id="roomConfirmationDeleteModalLabel">Confirm Room Deletion</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body bg-light text-center">

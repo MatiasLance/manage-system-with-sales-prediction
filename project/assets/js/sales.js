@@ -57,21 +57,21 @@ function fetchOrders(){
                   data: {
                       labels: products,
                       datasets: [{
-                          label: 'Sales Count',
+                          label: 'Hot Sales',
                           data: sales,
                           backgroundColor: [
+                          'rgba(54, 162, 235, 0.2)',
                           'rgba(255, 99, 132, 0.2)',
                           'rgba(255, 159, 64, 0.2)',
                           'rgba(255, 205, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(54, 162, 235, 0.2)'
+                          'rgba(75, 192, 192, 0.2)'
                           ],
                           borderColor: [
+                          'rgb(54, 162, 235)',
                           'rgb(255, 99, 132)',
                           'rgb(255, 159, 64)',
                           'rgb(255, 205, 86)',
-                          'rgb(75, 192, 192)',
-                          'rgb(54, 162, 235)'
+                          'rgb(75, 192, 192)'
                           ],
                           borderWidth: 1,
                           hoverOffset: 4

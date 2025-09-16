@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="retrieveRoomModalLabel">Edit Booking detail</h1>
+        <h1 class="modal-title fs-5" id="retrieveRoomModalLabel">Edit Room Detail</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -10,7 +10,7 @@
           <input type="hidden" id="retrieveRoomId" name="id">
           <div class="mb-3">
             <label for="editedRoomInput" class="form-label text-capitalize">Room</label>
-            <input type="text" class="form-control" id="editedRoomInput" name="room">
+            <input type="text" class="form-control" id="editedRoomInput" name="room" readonly style="cursor: not-allowed;">
           </div>
 
           <div class="mb-3">

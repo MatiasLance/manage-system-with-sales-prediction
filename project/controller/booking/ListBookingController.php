@@ -36,7 +36,7 @@ $sql = "
         r.status AS room_status
     FROM booking b
     LEFT JOIN room r ON b.room_id = r.id
-    WHERE b.status != 'cancelled'
+    WHERE b.status = 'cancelled' OR b.status = 'done' OR b.status = 'confirmed' OR b.status = 'pending'
       AND (
         r.room_number LIKE ? 
         OR b.first_name LIKE ?
@@ -95,7 +95,7 @@ $sql_total = "
     SELECT COUNT(*) AS total
     FROM booking b
     LEFT JOIN room r ON b.room_id = r.id
-    WHERE b.status != 'cancelled'
+    WHERE b.status = 'cancelled' AND b.status = 'done' AND b.status = 'confirmed'
       AND (
         r.room_number LIKE ? 
         OR b.first_name LIKE ?

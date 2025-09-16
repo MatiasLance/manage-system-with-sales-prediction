@@ -67,12 +67,17 @@ function listArchivedData(page, searchQuery) {
                     <td>${response.data[i].product_code}</td>
                     <td>${dateProduce.toDateString()}</td>
                     <td>${dateExpiration.toDateString()}</td>
-                    <td>${formatCurrency(response.data[i].price)}</td>
-                    <td class="text-capitalize">${response.data[i].unit_of_price}</td>
-                    <td class="text-capitalize"><span class="badge text-bg-success">${response.data[i].status}</span></td>
-                    <td class="flex flex-row justify-content-between">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="16" id="openRestoreArchivedProductModal" data-id="${productId}" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#restoreArchivedProductModal" data-bs-auto-close="false"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3C140.6 6.8 151.7 0 163.8 0zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm192 64c-6.4 0-12.5 2.5-17 7l-80 80c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39L200 408c0 13.3 10.7 24 24 24s24-10.7 24-24l0-134.1 39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-4.5-4.5-10.6-7-17-7z"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" id="openDeleteArchivedProductModal" width="16" data-id="${productId}" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteArchivedProductModal" data-bs-auto-close="false"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+                    <td>${formatCurrency(response.data[i].price)} / ${response.data[i].unit_of_price}</td>
+                    <td>
+                        <span class="badge ${response.data[i].status == 'new' ? 'text-bg-success': 'text-bg-warning'} text-capitalize py-2 px-4">${response.data[i].status}</span>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm" id="openRestoreArchivedProductModal" data-id="${productId}" data-bs-toggle="modal" data-bs-target="#restoreArchivedProductModal" data-bs-auto-close="false">
+                            <i class="bi bi-recycle fs-4 text-success"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm" id="openDeleteArchivedProductModal" data-id="${productId}" data-bs-toggle="modal" data-bs-target="#deleteArchivedProductModal" data-bs-auto-close="false">
+                            <i class="bi bi-trash fs-4 text-danger"></i>
+                        </button>
                     </td>
                 </tr>`);
             }

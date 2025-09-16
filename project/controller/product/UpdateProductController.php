@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $selectProductStatement = $conn->prepare("SELECT total_quantity, added_quantity FROM products WHERE id = ?");
+    $selectProductStatement = $conn->prepare("SELECT total_quantity, added_quantity, date_produce, date_expiration FROM products WHERE id = ?");
     $selectProductStatement->bind_param('i', $id);
     $selectProductStatement->execute();
     $result = $selectProductStatement->get_result();
@@ -43,11 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         while($row = $result->fetch_assoc()){
             $db_total_quantity[] = $row['total_quantity'];
             $db_added_quantity[] = $row['added_quantity'];
+            $db_date_produce[] = $row['date_produce'];
+            $db_date_expiration[] = $row['date_expiration'];
         }
     }
 
     $newTotalQuantity = $addedQuantity !== 0 ? $addedQuantity + $db_total_quantity[0]: $db_total_quantity[0];
-    $newAddedQuantity = $addedQuantity !== 0 ? $addedQuantity: $db_added_quantity[0];
+    $updatedDateProduce = $addedQuantity !== 0 ? date('Y-m-d'): $db_date_produce[0];
+    $updatedDateExpiration = $addedQuantity !== 0 ? date('Y-m-d', strtotime($updatedDateProduce . ' + 3 months')): $db_date_expiration[0];
+    $newAddedQuantity = $addedQuantity !== 0 ? $addedQuantity: $db_date_produce[0];
 
     $stmt = $conn->prepare("
         UPDATE products 
@@ -60,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt->bind_param("iiissdsi", $newTotalQuantity, $newAddedQuantity, $product_name_id, $date_produce, $date_expiration, $price, $unit, $id);
+    $stmt->bind_param("iiissdsi", $newTotalQuantity, $newAddedQuantity, $product_name_id, $updatedDateProduce, $updatedDateExpiration, $price, $unit, $id);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Product updated successfully!"]);

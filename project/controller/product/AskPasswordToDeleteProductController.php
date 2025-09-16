@@ -55,16 +55,15 @@ try {
         throw new Exception("Product not found.");
     }
 
-    $stmt = $conn->prepare("
-        INSERT INTO archived_products (
+    $stmt = $conn->prepare("INSERT INTO archived_products (
             id, total_quantity, added_quantity, product_name_id,
             date_produce, date_expiration, price, unit_of_price,
-            status, created_at, updated_at, deleted_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            barcode, barcode_image, status, created_at, updated_at, deleted_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     ");
 
     $stmt->bind_param(
-        "iiiississss",
+        "iiiississssss",
         $product['id'],
         $product['total_quantity'],
         $product['added_quantity'],
@@ -73,6 +72,8 @@ try {
         $product['date_expiration'],
         $product['price'],
         $product['unit_of_price'],
+        $product['barcode'],
+        $product['barcode_image'],
         $product['status'],
         $product['created_at'],
         $product['updated_at']

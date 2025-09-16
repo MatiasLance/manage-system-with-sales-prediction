@@ -24,9 +24,9 @@
 
 <!-- Dashboard Content -->
 <div id="content" class="content container-fluid p-4">
-    <div class="row align-items-start g-4">
+    <div class="row align-items-start g-4" id="row-dashboard">
 
-        <div class="col-md-12">
+        <div class="col-md-12 mb-5">
             <div class="card shadow-sm border-0 bg-milk-white text-charcoal-gray">
                 <div class="card-body text-center py-4">
                     <h2 class="card-title display-6 fw-bold">
@@ -40,6 +40,78 @@
         </div>
 
         <?php if($_SESSION['user_role'] === 'admin') { ?>
+        <!-- Weekly Sales Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 bg-milk-white h-100 d-flex flex-column justify-content-center animate-card">
+                <div class="card-body text-center p-4 p-md-5 position-relative overflow-hidden">
+                    <div class="pattern-overlay"></div>
+
+                    <div class="icon-container mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="80" height="80"
+                            class="text-dark-green animate-icon" fill="currentColor">
+                            <path d="M64 32C46.3 32 32 46.3 32 64l0 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64 0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 80 0c68.4 0 127.7-39 156.8-96l19.2 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-.7 0c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16l.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-19.2 0C303.7 71 244.4 32 176 32L64 32zm190.4 96L96 128l0-32 80 0c30.5 0 58.2 12.2 78.4 32zM96 192l190.9 0c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16L96 224l0-32zm158.4 96c-20.2 19.8-47.9 32-78.4 32l-80 0 0-32 158.4 0z"/>
+                        </svg>
+                    </div>
+
+                    <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark mb-2">
+                        Weekly Sales
+                    </h3>
+
+                    <div class="sales-value-container mb-3">
+                        <span class="fs-3 fw-bolder text-charcoal-dark d-inline-block" id="inventoryWeeklySales">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Sales Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 bg-milk-white h-100 d-flex flex-column justify-content-center animate-card">
+                <div class="card-body text-center p-4 p-md-5 position-relative overflow-hidden">
+                    <div class="pattern-overlay"></div>
+
+                    <div class="icon-container mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="80" height="80"
+                            class="text-dark-green animate-icon" fill="currentColor">
+                            <path d="M64 32C46.3 32 32 46.3 32 64l0 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64 0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 80 0c68.4 0 127.7-39 156.8-96l19.2 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-.7 0c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16l.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-19.2 0C303.7 71 244.4 32 176 32L64 32zm190.4 96L96 128l0-32 80 0c30.5 0 58.2 12.2 78.4 32zM96 192l190.9 0c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16L96 224l0-32zm158.4 96c-20.2 19.8-47.9 32-78.4 32l-80 0 0-32 158.4 0z"/>
+                        </svg>
+                    </div>
+
+                    <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark mb-2">
+                        Monthly Sales
+                    </h3>
+
+                    <div class="sales-value-container mb-3">
+                        <span class="fs-3 fw-bolder text-charcoal-dark d-inline-block" id="inventoryMonthlySales">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yearly Sales Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0 bg-milk-white h-100 d-flex flex-column justify-content-center animate-card">
+                <div class="card-body text-center p-4 p-md-5 position-relative overflow-hidden">
+                    <div class="pattern-overlay"></div>
+
+                    <div class="icon-container mb-4 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="80" height="80"
+                            class="text-dark-green animate-icon" fill="currentColor">
+                            <path d="M64 32C46.3 32 32 46.3 32 64l0 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64 0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 80 0c68.4 0 127.7-39 156.8-96l19.2 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-.7 0c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16l.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-19.2 0C303.7 71 244.4 32 176 32L64 32zm190.4 96L96 128l0-32 80 0c30.5 0 58.2 12.2 78.4 32zM96 192l190.9 0c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16L96 224l0-32zm158.4 96c-20.2 19.8-47.9 32-78.4 32l-80 0 0-32 158.4 0z"/>
+                        </svg>
+                    </div>
+
+                    <h3 class="text-capitalize mt-3 fw-bold text-charcoal-dark mb-2">
+                        Yearly Sales
+                    </h3>
+
+                    <div class="sales-value-container mb-3">
+                        <span class="fs-3 fw-bolder text-charcoal-dark d-inline-block" id="inventoryYearlySales">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
             <div class="card shadow-sm border-0 bg-milk-white">
                 <div class="card-body">

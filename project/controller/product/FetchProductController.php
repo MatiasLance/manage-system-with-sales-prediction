@@ -21,7 +21,7 @@ $stmt = $conn->prepare("
     FROM products p
     INNER JOIN products_name pn ON p.product_name_id = pn.id
     $whereClause
-    ORDER BY pn.product_category, pn.product_name
+    ORDER BY  p.created_at desc
     LIMIT ? OFFSET ?
 ");
 

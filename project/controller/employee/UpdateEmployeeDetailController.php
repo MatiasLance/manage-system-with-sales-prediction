@@ -18,8 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date_of_birth = htmlspecialchars(trim($_POST["date_of_birth"] ?? ""));
     $salary = filter_input(INPUT_POST, 'salary', FILTER_VALIDATE_FLOAT);
     $email = trim($_POST["employee_email"] ?? "");
-    $password = trim($_POST['employee_password'] ?? "");
-    $confirm_password = trim($_POST['employee_confirm_password'] ?? "");
 
     $errors = [];
 
@@ -49,14 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     if (!empty($date_of_birth) && !strtotime($date_of_birth)) {
         $errors[] = "Invalid date of birth format.";
-    }
-
-    if (!empty($password) || !empty($confirm_password)) {
-        if ($password !== $confirm_password) {
-            $errors[] = "Password and confirm password do not match.";
-        } elseif (strlen($password) < 8) {
-            $errors[] = "Password must be at least 8 characters long.";
-        }
     }
 
     if (!empty($errors)) {
@@ -109,10 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 phone_number = ?, date_of_hire = ?, job = ?, educational_level = ?, 
                 gender = ?, date_of_birth = ?, salary = ?, email = ?";
     
-    if (!empty($password)) {
-        $sql .= ", password = ?";
-    }
-
     $sql .= " WHERE id = ?";
 
     $stmt = $conn->prepare($sql);
@@ -122,43 +108,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    if (!empty($password)) {
-        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt->bind_param(
-            "ssssssssssdsi",
-            $first_name,
-            $middle_initial,
-            $last_name,
-            $working_department,
-            $phone_number,
-            $date_of_hire,
-            $job,
-            $educational_level,
-            $gender,
-            $date_of_birth,
-            $salary,
-            $email,
-            $passwordHash,
-            $id
-        );
-    } else {
-        $stmt->bind_param(
-            "ssssssssssdsi",
-            $first_name,
-            $middle_initial,
-            $last_name,
-            $working_department,
-            $phone_number,
-            $date_of_hire,
-            $job,
-            $educational_level,
-            $gender,
-            $date_of_birth,
-            $salary,
-            $email,
-            $id
-        );
-    }
+    $stmt->bind_param(
+        "ssssssssssdsi",
+        $first_name,
+        $middle_initial,
+        $last_name,
+        $working_department,
+        $phone_number,
+        $date_of_hire,
+        $job,
+        $educational_level,
+        $gender,
+        $date_of_birth,
+        $salary,
+        $email,
+        $id
+    );
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Employee details updated successfully!"]);

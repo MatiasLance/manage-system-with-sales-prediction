@@ -6,10 +6,10 @@ require_once __DIR__ . '/../config/db_connection.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $scannedCode = $_GET['code'] ?? '';
+    $scannedCode = $_GET['barcode'] ?? '';
 
     if (empty($scannedCode)) {
-        echo json_encode(["status" => "error", "message" => "No barcode scanned."]);
+        echo json_encode(["error" => true, "message" => "No barcode scanned."]);
         exit;
     }
 
@@ -24,8 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($row = $result->fetch_assoc()) {
         echo json_encode([
-            "status" => "success",
+            "success" => true,
             "data" => [
+                "id" => $row['id'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['total_quantity'],
                 "price" => $row['price'],
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             ]
         ]);
     } else {
-        echo json_encode(["status" => "error", "message" => "Product not found."]);
+        echo json_encode(["error" => true, "message" => "Product not found."]);
     }
 
     $stmt->close();

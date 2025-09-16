@@ -14,6 +14,19 @@ jQuery(function(){
     }, 30000);
     getTotalSales();
 
+    setTimeout(() => {
+      $('.animate-card').addClass('visible');
+    }, 300);
+
+    $('#inventoryWeeklySales').on('dataUpdated', function() {
+        const value = $(this);
+        value.addClass('pulse-text');
+
+        setTimeout(() => {
+            value.removeClass('pulse-text');
+        }, 800);
+    })
+
     $('#inventory-sales-data-tab').on('click', function(){
         getTotalSales();
     });
@@ -93,14 +106,6 @@ function listOfSales(page, searchQuery){
                     <td>${formatCurrency(response.data[i].tax_amount)}</td>
                     <td>${formatCurrency(response.data[i].total)}</td>
                     <td>${new Date(response.data[i].created_at).toDateString()}</td>
-                    <td class="flex flex-row justify-content-between text-center">
-                        <button
-                            class="btn btn-sm view-order-detail"
-                            data-id="${response.data[i].id}"
-                        >
-                        <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
                 </tr>`)
             }
 

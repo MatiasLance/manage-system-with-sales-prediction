@@ -17,6 +17,17 @@ class DatabaseMigrator
     public function migrate()
     {
         $tables = [
+            "users" => "CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                firstname VARCHAR(50) NOT NULL,
+                lastname VARCHAR(50) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                user_type ENUM('admin', 'user') NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )",
+
             "employees" => "CREATE TABLE IF NOT EXISTS employees (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 first_name VARCHAR(100) NOT NULL,
@@ -31,7 +42,6 @@ class DatabaseMigrator
                 date_of_birth DATE,
                 salary DECIMAL(10, 2) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )",
@@ -89,17 +99,6 @@ class DatabaseMigrator
                 CONSTRAINT FK_ProductNameID FOREIGN KEY (product_name_id) REFERENCES products_name(id) ON DELETE RESTRICT ON UPDATE CASCADE
             )",
 
-            "users" => "CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                firstname VARCHAR(50) NOT NULL,
-                lastname VARCHAR(50) NOT NULL,
-                email VARCHAR(100) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                user_type ENUM('admin', 'user') NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            )",
-
             "media" => "CREATE TABLE IF NOT EXISTS media (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 product_id INT DEFAULT NULL,
@@ -109,22 +108,6 @@ class DatabaseMigrator
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (product_id) REFERENCES products(id),
                 FOREIGN KEY (employee_id) REFERENCES employees(id)
-            )",
-
-            "archived products" => "CREATE TABLE IF NOT EXISTS archived_products (
-                id INT PRIMARY KEY,
-                total_quantity INT NOT NULL,
-                added_quantity INT NOT NULL,
-                product_name_id INT NOT NULL,
-                date_produce DATE NOT NULL,
-                date_expiration DATE NOT NULL,
-                price DECIMAL(10,2) NOT NULL,
-                unit_of_price VARCHAR(50) NOT NULL,
-                status ENUM('new', 'old') NOT NULL,
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (product_name_id) REFERENCES products_name(id)
             )",
 
             "orders" => "CREATE TABLE IF NOT EXISTS orders (
@@ -148,6 +131,65 @@ class DatabaseMigrator
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 deleted_at TIMESTAMP
+            )",
+
+            "archived products" => "CREATE TABLE IF NOT EXISTS archived_products (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                total_quantity INT NOT NULL,
+                added_quantity INT NOT NULL,
+                product_name_id INT NOT NULL,
+                date_produce DATE NOT NULL,
+                date_expiration DATE NOT NULL,
+                price DECIMAL(10,2) NOT NULL,
+                unit_of_price VARCHAR(50) NOT NULL,
+                barcode VARCHAR(255) UNIQUE NOT NULL COMMENT 'Unique barcode identifier (e.g., generated from name + random)',
+                barcode_image VARCHAR(500) NOT NULL COMMENT 'File path to saved barcode PNG image',
+                status ENUM('new', 'old') NOT NULL,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (product_name_id) REFERENCES products_name(id)
+            )",
+
+            "archived employees" => "CREATE TABLE IF NOT EXISTS archived_employees (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                first_name VARCHAR(100) NOT NULL,
+                middle_initial VARCHAR(100),
+                last_name VARCHAR(100) NOT NULL,
+                working_department VARCHAR(100),
+                phone_number VARCHAR(15),
+                date_of_hire DATE,
+                job VARCHAR(100),
+                educational_level VARCHAR(100),
+                gender ENUM('Male', 'Female', 'Other') NOT NULL,
+                date_of_birth DATE,
+                salary DECIMAL(10, 2) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )",
+
+            "archived users" => "CREATE TABLE IF NOT EXISTS archived_users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                firstname VARCHAR(50) NOT NULL,
+                lastname VARCHAR(50) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                user_type ENUM('admin', 'user') NOT NULL,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )",
+
+            "archived news" => "CREATE TABLE IF NOT EXISTS archived_news (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                content TEXT NOT NULL,
+                image_path VARCHAR(512) NULL DEFAULT NULL,
+                created_at TIMESTAMP,
+                updated_at TIMESTAMP,
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )"
         ];
 

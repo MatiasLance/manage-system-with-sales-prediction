@@ -28,6 +28,7 @@
       background-color: var(--cream);
       margin: 0;
       line-height: 1.8;
+      overflow-x: hidden;
     }
 
     h1, h2, h3, h4, h5 {
@@ -130,7 +131,7 @@
     /* === Sections === */
     section {
       padding: 100px 0;
-      scroll-margin-top: 90px; /* Prevents navbar from hiding section titles */
+      scroll-margin-top: 90px;
     }
 
     /* === About === */
@@ -176,42 +177,121 @@
       text-transform: uppercase;
     }
 
-    /* === Booking === */
-    #book {
-      background: var(--white);
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 60px 20px;
-      border-top: 5px solid var(--green-forest);
-      border-radius: 8px;
+    /* === Booking — Full Width Enhanced === */
+    .booking-hero {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      padding: 120px 0;
+      background: linear-gradient(to bottom right, rgba(250, 243, 224, 0.9), rgba(255, 255, 255, 0.95));
+      overflow-x: hidden;
     }
 
-    .form-control,
-    .form-select {
+    .booking-bg-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: radial-gradient(circle at 80% 30%, rgba(74, 124, 89, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 20% 70%, rgba(227, 176, 75, 0.04) 0%, transparent 40%);
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .booking-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .booking-form-card {
+      border-radius: 24px !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08),
+                  0 10px 30px -10px rgba(74, 124, 89, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 40px;
+      background-color: var(--cream);
+      height: 100%;
+    }
+
+    .booking-form-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.12),
+                  0 15px 40px -12px rgba(74, 124, 89, 0.15);
+    }
+
+    /* .form-control {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: all 0.3s ease;
       border: none;
-      border-bottom: 2px solid #ddd;
-      border-radius: 0;
-      padding: 12px 0;
-      font-size: 1.1rem;
-      min-height: 48px;
-    }
+      border-bottom: 2px solid #eee;
+      border-radius: 50px !important;
+      padding: 14px 20px;
+    } */
 
-    .form-control:focus,
-    .form-select:focus {
-      border-color: var(--green-forest);
-      box-shadow: none;
+    .form-control:focus {
+      border-color: transparent;
+      box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.25);
+      outline: none;
     }
 
     .form-label {
       color: var(--green-forest);
       font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--charcoal);
+      border: none;
+      padding: 14px 36px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border-radius: 50px;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      text-transform: uppercase;
+      font-size: 1.1rem;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .btn-gold:hover {
+      background: #f0c050;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(227, 176, 75, 0.3);
+    }
+
+    .letter-spacing-1 {
+      letter-spacing: 0.1em;
+    }
+
+    .floating-goat {
+      display: inline-block;
+      animation: bounceSlow 3s ease-in-out infinite;
+      font-size: 1.8rem;
+      margin-left: 8px;
+    }
+
+    @keyframes bounceSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     /* === Footer === */
     footer {
       background: var(--green-forest);
       color: var(--white);
-      padding: 80px 0 40px;
+      padding: 80px 80px 0 80px;
     }
 
     footer a {
@@ -236,15 +316,58 @@
       50% { transform: translateY(-10px); }
     }
 
-    .floating-goat {
-      display: inline-block;
-      animation: bounceSlow 2.5s ease-in-out infinite;
-    }
-
     /* === Container Padding Fix === */
     .container {
       padding-left: 15px;
       padding-right: 15px;
+    }
+
+    /* === Responsive Adjustments === */
+    @media (max-width: 768px) {
+      .booking-hero {
+        padding: 80px 0;
+      }
+
+      .booking-form-card {
+        padding: 30px 24px !important;
+      }
+
+      .btn-gold {
+        font-size: 1rem;
+        padding: 12px 30px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+      }
+
+      .hero p {
+        font-size: clamp(0.9rem, 5vw, 1.2rem);
+      }
+    }
+
+    /* === Dark Mode Support === */
+    @media (prefers-color-scheme: dark) {
+      .hero {
+        background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://i.imgur.com/9GfrqMK.png');
+      }
+
+      .booking-hero {
+        background: linear-gradient(to bottom right, rgba(20, 25, 30, 0.9), rgba(18, 24, 31, 0.95));
+      }
+
+      .booking-bg-pattern {
+        background-image: radial-gradient(circle at 80% 30%, rgba(74, 124, 89, 0.08) 0%, transparent 40%),
+                          radial-gradient(circle at 20% 70%, rgba(227, 176, 75, 0.06) 0%, transparent 40%);
+      }
+
+      .news-date, .lead, .text-muted {
+        color: #d0d0d0 !important;
+      }
+
+      .about-text {
+        color: #000;
+      }
     }
   </style>
 </head>
@@ -268,30 +391,27 @@
 
   <!-- Hero -->
   <section class="hero d-flex align-items-center">
-    <!-- <div class="container" data-aos="fade-up" data-aos-duration="1000">
+    <div class="container" data-aos="fade-up" data-aos-duration="1000">
       <h1>Where <span class="goat-name">Golden Goats</span><br>Roam Green Hills</h1>
       <p class="lead">A small farm rooted in care, sunshine, and slow living.</p>
       <a href="#book" class="btn btn-gold mt-4">Plan Your Visit <span class="floating-goat">🐐</span></a>
-    </div> -->
+    </div>
   </section>
 
   <!-- About -->
-  <section id="about" class="container">
+  <section id="about" class="container-fluid">
     <div class="row align-items-center g-5">
       <div class="col-md-7" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
         <h2>Mindanao Baptist Rural Life Center Foundation, Inc.</h2>
         <p class="about-text">
-        The Mindanao Baptist Rural Life Center Foundation, Inc. (MBRLCFI)
-         is a non-profit organization located in Kinuskusan, Bansalan, Davao del Sur, Philippines.
+          The Mindanao Baptist Rural Life Center Foundation, Inc. (MBRLCFI)
+          is a non-profit organization located in Kinuskusan, Bansalan, Davao del Sur, Philippines.
           Established with a vision to empower rural communities, MBRLCFI is dedicated 
           to promoting sustainable agriculture, rural development, and community
-           transformation through faith-based values and innovative practices.
-          
+          transformation through faith-based values and innovative practices.
         </p>
-        <p class="about-text mt-3">
-          
         <p class="about-text mt-3" style="font-style: italic;">
-          “I have come that you might have <span class="goat-name">life</span> and that you might have it more abundantly.” – John, 10:10b
+          “I have come that you might have <span class="goat-name">life</span> and that you might have it more abundantly.” – John 10:10b
         </p>
       </div>
       <div class="col-md-5" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
@@ -303,7 +423,7 @@
   </section>
 
   <!-- News -->
-  <section id="news" class="container">
+  <section id="news" class="container-fluid">
     <div data-aos="fade-up" data-aos-duration="800">
       <h2 class="text-center mb-5" style="color: var(--green-forest);">News</h2>
     </div>
@@ -315,66 +435,102 @@
     <div id="websiteNewsContainer"></div>
   </section>
 
-  <!-- Booking -->
-  <section id="book">
-    <div class="container" data-aos="fade-in" data-aos-duration="800">
-      <div class="text-center mb-5">
-        <h2>Come Say Hello</h2>
-        <p class="lead" style="color: #555;">Open Monday to Friday. Reserve your visit below.</p>
-      </div>
-      <form id="bookNow">
-        <div class="row g-4">
-          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="100">
-            <label class="form-label">First Name</label>
-            <input type="text" class="form-control" name="first_name" required>
-          </div>
-          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="100">
-            <label class="form-label">Last Name</label>
-            <input type="text" class="form-control" name="last_name" required>
-          </div>
-          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="200">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" required>
-          </div>
-          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="100">
-            <label class="form-label">Phone Number</label>
-            <input type="text" class="form-control" name="phone_number" required>
-            <div class="invalid-feedback">
-                Phone number must start with 09, followed by 9 digits.
-            </div>
-          </div>
-          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="300">
-            <label class="form-label">Booking Schedule</label>
-            <input type="text" class="form-control" id="filterSalesByDate" name="booking_schedule" required>
-          </div>
-          <div class="col-md-6" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="400">
-            <label class="form-label">Guests Count</label>
-            <input type="number" class="form-control" name="guest_count" min="1" value="1">
-          </div>
-          <div class="col-md-12" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="400">
-            <label class="form-label">Select Room</label>
-            <select class="form-select" aria-label="Default select example" id="selectedRoom" name="selected_room_id">
-            </select>
-          </div>
-          <div class="col-12 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-delay="500">
-            <button type="submit" class="btn btn-gold btn-lg">Request Your Visit</button>
+  <!-- Booking — FULL WIDTH ENHANCED -->
+  <section id="book" class="bg-white text-black">
+    <div class="container-fluid px-lg-7 px-md-5 px-4">
+      <div class="row align-items-center g-5">
+
+        <!-- LEFT SIDE — TEXT & EMOTIONAL HOOK -->
+        <div class="col-lg-6 order-lg-1 order-2" data-aos="fade-right" data-aos-duration="900" data-aos-delay="100">
+          <h2 class="fw-bold text-charcoal mb-4">Come Say Hello</h2>
+          <p class="text-charcoal fs-5 mb-5" style="line-height: 1.8;">
+            Step into serenity. Our farm is open Monday to Friday for intimate, guided visits — where nature meets nurture.
+            Reserve your moment among golden goats and whispering hills.
+          </p>
+
+          <div class="d-flex align-items-center mb-4">
+            <span class="bi bi-tree-fill text-dark-green me-3" style="font-size: 1.8rem; opacity: 0.7;"></span>
+            <span class="small text-charcoal" style="letter-spacing: 0.5px;">Rooted in Faith • Growing in Abundance</span>
           </div>
         </div>
-      </form>
+
+        <!-- RIGHT SIDE — FORM -->
+        <div class="col-lg-6 order-lg-2 order-1" data-aos="fade-left" data-aos-duration="900" data-aos-delay="200">
+          <div class="booking-form-card shadow-lg rounded-4 p-5 h-100">
+            <form id="bookNow">
+              <div class="row g-4">
+
+                <!-- Name Fields -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark-green">First Name</label>
+                  <input type="text" class="form-control border-0 shadow-sm py-3" name="first_name" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark-green">Last Name</label>
+                  <input type="text" class="form-control border-0 shadow-sm py-3" name="last_name" required>
+                </div>
+
+                <!-- Email & Phone -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark-green">Email</label>
+                  <input type="email" class="form-control border-0 shadow-sm py-3" name="email" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark-green">Phone Number</label>
+                  <input type="text" class="form-control border-0 shadow-sm py-3" name="phone_number" required>
+                  <div class="invalid-feedback small mt-1">
+                    Phone number must start with 09, followed by 9 digits.
+                  </div>
+                </div>
+
+                <!-- Booking Date -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark-green">Booking Schedule</label>
+                  <input type="text" class="form-control border-0 shadow-sm py-3" id="filterSalesByDate" name="booking_schedule" required>
+                </div>
+
+                <!-- Guest Count -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark-green">Guests Count</label>
+                  <input type="number" class="form-control border-0 shadow-sm py-3" name="guest_count" min="1" value="1">
+                </div>
+
+                <!-- Room Selection -->
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-dark-green">Select Room</label>
+                  <select class="form-select border-0 shadow-sm py-3" aria-label="Default select example" id="selectedRoom" name="selected_room_id">
+                    <option value="">Choose a room...</option>
+                    <!-- Options will be populated via JS -->
+                  </select>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-12 text-center mt-4">
+                  <button type="submit" class="btn btn-gold btn-sm fw-bold letter-spacing-1 shadow-lg hover-shadow">
+                    Request Your Visit
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <div class="container">
-      <div class="row">
+    <div class="container-fluid">
+      <div class="row text-center">
         <div class="col-md-3">
           <h5 class="text-white">Visit</h5>
           <p>📍Kinuskusan Bansalan Davao Del Sur</p>
         </div>
         <div class="col-md-3">
           <h5 class="text-white">Contact</h5>
-          <p>  mbrlcfi71@gmail.com  </p>
+          <p>mbrlcfi71@gmail.com</p>
         </div>
         <div class="col-md-3">
           <h5 class="text-white">Hours</h5>
@@ -384,10 +540,14 @@
           <h5 class="text-white">Follow</h5>
           <p>Facebook<br>MBRLCFI DAVAO</p>
         </div>
+        <hr class="mt-4 mb-3 bg-white opacity-25">
+        <div class="text-center">
+          <p>&copy; 2025 MBRLCFI. All rights reserved.</p>
+        </div>
       </div>
     </div>
   </footer>
-
+  <?php include __DIR__ . '/../views/modal/news/ViewImageModal.php' ?>
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- AOS Library -->
@@ -399,6 +559,7 @@
   <script src="./assets/js/booking.js"></script>
   <script src="./assets/js/room.js"></script>
   <script src="./assets/js/news.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       AOS.init({
@@ -409,6 +570,19 @@
         once: false
       });
 
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          document.querySelector(targetId).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        });
+      });
+
+      // Navbar scroll effect
       window.addEventListener('scroll', () => {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 50) {

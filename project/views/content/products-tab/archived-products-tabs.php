@@ -20,7 +20,6 @@
                 <th scope="col">Date Produce</th>
                 <th scope="col">Date Expiration</th>
                 <th scope="col">Price</th>
-                <th scope="col">Unit of Price</th>
                 <th scope="col">Status</th>
                 <th scope="col" class="text-center">
                     Setting

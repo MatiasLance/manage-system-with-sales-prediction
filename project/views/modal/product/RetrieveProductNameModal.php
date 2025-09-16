@@ -12,12 +12,12 @@
               <input type="text" class="form-control" id="retrieveProductNameInput" name="product_name">
           </div>
           <div class="mb-3">
-            <label for="retrieveProductCodeInput" class="form-label text-capitalize">Product Code</label>
-            <input type="text" class="form-control" id="retrieveProductCodeInput" name="product_code">
+            <label for="retrieveProductNameCodeInput" class="form-label text-capitalize">Product Code</label>
+            <input type="text" class="form-control" id="retrieveProductNameCodeInput" name="product_code">
           </div>
           <div class="mb-3">
-            <label for="retrieveProductCategoryInput" class="form-label text-capitalize">Select Product Category</label>
-            <select class="form-select" id="retrieveProductCategoryInput" name="category" required>
+            <label for="retrieveProductNameCategoryInput" class="form-label text-capitalize">Select Product Category</label>
+            <select class="form-select" id="retrieveProductNameCategoryInput" name="category" required>
                 <option value="dairy">Dairy</option>
                 <option value="grains and cereals">Grains & Cereals</option>
             </select>

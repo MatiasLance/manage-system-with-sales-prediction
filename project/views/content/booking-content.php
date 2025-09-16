@@ -53,6 +53,9 @@
 <?php
 include __DIR__ . '/../modal/booking/AddBookingModal.php';
 include __DIR__ . '/../modal/room/AddRoomModal.php';
+include __DIR__ . '/../modal/booking/ChangeBookingStatusModal.php';
+include __DIR__ . '/../modal/booking/ChangeCheckInModal.php';
+include __DIR__ . '/../modal/booking/ChangeCheckOutModal.php';
 include __DIR__ . '/../modal/booking/RetrieveBookingModal.php';
 include __DIR__ . '/../modal/room/RetrieveRoomModal.php';
 include __DIR__ . '/../modal/booking/DeleteBookingModal.php';

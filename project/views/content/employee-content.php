@@ -21,38 +21,31 @@
 </nav>
 
 <div class="container employee-content">
-    <button type="button" class="btn btn-milk-white btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" data-bs-auto-close="false">Add Employee</button>
+    <ul class="nav nav-tabs mb-5 justify-content-center" id="employeesTab" role="tablist">
+        <!-- Employees Tab -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link product-link active" id="employees-tab" data-bs-toggle="tab" data-bs-target="#employees-tab-pane" type="button" role="tab" aria-controls="employees-tab-pane" aria-selected="true">
+                Employees
+            </button>
+        </li>
 
-    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-        <input type="text" id="search-employee" class="form-control mb-3 w-50" placeholder="Search by name...">
-        <nav>
-            <ul class="pagination justify-content-center" id="employee-pagination-links"></ul>
-        </nav>
+        <!--Archived Data -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link product-link" id="archived-employees-tab" data-bs-toggle="tab" data-bs-target="#archived-employees-tab-pane" type="button" role="tab" aria-controls="archived-employees-tab-pane" aria-selected="false">
+                Archived Employees
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="employeesTabContent">
+        <div class="tab-pane fade show active" id="employees-tab-pane" role="tabpanel" aria-labelledby="employees-tab" tabindex="0">
+            <?php include __DIR__ . '/./employees-tab/employees-data-tab.php' ?>
+        </div>
+        <div class="tab-pane fade" id="archived-employees-tab-pane" role="tabpanel" aria-labelledby="archive-employees-tab" tabindex="0">
+            <?php include __DIR__ . '/./employees-tab/archived-employees-tab.php' ?>
+        </div>
     </div>
 
-        <!-- Data Table -->
-    <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-        <thead class="table-milk-white">
-            <tr>
-                <th scope="col">Full Name</th>
-                <th scope="col">Working Department</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Date of Hire</th>
-                <th scope="col">Job</th>
-                <th scope="col">Educational Level</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Date of Birth</th>
-                <th scope="col">Salary</th>
-                <th scope="col">Email</th>
-                <th scope="col" class="text-center">
-                    Setting
-                </th>
-            </tr>
-        </thead>
-        <tbody id="employee-data-container"></tbody>
-    </table>
-    </div>
 </div>
 
 <!-- Footer -->
@@ -64,5 +57,7 @@ include __DIR__ . '/../modal/employee/AddEmployeeModal.php';
 include __DIR__ . '/../modal/employee/RetrieveEmployeeModal.php';
 include __DIR__ . '/../modal/employee/DeleteEmployeeModal.php';
 include __DIR__ . '/../modal/employee/AskPasswordOnEmployeeDeletionModal.php';
+include __DIR__ . '/../modal/employee/DeleteArchivedEmployeeModal.php';
+include __DIR__ . '/../modal/employee/RestoreArchivedEmployeeModal.php';
 ?>
 
