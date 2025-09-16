@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $productNameQueryRow = $productNameQueryResult->fetch_assoc();
 
         // Generate a unique barcode using product name + random number
-        $barcodeData = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $productNameQueryRow['product_name'])) . rand(100, 999);
+        $barcodeData = strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $productNameQueryRow['product_code'])) . rand(100, 999);
 
         // Generate Barcode Image
         $generator = new BarcodeGeneratorPNG();
