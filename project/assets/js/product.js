@@ -617,7 +617,6 @@ function fetchData(page, searchQuery) {
                         <td>${response.data[i].added_quantity}</td>
                         <td class="text-capitalize">${response.data[i].product_name}</td>
                         <td class="text-capitalize">${response.data[i].product_code}</td>
-                        <td class="text-capitalize"><img src="${response.data[i].barcode_image}" width="200" height="50"></td>
                         <td>${dateProduce.toDateString()}</td>
                         <td>${dateExpiration.toDateString()}</td>
                         <td>${formatCurrency(response.data[i].price)} / ${response.data[i].unit_of_price}</td>

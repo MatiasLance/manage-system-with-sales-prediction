@@ -19,7 +19,6 @@
                     <th scope="col">Added Quantity</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
-                    <th scope="col">Barcode</th>
                     <th scope="col">Date Produce</th>
                     <th scope="col">Date Expiration</th>
                     <th scope="col">Price</th>
