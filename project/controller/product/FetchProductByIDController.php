@@ -23,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 p.date_produce, 
                 p.price, 
                 p.unit_of_price, 
-                p.status
+                p.status,
+                p.barcode_image
             FROM products p
             INNER JOIN products_name pn ON p.product_name_id = pn.id
             WHERE p.id = ?";

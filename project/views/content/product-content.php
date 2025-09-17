@@ -49,13 +49,13 @@
             <ul class="nav nav-underline mb-5 justify-content-center" id="myTabOne" role="tablist">
                 <!-- Dairy Products Tab -->
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link product-link active" id="dairy-product-tab" data-bs-toggle="tab" data-bs-target="#dairy-product-tab-pane" type="button" role="tab" aria-controls="dairy-tab-pane" aria-selected="true">
+                    <button class="nav-link product-link active" id="dairy-product-tab" data-title="dairy" data-bs-toggle="tab" data-bs-target="#dairy-product-tab-pane" type="button" role="tab" aria-controls="dairy-tab-pane" aria-selected="true">
                         Dairy Products
                     </button>
                 </li>
                 <!-- Grains & Cereals Products Tab -->
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link product-link" id="grain-and-cereals-product-tab" data-bs-toggle="tab" data-bs-target="#grain-and-cereals-product-tab-pane" type="button" role="tab" aria-controls="grain-and-cereals-product-tab-pane" aria-selected="false">
+                    <button class="nav-link product-link" id="grain-and-cereals-product-tab" data-title="grains-and-cereals" data-bs-toggle="tab" data-bs-target="#grain-and-cereals-product-tab-pane" type="button" role="tab" aria-controls="grain-and-cereals-product-tab-pane" aria-selected="false">
                         Grains & Cereals
                     </button>
                 </li>
@@ -99,5 +99,6 @@ include __DIR__ . '/../modal/product/DeleteProductModal.php';
 include __DIR__ . '/../modal/product/DeleteProductNameModal.php';
 include __DIR__ . '/../modal/RestoreArchivedProductModal.php';
 include __DIR__ . '/../modal/DeleteArchivedProductModal.php';
+include __DIR__ . '/../modal/product/ProductBarcodeModal.php';
 ?>
 

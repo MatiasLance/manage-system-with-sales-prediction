@@ -26,6 +26,7 @@ let currentSearch = '';
 let selectedUnitOfPrice = '';
 
 jQuery(function($){
+    $('#grainsAndCerealsUnitOfPriceContainer').hide();
     // The product's expiry date will be automatically displayed once the production date is selected.
     $(document).on('change', '#productDateProduceInput, #retrieveProductDateProduceInput', function(){
         const productionDate = new Date($(this).val());
@@ -44,10 +45,36 @@ jQuery(function($){
         }
     })
 
+    $('#printProductBarcode').on('click', function(){
+        window.print();
+    });
+
     // Load product when product tab selected
     $('#products-tab').on('click', function(){
         fetchData(1, '');
     });
+
+    $('#dairy-product-tab').on('click', function(){
+        $('#grainsAndCerealsUnitOfPriceContainer').hide();
+        $('#diaryUnitOfPriceContainer').show();
+    });
+
+    $('#grain-and-cereals-product-tab').on('click', function(){
+        $('#grainsAndCerealsUnitOfPriceContainer').show();
+        $('#diaryUnitOfPriceContainer').hide();
+    });
+
+    if($('#grainsAndCerealsUnitOfPriceContainer').is(':hidden')){
+        $('#dairyUnitOfPriceInput').on('change', function(){
+            selectedUnitOfPrice = $(this).val()
+        })
+    }
+
+    if($('#diaryUnitOfPriceContainer').is(':hidden')){
+        $('#grainsAndCerealsUnitOfPriceInput').on('change', function(){
+            selectedUnitOfPrice = $(this).val()
+        })
+    }
     
     if($('#retrieveDiaryUnitOfPriceContainer').is(':hidden')){
         retrieveGrainsAndCerealsUnitOfPriceInput.on('change', function(){
@@ -89,7 +116,7 @@ jQuery(function($){
         const productName = $('#selectedProductNameInput').val();
         const productDateProduce = $('#productDateProduceInput').val();
         const productPrice = $('#productPriceInput').val();
-        const productUnitOfPrice = $('#unitOfPriceInput').val();
+        const productUnitOfPrice = selectedUnitOfPrice;
 
         const payload = {
             product_quantity: productQuantity,
@@ -248,6 +275,11 @@ jQuery(function($){
         let id = $(this).data('id');
         fetchProductByID(id);
     })
+
+    $(document).on('click', '#retriveProductBarcode', function(){
+        const id = $(this).data('id')
+        fetchProductByID(id);
+    });
 
     // Opening confirmation modal to delete product name
     $(document).on('click', '#confirmDeleteProductName', function(){
@@ -499,6 +531,7 @@ function fetchProductByID(id){
                         existingUnitOfPrice.prop('selected', true);
                     }
                 }
+                jQuery('#productBarcodeToPrint').attr('src', response.product.barcode_image);
                 
             }
             if(response.error){
@@ -543,10 +576,12 @@ function fetchProductNameByID(
                 jQuery('#productCategoryInput').val(response.product.product_category);
                 // Dynamically hide date expiration field if the product is category is grains and cereals
                 if(response.product.product_category === 'grains and cereals'){
-                    jQuery('#productDateExpirationInputContainer').hide();
+                    jQuery('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer').hide();
+                    jQuery('#grainsAndCerealsUnitOfPriceContainer').show();
                 }
                 if(response.product.product_category === 'dairy'){
-                    jQuery('#productDateExpirationInputContainer').show();
+                    jQuery('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer').show();
+                    jQuery('#grainsAndCerealsUnitOfPriceContainer').hide();
                 }
             }
             if(response.error){
@@ -589,7 +624,10 @@ function fetchData(page, searchQuery) {
                         <td>
                             <span class="badge ${response.data[i].status == 'new' ? 'text-bg-success': 'text-bg-warning'} text-capitalize py-2 px-4">${response.data[i].status}</span>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center col-md-2">
+                            <button type="button" class="btn btn-sm" id="retriveProductBarcode" data-id="${productId}" data-bs-toggle="modal" data-bs-target="#retrieveProductBarcodeModal" data-bs-auto-close="false">
+                                <i class="bi bi-upc-scan fs-4 text-info"></i>
+                            </button>
                             <button type="button" class="btn btn-sm" id="retrieveProduct" data-id="${productId}" data-bs-toggle="modal" data-bs-target="#retrieveProductModal" data-bs-auto-close="false">
                                 <i class="bi bi-pencil-square fs-4 text-success"></i>
                             </button>

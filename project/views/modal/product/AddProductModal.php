@@ -59,17 +59,23 @@
               <input type="number" class="form-control" id="productPriceInput" name="product_price" required>
             </div>
 
-            <div class="col-6">
-                <label for="unitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
-                <select class="form-select" id="unitOfPriceInput" name="unit_of_price" required>
-                    <option value="" disabled selected>Select unit</option>
-                    <option value="kg">Kilogram (kg)</option>
-                    <option value="lb">Pound (lb)</option>
-                    <option value="liter">Liter (L)</option>
-                    <option value="piece">Piece</option>
-                    <option value="box">Box</option>
-                </select>
-            </div>
+
+              <div class="col-6 mb-3" id="diaryUnitOfPriceContainer">
+                  <label for="dairyUnitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
+                  <select class="form-select text-capitalize" id="dairyUnitOfPriceInput" name="unit_of_price">
+                      <option value="liter">Liter (L)</option>
+                      <option value="piece">Piece</option>
+                      <option value="box">Box</option>
+                  </select>
+              </div>
+
+              <div class="col-6 mb-3" id="grainsAndCerealsUnitOfPriceContainer">
+                  <label for="grainsAndCerealsUnitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
+                  <select class="form-select text-capitalize" id="grainsAndCerealsUnitOfPriceInput" name="unit_of_price">
+                      <option value="kg">Kilogram (kg)</option>
+                      <option value="lb">Pound (lb)</option>
+                  </select>
+              </div>
 
           </div>
         </div>

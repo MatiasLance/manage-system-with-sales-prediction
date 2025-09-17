@@ -25,3 +25,35 @@
 #confirmDeleteProduct {
     cursor: pointer;
 }
+
+@media print {
+    body * {
+      visibility: hidden;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .print-only,
+    .print-only * {
+      visibility: visible;
+    }
+
+    .print-only {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .print-only .table {
+      margin-bottom: 0 !important;
+    }
+
+    .print-only .table th,
+    .print-only .table td {
+      word-wrap: break-word;
+    }
+  }
+  
