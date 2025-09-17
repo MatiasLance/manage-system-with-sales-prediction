@@ -30,7 +30,7 @@
             <div class="card shadow-sm border-0 bg-milk-white text-charcoal-gray">
                 <div class="card-body text-center py-4">
                     <h2 class="card-title display-6 fw-bold">
-                        Good day, <?= $_SESSION['firstname']; ?>! 👋
+                        Good day, MBRLCFI! 👋
                     </h2>
                     <p class="card-text mt-2 lead">
                         Welcome to your admin dashboard. Here’s what’s happening today.

@@ -8,6 +8,7 @@ header('Content-Type: application/json');
 if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown Browser/Device';
 
     $sql = "SELECT id, firstname, lastname, email, user_type, password FROM users WHERE email = ? AND user_type IN ('manager', 'admin', 'cashier') LIMIT 1";
 
@@ -24,6 +25,14 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             $stmt->fetch();
 
             if (password_verify($password, $password_db)) {
+
+                $status = 'Active';
+                $insertTologinHistoryQuery = "INSERT INTO login_history (user_id, user_agent, status) VALUES (?, ?, ?)";
+                if ($loginHistoryStmt = $conn->prepare($insertTologinHistoryQuery)) {
+                    $loginHistoryStmt->bind_param("iss", $id, $userAgent, $status);
+                    $loginHistoryStmt->execute();
+                }
+                
                 $_SESSION['id'] = $id;
                 $_SESSION['firstname'] = $firstname;
                 $_SESSION['lastname'] = $lastname;

@@ -140,12 +140,12 @@ if ($stmt === false) {
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
-        if ($oldImagePath && $oldImagePath !== $imagePath) {
-            $oldFilePath = __DIR__ . '/../../' . $oldImagePath;
-            if (file_exists($oldFilePath)) {
-                @unlink($oldFilePath);
-            }
-        }
+        // if ($oldImagePath && $oldImagePath !== $imagePath) {
+        //     $oldFilePath = __DIR__ . '/../../' . $oldImagePath;
+        //     if (file_exists($oldFilePath)) {
+        //         @unlink($oldFilePath);
+        //     }
+        // }
 
         echo json_encode([
             "success" => true,

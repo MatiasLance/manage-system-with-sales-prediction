@@ -54,3 +54,15 @@ footer {
     transform: scale(1.03);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
+.btn-milk-white {
+    background-color: var(--theme-color-milk-white);
+    color: var(--theme-color-charcoal-gray);
+    transition: background-color 0.5s;
+}
+
+.btn-milk-white:hover {
+    background-color: none;
+    border: 1px solid var(--theme-color-milk-white);
+    color: var(--theme-color-milk-white);
+}

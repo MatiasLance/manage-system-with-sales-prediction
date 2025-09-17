@@ -164,7 +164,7 @@ function retrieveEmployeeById(id){
                 }
                 jQuery('#editedPhoneNumberInput').val(response.phone_number);
                 jQuery('#editedDateOfHireInput').val(response.date_of_hire);
-                const existingJobOption = $(`#editedJobInput option[value="${jobValue}"]`)
+                const existingJobOption = jQuery(`#editedJobInput option[value="${jobValue}"]`)
                 if (existingJobOption.length > 0) {
                     existingJobOption.prop('selected', true);
                 } else {

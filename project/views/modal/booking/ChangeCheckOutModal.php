@@ -7,8 +7,9 @@
       </div>
       <div class="modal-body">
         <form id="saveChangeCheckOut">
-          <label for="updateBookingCheckOut" class="form-label text-capitalize">Check Out</label>
-          <input type="time" class="form-control" id="updateBookingCheckOut" name="check_out">
+          <input type="hidden" id="retrieveUpdatedCheckOutId">
+          <label for="retrieveUpdatedBookingCheckOut" class="form-label text-capitalize">Check Out</label>
+          <input type="time" class="form-control" id="retrieveUpdatedBookingCheckOut" name="check_out">
       </div>
       <div class="modal-footer">
             <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>

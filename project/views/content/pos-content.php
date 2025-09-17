@@ -44,15 +44,34 @@
           placeholder="Search products..." 
         >
       </div>
-      <div class="mb-3">
-        <input type="text" id="barcode-input" style="position: absolute; left: -9999px; opacity: 0;" tabindex="-1" autocomplete="off" />
-        <button type="button" class="btn btn-primary btn-sm scan-button position-relative overflow-hidden" id="scan-button">
-          <span class="scan-icon me-2">
-            <i class="bi bi-barcode-scan"></i>
+      <div class="mb-3 d-flex align-items-center gap-3">
+        <input
+          type="text"
+          id="barcode-input"
+          style="position: absolute; left: -9999px; opacity: 0;"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
+
+        <label class="form-check-label d-flex align-items-center cursor-pointer mb-0">
+          <input
+            type="checkbox"
+            class="form-check-input me-2 visually-hidden"
+            id="scan-toggle"
+            aria-label="Activate barcode scanner"
+          />
+          <div class="toggle-switch position-relative d-inline-block">
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </div>
+
+          <span class="ms-2 fw-semibold text-white" id="swapTextLabel">
+            <i class="bi bi-barcode-scan me-1"></i> Activate Barcode Scanner
           </span>
-          <span class="scan-text">Activate Barcode</span>
-          <div class="scan-glow"></div>
-        </button>
+        </label>
+
+        <div class="scan-glow toggle-glow position-absolute" style="top: 50%; transform: translateY(-50%);"></div>
       </div>
       <div class="table-responsive">
         <table class="table">
@@ -62,7 +81,6 @@
               <th scope="col" class="text-center">Name</th>
               <th scope="col" class="text-center">Price</th>
               <th scope="col" class="text-center">Unit of Price</th>
-              <th scope="col" class="text-center">Action</th>
             </tr>
           </thead>
           <tbody id="pos-products-container"></tbody>

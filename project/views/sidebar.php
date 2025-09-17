@@ -47,6 +47,10 @@
             <i class="fas fa-user"></i>
             <span style="transform: translateY(2px);">Users</span>
         </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="/login-history">
+            <i class="bi bi-person-fill-lock" style="font-size: 20px;"></i>
+            <span style="transform: translateY(2px);">Recently Login</span>
+        </a>
         <?php } ?>
     </nav>
 </div>

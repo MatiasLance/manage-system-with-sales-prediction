@@ -8,74 +8,74 @@ jQuery(function($){
     $('#cashAmountParent').hide();
     $('#changeParent, #printableCashElementContainer').removeClass('d-flex').addClass('d-none');
 
-    $(document).on('click', '#addToCart', function(){
-        // Reset product details and total amount for each click para iwas duplicate na product ang ma render.
-        let productDetails = '';
-        let totalAmount = 0;
+    $(document).on('keydown', function(event){
+        if(event.key === 'Enter') {
+            // Reset product details and total amount for each click para iwas duplicate na product ang ma render.
+            let productDetails = '';
+            let totalAmount = 0;
 
-        const row = $(this).closest('tr');
-        const productId = $(this).data('id');
-        const quantity = row.find('.quantity-input').val();
-        const productName = row.find('.product-name').text();
-        const price = row.find('.price').data('value');
-        const unitOfPrice = row.find('.unit-of-price').text();
+            const row = $('#pos-products-container tr:first');
+            const productId = row.find('.product-id').data('id');
+            const quantity = row.find('.quantity-input').val();
+            const productName = row.find('.product-name').text();
+            const price = row.find('.price').data('value');
+            const unitOfPrice = row.find('.unit-of-price').text();
 
-        if (isNaN(quantity) || quantity < 1) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Please enter a valid quantity.',
-                icon: 'error',
-            });
-            return;
-        }
-
-        cart.push({ id: productId, quantity: parseInt(quantity), name: productName, price: parseFloat(price), unit: unitOfPrice });
-
-        // Clear any previously added products from the DOM
-        $('.cart').empty();
-
-        for (let i = 0; i < cart.length; i++) {
-            const productName = cart[i].name;
-            const quantity = cart[i].quantity;
-            const price = cart[i].price;
-            const totalCost = calculateProductTotal(quantity, price);
-
-            totalAmount += totalCost;
-
-            productDetails += `
-                <div class="cart-item">
-                    <span class="added-product-name mb-3">${productName}</span>
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <span class="total-quantity">${quantity}</span>
-                            &nbsp;&nbsp;
-                            <span class="text-white">x</span>
-                            &nbsp;&nbsp;
-                            <span class="total-quantity">${price}</span>
-                        </div>
-                        <span class="product-total-amount">₱${numberWithCommas(totalCost.toFixed(2))}</span>
-                        <button class="btn btn-sm btn-danger ml-2 remove-product" data-index="${i}" id="notPrintable">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Check if cart is not empty and show the cash input field
-        if(cart.length > 0){
-            $('.cart').addClass('mb-5')
-            $('#cashAmountParent').show();
-
-            if($('#changeParent').hasClass('d-none')){
-                $('#changeParent').removeClass('d-none').addClass('d-flex');
+            if (isNaN(quantity) || quantity < 1) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Please enter a valid quantity.',
+                    icon: 'error',
+                });
+                return;
             }
+
+            cart.push({ id: productId, quantity: parseInt(quantity), name: productName, price: parseFloat(price), unit: unitOfPrice });
+
+            // Clear any previously added products from the DOM
+            $('.cart').empty();
+
+            for (let i = 0; i < cart.length; i++) {
+                const productName = cart[i].name;
+                const quantity = cart[i].quantity;
+                const price = cart[i].price;
+                const totalCost = calculateProductTotal(quantity, price);
+
+                totalAmount += totalCost;
+
+                productDetails += `
+                    <div class="cart-item">
+                        <span class="added-product-name mb-3">${productName}</span>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <span class="total-quantity">${quantity}</span>
+                                &nbsp;&nbsp;
+                                <span class="text-white">x</span>
+                                &nbsp;&nbsp;
+                                <span class="total-quantity">${price}</span>
+                            </div>
+                            <span class="product-total-amount">₱${numberWithCommas(totalCost.toFixed(2))}</span>
+                            <button class="btn btn-sm btn-danger ml-2 remove-product" data-index="${i}" id="notPrintable">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Check if cart is not empty and show the cash input field
+            if(cart.length > 0){
+                $('.cart').addClass('mb-5')
+                $('#cashAmountParent').show();
+
+                if($('#changeParent').hasClass('d-none')){
+                    $('#changeParent').removeClass('d-none').addClass('d-flex');
+                }
+            }
+
+            $('.cart').append(productDetails);
+            $('#subTotal').text(`₱${numberWithCommas(totalAmount.toFixed(2))}`).data('totalAmount', totalAmount)
         }
-
-        $('.cart').append(productDetails);
-        $('#subTotal').text(`₱${numberWithCommas(totalAmount.toFixed(2))}`).data('totalAmount', totalAmount)
-
-
     })
 
     $('#checkoutButton').on('click', function(){
@@ -120,7 +120,7 @@ jQuery(function($){
         const input = $(this);
         const inputtedQuantity = input.val().trim();
         const row = input.closest('tr');
-        const productId = row.find('.checkout-btn').data('id');
+        const productId = row.find('.pos-product-id').data('id');
         const productName = row.find('.product-name').text();
 
         const payload = { id: productId, quantity: inputtedQuantity, name: productName };

@@ -849,22 +849,15 @@ function filterAndLoadPointOfSaleProducts(page, searchQuery){
 function displayPointOfSaleProducts(id, quantity, name, price, unit){
     const productData = `
     <tr class="text-center">
+        <td hidden>
+            <input type="hidden" class="pos-product-id" data-id="${id}">
+        </td>
         <td>
-            <input type="number" class="form-control w-100 quantity-input" value="0" min="1" max="${quantity}">
+            <input type="number" class="form-control w-100 quantity-input" data-id="${id}" value="0" min="1" max="${quantity}">
         </td>
         <td class="product-name">${name}</td>
         <td class="price" data-value="${price}">${formatCurrency(price)}</td>
         <td class="text-capitalize unit-of-price">${unit}</td>
-        <td class="text-capitalize">
-            <button
-            type="button"
-            class="checkout-btn" 
-            id="addToCart"
-            data-id="${id}"
-            >
-                Add
-            </button>
-        </td>
     </tr>`;
     jQuery('#pos-products-container').append(productData);
 }

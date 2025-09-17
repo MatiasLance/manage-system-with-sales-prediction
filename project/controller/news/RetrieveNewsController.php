@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $id = intval($_GET['id']);
 
     $stmt = $conn->prepare("
-        SELECT id, title, content, created_at
+        SELECT id, title, content, image_path, created_at
         FROM news 
         WHERE id = ?
     ");
@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $id,
             $title,
             $content,
+            $imagePath,
             $created_at
         );
 
@@ -33,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 "id"         => $id,
                 "title"      => $title,
                 "content"    => $content,
+                "image_path" => $imagePath,
                 "created_at" => $created_at
             ]);
         } else {

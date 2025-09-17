@@ -7,8 +7,9 @@
       </div>
       <div class="modal-body">
         <form id="saveChangeCheckIn">
-            <label for="updateBookingCheckIn" class="form-label text-capitalize">Check In</label>
-            <input type="time" class="form-control" id="updateBookingCheckIn" name="check_in">
+            <input type="hidden" id="retrieveUpdatedCheckInId">
+            <label for="retrieveUpdatedBookingCheckIn" class="form-label text-capitalize">Check In</label>
+            <input type="time" class="form-control" id="retrieveUpdatedBookingCheckIn" name="check_in">
       </div>
       <div class="modal-footer">
             <button type="submit" class="btn btn-golden-wheat btn-sm" data-bs-dismiss="modal">Save</button>

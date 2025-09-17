@@ -5,9 +5,12 @@ jQuery(function($){
     save($);
     list($, 1, '');
 
-    const imageInput = $('#newsImageInput, #editNewsImageInput');
-    const imagePreview = $('#imagePreview, #editImagePreview');
-    const imagePreviewContainer = $('#imagePreviewContainer, #editImagePreviewContainer');
+    const imageInput = $('#newsImageInput');
+    const imagePreview = $('#imagePreview');
+    const imagePreviewContainer = $('#imagePreviewContainer');
+    const editImageInput = $('#editNewsImageInput')
+    const editImagePreview = $('#editImagePreview');
+    const editImagePreviewContainer = $('#editImagePreviewContainer');
 
     imageInput.on('change', function () {
         const file = this.files[0];
@@ -21,6 +24,24 @@ jQuery(function($){
             reader.onload = function (e) {
                 imagePreview.attr('src', e.target.result);
                 imagePreviewContainer.removeClass('d-none');
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    editImageInput.on('change', function () {
+        const file = this.files[0];
+
+        editImagePreviewContainer.addClass('d-none');
+        editImagePreview.attr('src', '');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                editImagePreview.attr('src', e.target.result);
+                editImagePreviewContainer.removeClass('d-none');
             };
 
             reader.readAsDataURL(file);
@@ -47,6 +68,7 @@ jQuery(function($){
         const title = $('#editNewsTitleInput').val();
         const content = $('#editNewsContentInput').val();
         const imageFile = $('#editNewsImageInput')[0].files[0];
+        const fallBackImage = $('#editImagePreview').attr('src');
 
         if (!title || !content) {
             Swal.fire({
@@ -63,6 +85,8 @@ jQuery(function($){
         formData.append('content', content);
         if (imageFile) {
             formData.append('image', imageFile);
+        }else{
+            formData.append('image', fallBackImage);
         }
 
         edit($, formData);
@@ -371,6 +395,8 @@ function retrieve($, newsId) {
                 $('#editNewsTitleInput').val(response.title);
                 $('#editNewsContentInput').val(response.content);
                 $('#newsTitle').text(response.title);
+                $('#editImagePreviewContainer').removeClass('d-none');
+                $('#editImagePreview').attr('src', response.image_path);
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -398,11 +424,12 @@ function edit($, payload) {
                     title: 'Success',
                     text: response.message,
                     icon: 'success',
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        $('#retrieveNewsModal').modal('hide');
+                        list($, 1, currentSearch);
+                    }
                 });
-                setTimeout(function() {
-                    $('#retrieveNewsModal').modal('hide');
-                    list($, 1, currentSearch);
-                }, 500);
             } else {
                 Swal.fire({
                     title: 'Error',

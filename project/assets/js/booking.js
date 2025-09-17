@@ -14,6 +14,16 @@ jQuery(function($){
         $('#retrieveUpdatedBookingStatusID').val(id);
     })
 
+    $(document).on('click', '#updateCheckIn', function(){
+        const id = $(this).data('id');
+        $('#retrieveUpdatedCheckInId').val(id);
+    })
+
+    $(document).on('click', '#updateCheckOut', function(){
+        const id = $(this).data('id');
+        $('#retrieveUpdatedCheckOutId').val(id);
+    })
+
     $('#saveChangeBookingStatus').on('submit', function(e){
         e.preventDefault();
         const payload = {
@@ -21,6 +31,24 @@ jQuery(function($){
             booking_status: $('#retrieveUpdatedBookingStatus').val()
         }
         handleBookingStateUpdate(payload);
+    });
+
+    $('#saveChangeCheckIn').on('submit', function(e){
+        e.preventDefault();
+        const payload = {
+            id: $('#retrieveUpdatedCheckInId').val(),
+            check_in: $('#retrieveUpdatedBookingCheckIn').val()
+        }
+        handleBookingCheckInUpdate(payload);
+    });
+
+    $('#saveChangeCheckOut').on('submit', function(e){
+        e.preventDefault();
+        const payload = {
+            id: $('#retrieveUpdatedCheckOutId').val(),
+            check_out: $('#retrieveUpdatedBookingCheckOut').val()
+        }
+        handleBookingCheckOutUpdate(payload);
     });
 
     $('#saveBookingInformation, #bookNow').on('submit', function(e){
@@ -176,12 +204,12 @@ function listOfBooking(page, searchQuery){
                     <td>${startDate.toDateString()}</td>
                     <td>${endDate.toDateString()}</td>
                     <td>
-                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updateCheckInModal" data-bs-auto-close="false" data-id="${bookingId}">
+                        <button type="button" class="btn btn-success btn-sm" id="updateCheckIn" data-bs-toggle="modal" data-bs-target="#updateCheckInModal" data-bs-auto-close="false" data-id="${bookingId}">
                             ${response.data[i].check_in}
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updateCheckOutModal" data-bs-auto-close="false" data-id="${bookingId}">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" id="updateCheckOut" data-bs-target="#updateCheckOutModal" data-bs-auto-close="false" data-id="${bookingId}">
                             ${response.data[i].check_out}
                         </button>
                     </td>
@@ -386,8 +414,70 @@ function handleBookingStateUpdate(payload){
         }
     });
 }
-function handleBookingCheckInUpdate(payload){}
-function handleBookingCheckOutUpdate(payload){}
+function handleBookingCheckInUpdate(payload){
+    jQuery.ajax({
+        type: "POST",
+        url: "./controller/booking/UpdateBookingCheckInController.php",
+        data: payload,
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                Swal.fire("Success", response.message, "success")
+                .then((result) => {
+                    if(result.isConfirmed){
+                        listOfBooking(1, '');
+                    }
+                });
+            }
+
+            if (response.errors) {
+                for(let i = 0; i < response.messages.length; i++){
+                    Swal.fire("Warning", response.messages[i], "warning");
+                }
+            }
+
+            if(response.error){
+                Swal.fire("Warning", response.message, "warning");
+            }
+
+        },
+        error: function (error) {
+            console.error("AJAX Error:", error);
+        }
+    });
+}
+function handleBookingCheckOutUpdate(payload){
+    jQuery.ajax({
+        type: "POST",
+        url: "./controller/booking/UpdateBookingCheckOutController.php",
+        data: payload,
+        dataType: "json",
+        success: function (response) {
+            if (response.success) {
+                Swal.fire("Success", response.message, "success")
+                .then((result) => {
+                    if(result.isConfirmed){
+                        listOfBooking(1, '');
+                    }
+                });
+            }
+
+            if (response.errors) {
+                for(let i = 0; i < response.messages.length; i++){
+                    Swal.fire("Warning", response.messages[i], "warning");
+                }
+            }
+
+            if(response.error){
+                Swal.fire("Warning", response.message, "warning");
+            }
+
+        },
+        error: function (error) {
+            console.error("AJAX Error:", error);
+        }
+    });
+}
 
 function formatCurrency(price){
     const php = new Intl.NumberFormat('en-PH', {

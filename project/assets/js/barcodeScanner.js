@@ -4,44 +4,35 @@ let barcodeBuffer = '';
 let isScanning = false;
 const SCAN_TIMEOUT = 100;
 
-jQuery(function($){
-    $('#scan-button').on('click', function() {
-        barcodeInput.focus();
+jQuery(function($) {
+    $('#scan-toggle').on('change', function() {
+        const isActive = $(this).is(':checked');
 
-        const glow = jQuery(this).find('.scan-glow');
-  
-        glow.css('animation', 'none');
-        
-        void glow[0].offsetWidth;
-        
-        glow.css('animation', 'scanLine 1.5s infinite');
-        
-        $(this).addClass('scanning');
-        setTimeout(() => {
-            $(this).removeClass('scanning');
-        }, 800);
+        if (isActive) {
+            $('#swapTextLabel').text('Barcode scanner activated');
+            barcodeInput.focus();
+        } else {
+            $('#swapTextLabel').text('Barcode scanner deactivated');
+        }
     });
 
     barcodeInput.on('input', function(e) {
         const value = $(this).val();
 
-        if (isScanning) {
-        barcodeBuffer += value.slice(-1);
-        } else {
-        barcodeBuffer = value;
-        isScanning = true;
-        }
+        if (value.length > 0) {
+            $(this).val('');
 
-        $(this).val('');
+            barcodeBuffer = value;
 
-        clearTimeout(window.scanTimeout);
-        window.scanTimeout = setTimeout(() => {
-        if (isScanning && barcodeBuffer.length > 0) {
-            handleBarcode(barcodeBuffer);
-            barcodeBuffer = '';
-            isScanning = false;
+            clearTimeout(window.scanTimeout);
+
+            window.scanTimeout = setTimeout(() => {
+                if (barcodeBuffer.length > 0) {
+                    handleBarcode(barcodeBuffer);
+                    barcodeBuffer = '';
+                }
+            }, SCAN_TIMEOUT);
         }
-        }, SCAN_TIMEOUT);
     });
 });
 
@@ -60,22 +51,15 @@ function handleBarcode(code) {
 function displayPointOfSaleProducts(id, quantity, name, price, unit){
     const productData = `
     <tr class="text-center">
+        <td hidden>
+            <input type="hidden" class="pos-product-id" data-id="${id}">
+        </td>
         <td>
             <input type="number" class="form-control w-100 quantity-input" value="0" min="1" max="${quantity}">
         </td>
         <td class="product-name">${name}</td>
         <td class="price" data-value="${price}">${formatCurrency(price)}</td>
         <td class="text-capitalize unit-of-price">${unit}</td>
-        <td class="text-capitalize">
-            <button
-            type="button"
-            class="checkout-btn" 
-            id="addToCart"
-            data-id="${id}"
-            >
-                Add
-            </button>
-        </td>
     </tr>`;
     jQuery('#pos-products-container').append(productData);
 }

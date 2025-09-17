@@ -133,6 +133,19 @@ class DatabaseMigrator
                 deleted_at TIMESTAMP
             )",
 
+            "login_history" => "CREATE TABLE IF NOT EXISTS login_history (
+                id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                user_id INT UNSIGNED NOT NULL COMMENT 'Foreign key to users table',
+                user_agent TEXT NULL COMMENT 'Browser/device identifier from HTTP header',
+                status ENUM('Active', 'Inactive') NOT NULL DEFAULT 'Active' COMMENT 'Track if session is currently active or ended',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+                INDEX idx_user_id (user_id),
+                INDEX idx_status (status),
+                INDEX idx_created_at (created_at)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tracks user login sessions (active/inactive)'",
+
             "archived products" => "CREATE TABLE IF NOT EXISTS archived_products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 total_quantity INT NOT NULL,
