@@ -70,8 +70,6 @@
             <i class="bi bi-barcode-scan me-1"></i> Activate Barcode Scanner
           </span>
         </label>
-
-        <div class="scan-glow toggle-glow position-absolute" style="top: 50%; transform: translateY(-50%);"></div>
       </div>
       <div class="table-responsive">
         <table class="table">

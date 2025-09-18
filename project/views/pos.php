@@ -7,9 +7,9 @@ $pageCss = ["./assets/css/pos.css"];
 
 $pageJS = [
     "./assets/js/product.js",
+    // "./assets/js/barcodeScanner.js",
     "./assets/js/pos.js",
-    "./assets/js/logout.js",
-    "./assets/js/barcodeScanner.js",
+    "./assets/js/logout.js"
 ];
 
 $pageContent = __DIR__ . "/content/pos-content.php";
