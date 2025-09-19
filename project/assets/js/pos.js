@@ -145,6 +145,10 @@ jQuery(function($) {
 
         $('.cart').append(productDetails);
         $('#subTotal').text(`₱${numberWithCommas(totalAmount.toFixed(2))}`).data('totalAmount', totalAmount);
+        setTimeout(function(){
+            $('#pos-products-container').empty();
+            barcodeInput.val('').focus();
+        }, 500);
     });
 
     // --- [5] Checkout Button ---
