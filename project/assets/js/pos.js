@@ -87,7 +87,7 @@ jQuery(function($) {
         let totalAmount = 0;
 
         const row = $('#pos-products-container tr:first');
-        const productId = row.find('.product-id').data('id');
+        const productId = row.find('.pos-product-id').data('id');
         const quantity = row.find('.quantity-input').val();
         const productName = row.find('.product-name').text();
         const price = row.find('.price').data('value');

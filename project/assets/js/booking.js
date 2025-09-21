@@ -94,7 +94,7 @@ jQuery(function($){
         });
     })
 
-    $('#filterSalesByDate, #retrieveBookingScheduleDateInput').daterangepicker({
+    $('#filterSalesByDate, #retrieveBookingScheduleDateInput, #bookingScheduleDateRangeInput').daterangepicker({
         opens: 'left',
         autoUpdateInput: false,
         locale: {
@@ -102,7 +102,7 @@ jQuery(function($){
         }
     },
     function(start, end, label) {
-        $('#filterSalesByDate, #retrieveBookingScheduleDateInput').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+        $('#filterSalesByDate, #retrieveBookingScheduleDateInput, #bookingScheduleDateRangeInput').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
     });
 
     $(document).on('keyup', '#bookingPhoneNumberInput', function(){

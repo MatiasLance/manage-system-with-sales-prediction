@@ -17,10 +17,19 @@
               </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-6" id="selectDairyProductNameContainer">
               <div class="mb-3">
-                  <label for="selectedProductNameInput" class="form-label">Select Product</label>
-                  <select class="form-select" id="selectedProductNameInput" name="selected_product_name" required>
+                  <label for="selectDairyProductNameInput" class="form-label">Select Product</label>
+                  <select class="form-select" id="selectDairyProductNameInput" name="selected_product_name">
+                    <option value="" selected>Select product</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-6" id="selectGrainsAndCerealsProductNameContainer">
+              <div class="mb-3">
+                  <label for="selectGrainsAndCerealsProductNameInput" class="form-label">Select Product</label>
+                  <select class="form-select" id="selectGrainsAndCerealsProductNameInput" name="selected_product_name">
                     <option value="" selected>Select product</option>
                 </select>
               </div>

@@ -21,9 +21,15 @@
                   <input type="number" class="form-control" id="retrieveAddedQuantityInput" name="add_quantity">
               </div>
 
-              <div class="col-6 mb-3">
-                  <label for="retrieveSelectedProductNameInput" class="form-label text-capitalize">Select Product</label>
-                  <select class="form-select" aria-label="Product Names" id="retrieveSelectedProductNameInput">
+              <div class="col-6 mb-3" id="retrieveSelectedDairyProductNameContainer">
+                  <label for="retrieveSelectedDairyProductNameInput" class="form-label text-capitalize">Select Product</label>
+                  <select class="form-select" aria-label="Product Names" id="retrieveSelectedDairyProductNameInput">
+                  </select>
+              </div>
+
+              <div class="col-6 mb-3" id="retrieveSelectedGrainsAndCerealsProductNameContainer">
+                  <label for="retrieveSelectedGrainsAndCerealsProductNameInput" class="form-label text-capitalize">Select Product</label>
+                  <select class="form-select" aria-label="Product Names" id="retrieveSelectedGrainsAndCerealsProductNameInput">
                   </select>
               </div>
 

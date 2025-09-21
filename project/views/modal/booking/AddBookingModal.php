@@ -49,8 +49,8 @@
               </div>
 
               <div class="col-6 mb-3">
-                <label for="bookingScheduleDateInput" class="form-label text-capitalize">Booking Schedule</label>
-                <input type="date" class="form-control" id="bookingScheduleDateInput" name="booking_schedule" required>
+                <label for="bookingScheduleDateRangeInput" class="form-label text-capitalize">Booking Schedule</label>
+                <input type="text" class="form-control" id="bookingScheduleDateRangeInput" name="booking_schedule" required>
               </div>
 
               <div class="col-6 mb-3">

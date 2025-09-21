@@ -24,9 +24,10 @@ let newProductNameCategory = $('#retrieveProductNameCategoryInput');
 let debounceTimer;
 let currentSearch = '';
 let selectedUnitOfPrice = '';
+let selectedProductNameID = 0;
 
 jQuery(function($){
-    $('#grainsAndCerealsUnitOfPriceContainer').hide();
+    $('#grainsAndCerealsUnitOfPriceContainer, #selectGrainsAndCerealsProductNameContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').hide();
     // The product's expiry date will be automatically displayed once the production date is selected.
     $(document).on('change', '#productDateProduceInput, #retrieveProductDateProduceInput', function(){
         const productionDate = new Date($(this).val());
@@ -55,13 +56,15 @@ jQuery(function($){
     });
 
     $('#dairy-product-tab').on('click', function(){
-        $('#grainsAndCerealsUnitOfPriceContainer').hide();
-        $('#diaryUnitOfPriceContainer').show();
+        $('#grainsAndCerealsUnitOfPriceContainer, #selectGrainsAndCerealsProductNameContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').hide();
+        $('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer, #selectDairyProductNameContainer, #retrieveSelectedDairyProductNameContainer').show();
+        $('#quantityInput, #productCodeInput, #productCategoryInput, #productDateProduceInput, #productDateExpirationInput, #productPriceInput, #dairyUnitOfPriceInput, #grainsAndCerealsUnitOfPriceInput').val('');
     });
 
     $('#grain-and-cereals-product-tab').on('click', function(){
-        $('#grainsAndCerealsUnitOfPriceContainer').show();
-        $('#diaryUnitOfPriceContainer').hide();
+        $('#grainsAndCerealsUnitOfPriceContainer, #selectGrainsAndCerealsProductNameContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').show();
+        $('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer, #selectDairyProductNameContainer, #retrieveSelectedDairyProductNameContainer').hide();
+        $('#quantityInput, #productCodeInput, #productCategoryInput, #productDateProduceInput, #productDateExpirationInput, #productPriceInput, #dairyUnitOfPriceInput, #grainsAndCerealsUnitOfPriceInput').val('');
     });
 
     if($('#grainsAndCerealsUnitOfPriceContainer').is(':hidden')){
@@ -88,7 +91,21 @@ jQuery(function($){
         });
     }
 
-    $('#selectedProductNameInput, #retrieveSelectedProductNameInput').on('change', function(){
+    if($('#selectDairyProductNameContainer, #retrieveSelectedDairyProductNameContainer').is(':hidden')){
+        $('#selectGrainsAndCerealsProductNameInput, #retrieveSelectedGrainsAndCerealsProductNameInput').on('change', function(){
+            selectedProductNameID = $(this).val();
+        })
+
+    }
+
+    if($('#selectGrainsAndCerealsProductNameContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').is(':hidden')){
+        $('#selectDairyProductNameInput, #retrieveSelectedDairyProductNameInput').on('change', function(){
+            selectedProductNameID = $(this).val();
+        })
+
+    }
+
+    $('#selectDairyProductNameInput, #selectGrainsAndCerealsProductNameInput, #retrieveSelectedGrainsAndCerealsProductNameInput,  #retrieveSelectedDairyProductNameInput').on('change', function(){
        const id =  $(this).val();
        if(!id){
          $('#productCodeInput, #productCategoryInput').val('');
@@ -113,7 +130,7 @@ jQuery(function($){
         e.preventDefault();
 
         const productQuantity = $('#quantityInput').val();
-        const productName = $('#selectedProductNameInput').val();
+        const productName = selectedProductNameID;
         const productDateProduce = $('#productDateProduceInput').val();
         const productPrice = $('#productPriceInput').val();
         const productUnitOfPrice = selectedUnitOfPrice;
@@ -296,16 +313,29 @@ jQuery(function($){
 
     // Update Products
     $(document).on('click', '#editProduct', function(){
-        const payload = {
+        if($('#retrieveSelectedDairyProductNameContainer').is(':hidden')){
+            const payload = {
             id: productId.val(),
             product_added_quantity: retrieveAddedQuantityInput.val(),
-            product_name_id: retrieveSelectedProductNameInput.val(),
+            product_name_id: $('#retrieveSelectedGrainsAndCerealsProductNameInput').val(),
             product_date_produce: retrieveProductDateProduceInput.val(),
             product_date_expiration: retrieveProductDateExpirationInput.val(),
             product_price: retrieveProductPriceInput.val(),
-            product_unit_of_price: selectedUnitOfPrice,
+            product_unit_of_price: $('#retrieveGrainsAndCerealsUnitOfPriceInput').val(),
+            }
+            updateProduct(payload);
+        }else{
+            const payload = {
+            id: productId.val(),
+            product_added_quantity: retrieveAddedQuantityInput.val(),
+            product_name_id: $('#retrieveSelectedDairyProductNameInput').val(),
+            product_date_produce: retrieveProductDateProduceInput.val(),
+            product_date_expiration: retrieveProductDateExpirationInput.val(),
+            product_price: retrieveProductPriceInput.val(),
+            product_unit_of_price: $('#retrieveDairyUnitOfPriceInput').val(),
+            }
+            updateProduct(payload);
         }
-        updateProduct(payload);
     })
 
     // Update Product Name
@@ -750,14 +780,22 @@ function fetchProductName(page, searchQuery){
                             </button>
                         </td>
                     </tr>`);
+
+                    if(response.product_names[i].product_category.toLowerCase() === 'dairy'){
+                        jQuery('#selectDairyProductNameInput, #retrieveSelectedDairyProductNameInput').append(`<option value="${response.product_names[i].id}" data-temp="true">${response.product_names[i].product_name}</option>`)
+                        
+                    }
+
+                    if(response.product_names[i].product_category.toLowerCase() === 'grains and cereals'){
+                        jQuery('#selectGrainsAndCerealsProductNameInput, #retrieveSelectedGrainsAndCerealsProductNameInput').append(`<option value="${response.product_names[i].id}" data-temp="true">${response.product_names[i].product_name}</option>`)
+                    }
                 }
 
                 // Remove the previously appended selected option
-                jQuery("#selectedProductNameInput").find('option[data-temp="true"]').remove();
-                jQuery("#retrieveSelectedProductNameInput").find('option[data-temp="true"]').remove();
-                // Append the new selected status option
-                jQuery("#selectedProductNameInput").append(options);
-                jQuery("#retrieveSelectedProductNameInput").append(options);
+                // jQuery("#selectDairyProductNameInput, #selectGrainsAndCerealsProductNameInput").find('option[data-temp="true"]').remove();
+
+                // jQuery("#retrieveSelectedDairyProductNameInput, #retrieveSelectedGrainsAndCerealsProductNameInput").find('option[data-temp="true"]').remove();
+
 
                 // Generate pagination links
                 jQuery('#product-name-pagination-links').empty();
