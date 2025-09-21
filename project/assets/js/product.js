@@ -59,12 +59,14 @@ jQuery(function($){
         $('#grainsAndCerealsUnitOfPriceContainer, #selectGrainsAndCerealsProductNameContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').hide();
         $('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer, #selectDairyProductNameContainer, #retrieveSelectedDairyProductNameContainer').show();
         $('#quantityInput, #productCodeInput, #productCategoryInput, #productDateProduceInput, #productDateExpirationInput, #productPriceInput, #dairyUnitOfPriceInput, #grainsAndCerealsUnitOfPriceInput').val('');
+        $('#addProductModalLabel').text('Add Dairy Product');
     });
 
     $('#grain-and-cereals-product-tab').on('click', function(){
         $('#grainsAndCerealsUnitOfPriceContainer, #selectGrainsAndCerealsProductNameContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').show();
         $('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer, #selectDairyProductNameContainer, #retrieveSelectedDairyProductNameContainer').hide();
         $('#quantityInput, #productCodeInput, #productCategoryInput, #productDateProduceInput, #productDateExpirationInput, #productPriceInput, #dairyUnitOfPriceInput, #grainsAndCerealsUnitOfPriceInput').val('');
+        $('#addProductModalLabel').text('Add Grains And Cereals Product');
     });
 
     if($('#grainsAndCerealsUnitOfPriceContainer').is(':hidden')){

@@ -444,8 +444,7 @@
         <div class="col-lg-6 order-lg-1 order-2" data-aos="fade-right" data-aos-duration="900" data-aos-delay="100">
           <h2 class="fw-bold text-charcoal mb-4">Come Say Hello</h2>
           <p class="text-charcoal fs-5 mb-5" style="line-height: 1.8;">
-            Step into serenity. Our farm is open Monday to Friday for intimate, guided visits — where nature meets nurture.
-            Reserve your moment among golden goats and whispering hills.
+            Our farm is open for intimate, guided visits Monday to Friday - where MBRLCFI's unique approach to nature and care invites you to reconnect. Reserve your peacful escape among rolling hills and the quiet rhythm of the land.
           </p>
 
           <div class="d-flex align-items-center mb-4">
