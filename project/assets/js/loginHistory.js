@@ -11,6 +11,12 @@ jQuery(function(){
             loginHistoryList(1, '');
         }, 500);
     });
+
+    $(document).on('click', '.login-history-page-link', function(e) {
+        e.preventDefault();
+        let page = $(this).data('page');
+        loginHistoryList(page, loginHistoryCurrentSearch);
+    });
 });
 
 function loginHistoryList(page, searchQuery) {
@@ -47,7 +53,7 @@ function loginHistoryList(page, searchQuery) {
                         <td class="text-capitalize">${value.firstname} ${value.lastname}</td>
                         <td>${value.user_agent}</td>
                         <td><span class="badge ${value.status === 'Active' ? 'text-bg-success' : 'text-bg-warning'} text-capitalize">${value.status}</span></td>
-                        <td>${value.created_at}</td>
+                        <td>${value.created_at}</td>fetchData
                         <td>${value.updated_at}</td>
                     </tr>`);
                 });
