@@ -19,7 +19,7 @@
                     <th scope="col">Added Quantity</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
-                    <th scope="col">Date Purchase</th>
+                    <th scope="col">Purchase Date</th>
                     <th scope="col">Price</th>
                     <th scope="col">Status</th>
                     <th scope="col" class="text-center">

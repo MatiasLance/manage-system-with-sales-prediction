@@ -107,7 +107,7 @@ jQuery(function($){
 
     }
 
-    $('#selectDairyProductNameInput, #selectGrainsAndCerealsProductNameInput, #retrieveSelectedGrainsAndCerealsProductNameInput,  #retrieveSelectedDairyProductNameInput').on('change', function(){
+    $('#selectDairyProductNameInput, #selectGrainsAndCerealsProductNameInput, #retrieveSelectedGrainsAndCerealsProductNameInput, #retrieveSelectedDairyProductNameInput').on('change', function(){
        const id =  $(this).val();
        if(!id){
          $('#productCodeInput, #productCategoryInput').val('');
@@ -318,7 +318,7 @@ jQuery(function($){
         if($('#retrieveSelectedDairyProductNameContainer').is(':hidden')){
             const payload = {
             id: productId.val(),
-            product_added_quantity: retrieveAddedQuantityInput.val(),
+            product_added_quantity: retrieveAddedQuantityInput.val() ? retrieveAddedQuantityInput.val() : 0,
             product_name_id: $('#retrieveSelectedGrainsAndCerealsProductNameInput').val(),
             product_date_produce: retrieveProductDateProduceInput.val(),
             product_date_expiration: retrieveProductDateExpirationInput.val(),
@@ -530,8 +530,26 @@ function fetchProductByID(id){
                 selectedProductName.text(response.product.product_name); // Append name in delete modal
                 retrieveTotalQuantityInput.val(response.product.total_quantity).css({'cursor': 'pointer'});
                 // retrieveAddedQuantityInput.val(response.product.added_quantity);
-                retrieveSelectedProductNameInput.find(`option[value="${response.product.productNameID}"]`).remove(); // remove duplicate appended product name
-                retrieveSelectedProductNameInput.append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
+
+                if(jQuery('#retrieveSelectedDairyProductNameContainer').is(':hidden')){
+                    const selectGrainsAndCerealsProductName = response.product.productNameID;
+                    const existingGrainsAndCerealsProductName = jQuery('#retrieveSelectedGrainsAndCerealsProductNameInput').find(`option[value="${response.product.productNameID}"]`);
+                    if(existingGrainsAndCerealsProductName.length === 0 && selectGrainsAndCerealsProductName !== ''){
+                        jQuery('#retrieveSelectedGrainsAndCerealsProductNameInput').append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
+                    }else{
+                        existingGrainsAndCerealsProductName.prop('selected', true);
+                    }
+                }
+
+                if(jQuery('#retrieveSelectedGrainsAndCerealsProductNameContainer').is(':hidden')){
+                    const selectDairyProductName = response.product.productNameID;
+                    const existingDairyProductName = jQuery('#retrieveSelectedDairyProductNameInput').find(`option[value="${response.product.productNameID}"]`);
+                    if(existingDairyProductName.length === 0 && selectDairyProductName !== ''){
+                        jQuery('#retrieveSelectedDairyProductNameInput').append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
+                    }else{
+                        existingDairyProductName.prop('selected', true);
+                    }
+                }
                 retrieveProductDateProduceInput.val(response.product.date_produce);
                 retrieveProductDateExpirationInput.val(formattedDate(response.product.date_expiration));
                 retrieveProductPriceInput.val(response.product.price);
@@ -604,8 +622,8 @@ function fetchProductNameByID(
                 productNameToBeDeletedId.val(id)
                 productNameToBeDeleted.text(response.product.product_name);
                 // This will trigger the addition of a product when the admin selects a product name.
-                jQuery('#productCodeInput').val(response.product.product_code);
-                jQuery('#productCategoryInput').val(response.product.product_category);
+                jQuery('#productCodeInput, #retrieveProductCodeInput').val(response.product.product_code);
+                jQuery('#productCategoryInput, #retrieveProductCategoryInput').val(response.product.product_category);
                 // Dynamically hide date expiration field if the product is category is grains and cereals
                 if(response.product.product_category === 'grains and cereals'){
                     jQuery('#productDateExpirationInputContainer, #diaryUnitOfPriceContainer').hide();
@@ -708,6 +726,9 @@ function fetchData(page, searchQuery) {
                             <span class="badge ${response.data[i].status == 'new' ? 'text-bg-success': 'text-bg-warning'} text-capitalize py-2 px-4">${response.data[i].status}</span>
                         </td>
                         <td class="text-center">
+                            <button type="button" class="btn btn-sm" id="retriveProductBarcode" data-id="${productId}" data-bs-toggle="modal" data-bs-target="#retrieveProductBarcodeModal" data-bs-auto-close="false">
+                                <i class="bi bi-upc-scan fs-4 text-info"></i>
+                            </button>
                             <button type="button" class="btn btn-sm" id="retrieveProduct" data-id="${productId}" data-bs-toggle="modal" data-bs-target="#retrieveProductModal" data-bs-auto-close="false">
                                 <i class="bi bi-pencil-square fs-4 text-success"></i>
                             </button>
@@ -771,7 +792,7 @@ function fetchProductName(page, searchQuery){
                     options += `<option value="${response.product_names[i].id}" data-temp="true">${response.product_names[i].product_name}</option>`;
                     jQuery('#product-name-data-container').append(`<tr>
                         <td class="text-capitalize">${response.product_names[i].product_name}</td>
-                        <td class="text-uppercase">${response.product_names[i].product_code}</td>
+                        <td>${response.product_names[i].product_code}</td>
                         <td class="text-capitalize">${response.product_names[i].product_category}</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm" id="retrieveProductName" data-id="${productNameId}" data-bs-toggle="modal" data-bs-target="#retrieveProductNameModal" data-bs-auto-close="false">

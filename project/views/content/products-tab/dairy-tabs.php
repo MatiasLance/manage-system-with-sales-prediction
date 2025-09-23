@@ -19,8 +19,8 @@
                     <th scope="col">Added Quantity</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
-                    <th scope="col">Date Produce</th>
-                    <th scope="col">Date Expiration</th>
+                    <th scope="col">Manifactured Date</th>
+                    <th scope="col">Expiration Date</th>
                     <th scope="col">Price</th>
                     <th scope="col">Status</th>
                     <th scope="col" class="text-center">

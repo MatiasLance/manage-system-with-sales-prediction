@@ -85,7 +85,6 @@ function fetchEmployees(page, searchQuery){
                     <td class="text-capitalize">${response.data[i].educational_level}</td>
                     <td class="text-capitalize">${response.data[i].gender}</td>
                     <td>${dateOfBirth.toDateString()}</td>
-                    <td class="text-capitalize">${formatCurrency(response.data[i].salary)}</td>
                     <td>${response.data[i].email}</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-sm" id="retrieveEmployee" data-id="${employeeId}" data-bs-toggle="modal" data-bs-target="#retrieveEmployeeModal" data-bs-auto-close="false">
@@ -183,7 +182,7 @@ function retrieveEmployeeById(id){
                     jQuery('#editedGenderInput').prepend(`<option value="${genderValue}" selected>${genderValue}</option>`);
                 }
                 jQuery('#editedDateOfBirthInput').val(response.date_of_birth);
-                jQuery('#editedSalaryInput').val(response.salary);
+                // jQuery('#editedSalaryInput').val(response.salary);
                 jQuery('#editedEmployeeEmail').val(response.email)
             }
             if(response.error){

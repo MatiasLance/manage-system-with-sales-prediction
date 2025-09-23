@@ -51,7 +51,7 @@ if ($stmt->num_rows > 0) {
             $checkStmt->close();
         }
 
-        $deleteSql = "UPDATE news SET deleted_at = NOW() WHERE id = ?";
+        $deleteSql = "DELETE FROM news WHERE id = ?";
         $deleteStmt = $conn->prepare($deleteSql);
 
         if ($deleteStmt) {

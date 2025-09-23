@@ -14,12 +14,12 @@
                 <th scope="col">Full Name</th>
                 <th scope="col">Working Department</th>
                 <th scope="col">Phone Number</th>
-                <th scope="col">Date of Hire</th>
+                <th scope="col">Date Hired</th>
                 <th scope="col">Job</th>
                 <th scope="col">Educational Level</th>
                 <th scope="col">Gender</th>
                 <th scope="col">Date of Birth</th>
-                <th scope="col">Salary</th>
+                <!-- <th scope="col">Salary</th> -->
                 <th scope="col">Email</th>
                 <th class="col-1" scope="col" class="text-center">
                     Setting

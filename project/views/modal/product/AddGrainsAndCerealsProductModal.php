@@ -56,7 +56,7 @@
                 <label for="grainsAndCerealsUnitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
                 <select class="form-select text-capitalize" id="grainsAndCerealsUnitOfPriceInput" name="unit_of_price">
                     <option value="kg">Kilogram (kg)</option>
-                    <option value="lb">Pound (lb)</option>
+                    <option value="sack">Sack</option>
                 </select>
             </div>
 

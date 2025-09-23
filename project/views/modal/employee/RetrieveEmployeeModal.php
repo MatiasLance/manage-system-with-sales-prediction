@@ -113,10 +113,10 @@
                 <input type="date" class="form-control" id="editedDateOfBirthInput" name="date_of_birth">
               </div>
 
-              <div class="col-6 mb-3">
+              <!-- <div class="col-6 mb-3">
                 <label for="salaryInput" class="form-label text-capitalize">salary</label>
                 <input type="number" class="form-control" id="editedSalaryInput" name="salary">
-              </div>
+              </div> -->
 
               <div class="col-6 mb-3">
                 <label for="employeeEmail" class="form-label text-capitalize">Email</label>

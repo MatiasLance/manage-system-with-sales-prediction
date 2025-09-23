@@ -51,19 +51,19 @@ if ($stmt->num_rows > 0) {
             $checkStmt->close();
         }
 
-        $deleteSql = "UPDATE news SET deleted_at = NOW() WHERE id = ?";
+        $deleteSql = "UPDATE news SET deleted_at = NULL WHERE id = ?";
         $deleteStmt = $conn->prepare($deleteSql);
 
         if ($deleteStmt) {
             $deleteStmt->bind_param("i", $news_id);
             if ($deleteStmt->execute()) {
-                echo json_encode(['success' => true, 'message' => 'News deleted successfully.']);
+                echo json_encode(['success' => true, 'message' => 'News restored successfully.']);
             } else {
-                echo json_encode(['error' => true, 'message' => 'Failed to delete news.']);
+                echo json_encode(['error' => true, 'message' => 'Failed to restore news.']);
             }
             $deleteStmt->close();
         } else {
-            echo json_encode(['error' => true, 'message' => 'Error preparing delete query.']);
+            echo json_encode(['error' => true, 'message' => 'Error preparing restore query.']);
         }
     } else {
         echo json_encode(['error' => true, 'message' => 'Invalid password.']);
