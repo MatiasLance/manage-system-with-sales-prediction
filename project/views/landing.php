@@ -32,7 +32,7 @@
     }
 
     h1, h2, h3, h4, h5 {
-      font-family: 'Playfair Display SC', serif;
+      font-family: 'Quicksand', sans-serif;
       color: var(--green-forest);
       font-weight: 600;
       letter-spacing: -0.02em;
@@ -82,7 +82,7 @@
     }
 
     .navbar-brand {
-      font-family: 'Playfair Display SC', serif;
+      font-family: 'Quicksand', sans-serif;
       font-size: 1.5rem;
       font-weight: 700;
       color: var(--white);
