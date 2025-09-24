@@ -467,7 +467,7 @@ function updateProduct(payload){
                         jQuery('#retrieveProductModal').modal('hide');
                         retrieveAddedQuantityInput.val('')
                         fetchData(1, '');
-                        fetchProductName(1, '');
+                        // fetchProductName(1, '');
                     }
                 });
             }
@@ -530,26 +530,6 @@ function fetchProductByID(id){
                 selectedProductName.text(response.product.product_name); // Append name in delete modal
                 retrieveTotalQuantityInput.val(response.product.total_quantity).css({'cursor': 'pointer'});
                 // retrieveAddedQuantityInput.val(response.product.added_quantity);
-
-                if(jQuery('#retrieveSelectedDairyProductNameContainer').is(':hidden')){
-                    const selectGrainsAndCerealsProductName = response.product.productNameID;
-                    const existingGrainsAndCerealsProductName = jQuery('#retrieveSelectedGrainsAndCerealsProductNameInput').find(`option[value="${response.product.productNameID}"]`);
-                    if(existingGrainsAndCerealsProductName.length === 0 && selectGrainsAndCerealsProductName !== ''){
-                        jQuery('#retrieveSelectedGrainsAndCerealsProductNameInput').append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
-                    }else{
-                        existingGrainsAndCerealsProductName.prop('selected', true);
-                    }
-                }
-
-                if(jQuery('#retrieveSelectedGrainsAndCerealsProductNameContainer').is(':hidden')){
-                    const selectDairyProductName = response.product.productNameID;
-                    const existingDairyProductName = jQuery('#retrieveSelectedDairyProductNameInput').find(`option[value="${response.product.productNameID}"]`);
-                    if(existingDairyProductName.length === 0 && selectDairyProductName !== ''){
-                        jQuery('#retrieveSelectedDairyProductNameInput').append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
-                    }else{
-                        existingDairyProductName.prop('selected', true);
-                    }
-                }
                 retrieveProductDateProduceInput.val(response.product.date_produce);
                 retrieveProductDateExpirationInput.val(formattedDate(response.product.date_expiration));
                 retrieveProductPriceInput.val(response.product.price);
@@ -559,8 +539,8 @@ function fetchProductByID(id){
                 // Dynamically hide date expiration field if the product is category is grains and cereals
                 if(response.product.product_category === 'grains and cereals'){
                     jQuery('#retrieveProductDateExpirationContainer').hide();
-                    jQuery('#retrieveDiaryUnitOfPriceContainer').hide();
-                    jQuery('#retrieveGrainsAndCerealsUnitOfPriceContainer').show();
+                    jQuery('#retrieveDiaryUnitOfPriceContainer, #retrieveSelectedDairyProductNameContainer').hide();
+                    jQuery('#retrieveGrainsAndCerealsUnitOfPriceContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').show();
                     const selectedUnitOfPrice = response.product.unit_of_price;
                     const existingUnitOfPrice = retrieveGrainsAndCerealsUnitOfPriceInput.find(`option[value="${response.product.unit_of_price}"]`);
                     if (existingUnitOfPrice.length === 0 && selectedUnitOfPrice !== '') {
@@ -568,17 +548,33 @@ function fetchProductByID(id){
                     }else{
                         existingUnitOfPrice.prop('selected', true);
                     }
+
+                    const selectGrainsAndCerealsProductName = response.product.productNameID;
+                    const existingGrainsAndCerealsProductName = jQuery('#retrieveSelectedGrainsAndCerealsProductNameInput').find(`option[value="${response.product.productNameID}"]`);
+                    if(existingGrainsAndCerealsProductName.length === 0 && selectGrainsAndCerealsProductName !== ''){
+                        jQuery('#retrieveSelectedGrainsAndCerealsProductNameInput').append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
+                    }else{
+                        existingGrainsAndCerealsProductName.prop('selected', true);
+                    }
                 }
                 if(response.product.product_category === 'dairy'){
                     jQuery('#retrieveProductDateExpirationContainer').show();
-                    jQuery('#retrieveDiaryUnitOfPriceContainer').show();
-                    jQuery('#retrieveGrainsAndCerealsUnitOfPriceContainer').hide();
+                    jQuery('#retrieveDiaryUnitOfPriceContainer, #retrieveSelectedDairyProductNameContainer').show();
+                    jQuery('#retrieveGrainsAndCerealsUnitOfPriceContainer, #retrieveSelectedGrainsAndCerealsProductNameContainer').hide();
                     const selectedUnitOfPrice = response.product.unit_of_price;
                     const existingUnitOfPrice = retrieveDairyUnitOfPriceInput.find(`option[value="${response.product.unit_of_price}"]`);
                     if (existingUnitOfPrice.length === 0 && selectedUnitOfPrice !== '') {
                         retrieveDairyUnitOfPriceInput.append(`<option value="${selectedUnitOfPrice}" selected>${selectedUnitOfPrice}</option>`);
                     }else{
                         existingUnitOfPrice.prop('selected', true);
+                    }
+
+                    const selectDairyProductName = response.product.productNameID;
+                    const existingDairyProductName = jQuery('#retrieveSelectedDairyProductNameInput').find(`option[value="${response.product.productNameID}"]`);
+                    if(existingDairyProductName.length === 0 && selectDairyProductName !== ''){
+                        jQuery('#retrieveSelectedDairyProductNameInput').append(`<option value="${response.product.productNameID}" selected>${response.product.product_name}</option>`);
+                    }else{
+                        existingDairyProductName.prop('selected', true);
                     }
                 }
                 jQuery('#productBarcodeToPrint').attr('src', response.product.barcode_image);

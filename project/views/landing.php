@@ -394,7 +394,7 @@
     <div class="container" data-aos="fade-up" data-aos-duration="1000">
       <h1>Where <span class="goat-name">Golden Goats</span><br>Roam Green Hills</h1>
       <p class="lead">A small farm rooted in care, sunshine, and slow living.</p>
-      <a href="#book" class="btn btn-gold mt-4">Plan Your Visit <span class="floating-goat">🐐</span></a>
+      <a href="#book" class="btn btn-gold mt-4">Book Now <span class="floating-goat">🐐</span></a>
     </div>
   </section>
 
@@ -506,7 +506,7 @@
                 <!-- Submit Button -->
                 <div class="col-12 text-center mt-4">
                   <button type="submit" class="btn btn-gold btn-sm fw-bold letter-spacing-1 shadow-lg hover-shadow">
-                    Request Your Visit
+                    Book Now
                   </button>
                 </div>
 

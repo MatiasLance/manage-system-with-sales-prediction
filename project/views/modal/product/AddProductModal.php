@@ -51,14 +51,14 @@
 
             <div class="col-6">
               <div class="mb-3">
-                <label for="productDateProduceInput" class="form-label text-capitalize">Product Manufactured Date</label>
+                <label for="productDateProduceInput" class="form-label text-capitalize">Product Date Produce</label>
                 <input type="date" class="form-control" id="productDateProduceInput" name="product_date_produce" required>
               </div>
             </div>
 
             <div class="col-6">
               <div class="mb-3" id="productDateExpirationInputContainer">
-                <label for="productDateExpirationInput" class="form-label text-capitalize">Product Expiration Date</label>
+                <label for="productDateExpirationInput" class="form-label text-capitalize">Product Date Expiration</label>
                 <input type="text" class="form-control" id="productDateExpirationInput" placeholder="Auto Generate Expiry Date" disabled>
               </div>
             </div>
@@ -72,7 +72,8 @@
               <div class="col-6 mb-3" id="diaryUnitOfPriceContainer">
                   <label for="dairyUnitOfPriceInput" class="form-label text-capitalize">Unit of Price</label>
                   <select class="form-select text-capitalize" id="dairyUnitOfPriceInput" name="unit_of_price">
-                      <option value="liter">Liter (L)</option>
+                      <option value="liter">Liter </option>
+                        <option value="350ml">350 ML</option>
                       <option value="piece">Piece</option>
                       <option value="box">Box</option>
                   </select>
