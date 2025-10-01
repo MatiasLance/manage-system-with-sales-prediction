@@ -1,0 +1,15 @@
+services:
+    app:
+      container_name: mbrlcfimswsp
+      build:
+        context: ./
+        dockerfile: Dockerfile
+      restart: unless-stopped
+      volumes:
+        - ./:/var/www/html
+      networks:
+        - mbrlcfimswsp-network
+
+networks:
+  mbrlcfimswsp-network:
+    external: true
