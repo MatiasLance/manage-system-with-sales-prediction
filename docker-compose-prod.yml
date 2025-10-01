@@ -3,7 +3,7 @@ services:
       container_name: mbrlcfimswsp
       build:
         context: ./
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.prod
       restart: unless-stopped
       volumes:
         - ./:/var/www/mbrlcfi/html
