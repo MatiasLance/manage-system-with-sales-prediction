@@ -1,5 +1,5 @@
 services:
-    app:
+    mbrlcfi-app:
       container_name: mbrlcfimswsp
       build:
         context: ./
