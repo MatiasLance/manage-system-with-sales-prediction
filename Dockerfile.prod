@@ -6,7 +6,7 @@ COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 WORKDIR /var/www/osse/html
 # Copy composer.lock and composer.json
-COPY composer.lock composer.json /var/www/osse/html/
+COPY composer.lock composer.json /var/www/mbrlcfi/html/
 
 
 # Install system dependencies

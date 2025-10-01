@@ -6,7 +6,7 @@ services:
         dockerfile: Dockerfile
       restart: unless-stopped
       volumes:
-        - ./:/var/www/html
+        - ./:/var/www/mbrlcfi/html
       networks:
         - mbrlcfimswsp-network
 
