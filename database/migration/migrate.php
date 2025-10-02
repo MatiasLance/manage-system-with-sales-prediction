@@ -130,7 +130,7 @@ class DatabaseMigrator
                 image_path VARCHAR(512) NULL DEFAULT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )",
 
             "login_history" => "CREATE TABLE IF NOT EXISTS login_history (
