@@ -158,8 +158,8 @@ class DatabaseMigrator
                 barcode VARCHAR(255) UNIQUE NOT NULL COMMENT 'Unique barcode identifier (e.g., generated from name + random)',
                 barcode_image VARCHAR(500) NOT NULL COMMENT 'File path to saved barcode PNG image',
                 status ENUM('new', 'old') NOT NULL,
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (product_name_id) REFERENCES products_name(id)
             )",
@@ -178,8 +178,8 @@ class DatabaseMigrator
                 date_of_birth DATE,
                 salary DECIMAL(10, 2) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )",
 
@@ -190,8 +190,8 @@ class DatabaseMigrator
                 email VARCHAR(100) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 user_type ENUM('admin', 'user') NOT NULL,
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )",
 
@@ -200,8 +200,8 @@ class DatabaseMigrator
                 title VARCHAR(255) NOT NULL,
                 content TEXT NOT NULL,
                 image_path VARCHAR(512) NULL DEFAULT NULL,
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )"
         ];
