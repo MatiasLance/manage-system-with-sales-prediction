@@ -120,7 +120,7 @@ class DatabaseMigrator
                 tax_amount DECIMAL(10,2) NOT NULL,
                 total DECIMAL(10,2) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP
+                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )",
 
             "news" => "CREATE TABLE IF NOT EXISTS news (
