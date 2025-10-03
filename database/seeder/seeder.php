@@ -19,8 +19,9 @@ class DatabaseSeeder
         $passwordHash = password_hash('superadmin1', PASSWORD_BCRYPT);
 
         $sql = "INSERT INTO users (firstname, lastname, email, password, user_type) VALUES
-            ('admin', 'admin', 'admin@rmc.com', '$passwordHash', 'admin'),
-            ('Jane', 'Smith', 'user@rmc.com', '$passwordHash', 'user')";
+            ('admin', 'mbrlcfi', 'admin@rmc.com', '$passwordHash', 'admin'),
+            ('Jane', 'Smith', 'cashier@rmc.com', '$passwordHash', 'cashier'),
+            ('John', 'Doe', 'manager.@rmc.com', '$passwordHash', 'manager')";
 
         if ($this->conn->query($sql) === TRUE) {
             echo "Data seeded successfully.\n";
