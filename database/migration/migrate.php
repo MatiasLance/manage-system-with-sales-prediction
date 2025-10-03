@@ -160,7 +160,7 @@ class DatabaseMigrator
                 status ENUM('new', 'old') NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP NULL
+                deleted_at TIMESTAMP NULL,
                 FOREIGN KEY (product_name_id) REFERENCES products_name(id)
             )",
 
