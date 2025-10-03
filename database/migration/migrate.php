@@ -120,7 +120,7 @@ class DatabaseMigrator
                 tax_amount DECIMAL(10,2) NOT NULL,
                 total DECIMAL(10,2) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                deleted_at TIMESTAMP NULL
             )",
 
             "news" => "CREATE TABLE IF NOT EXISTS news (
@@ -130,7 +130,7 @@ class DatabaseMigrator
                 image_path VARCHAR(512) NULL DEFAULT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                deleted_at TIMESTAMP NULL
             )",
 
             "login_history" => "CREATE TABLE IF NOT EXISTS login_history (
@@ -160,7 +160,7 @@ class DatabaseMigrator
                 status ENUM('new', 'old') NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                deleted_at TIMESTAMP NULL
                 FOREIGN KEY (product_name_id) REFERENCES products_name(id)
             )",
 
@@ -180,7 +180,7 @@ class DatabaseMigrator
                 email VARCHAR(100) UNIQUE NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                deleted_at TIMESTAMP NULL
             )",
 
             "archived users" => "CREATE TABLE IF NOT EXISTS archived_users (
@@ -192,7 +192,7 @@ class DatabaseMigrator
                 user_type ENUM('admin', 'user') NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                deleted_at TIMESTAMP NULL
             )",
 
             "archived news" => "CREATE TABLE IF NOT EXISTS archived_news (
@@ -202,7 +202,7 @@ class DatabaseMigrator
                 image_path VARCHAR(512) NULL DEFAULT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                deleted_at TIMESTAMP NULL
             )"
         ];
 
