@@ -50,7 +50,7 @@
       min-height: 100vh;
       height: auto;
       background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
-                        url('https://i.imgur.com/9GfrqMK.png');
+                        url('https://i.imgur.com/xJR9qjg.png') !important;
       background-size: cover;
       background-position: center;
       display: flex;

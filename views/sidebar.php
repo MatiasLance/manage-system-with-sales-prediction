@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
-        <img id="sideBarMenuLogo" src="<?php echo isset($_SESSION['sidebar_menu_logo']) ? $_SESSION['sidebar_menu_logo']: 'https://i.imgur.com/3LvoZ6D.png'?>" alt="Goat Farm">
+        <img id="sideBarMenuLogo" src="<?php echo isset($_SESSION['sidebar_menu_logo']) ? $_SESSION['sidebar_menu_logo']: 'https://i.imgur.com/vlPX2XF.png'?>" alt="Goat Farm">
     </div>
     <nav class="nav flex-column">
         <?php if($_SESSION['user_role'] === 'admin' || $_SESSION['user_role'] === 'manager') { ?>
